@@ -21,6 +21,7 @@ export default function Navbar() {
           alt="LOGO"
           width={150}
           height={150}
+          className="mr-3"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
             router.push('/');
@@ -28,14 +29,14 @@ export default function Navbar() {
   
 
           {/* Meni (desktop) */}
-          <div className="hidden md:flex gap-10 items-center">
+          <div className="hidden md:flex gap-5 items-center">
             <div className="flex gap-10 items-center text-xl text-white">
                 <a href="" className="hover:text-gray-300">Usluge</a>
                 <a href="" className="hover:text-gray-300">Profili</a>
-                <a href="" className="hover:text-gray-300">O nama</a>
+                <a href="" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
             </div>
             
-            <div className="flex gap-5 ml-10 items-center">
+            <div className="flex gap-3 ml-4 items-center text-center">
                 <a href="" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
                 <BtnLogin></BtnLogin>
                 <UserCard></UserCard>
