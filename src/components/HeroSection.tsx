@@ -17,7 +17,7 @@ export default function HeroSection() {
       <div className="relative flex flex-col gap-1 z-20 max-w-4xl mx-auto px-6 text-center">
 
             <h1 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-4">
-            Mesto na kojem možešte pronaći ili ponuditi usluge
+            Mesto na kojem možete pronaći ili ponuditi usluge
             </h1>
 
             <p className=" text-1xl md:text-2xl text-gray-600 mb-8">
@@ -25,7 +25,7 @@ export default function HeroSection() {
             </p>
 
             {/* Search */}
-            <div className="flex flex-row md:text-2xl gap-2 justify-center mb-6">
+            <div className="flex flex-row md:text-xl gap-2 justify-center mb-6">
                 <input
                     type="text"
                     placeholder="Pretraži usluge..."
@@ -38,7 +38,7 @@ export default function HeroSection() {
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-row md:text-2xl gap-4 justify-center">
+            <div className="flex flex-row md:text-xl gap-4 justify-center">
                 <button className="px-3 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 ">
                     Postavi svoj oglas ❯
                 </button>

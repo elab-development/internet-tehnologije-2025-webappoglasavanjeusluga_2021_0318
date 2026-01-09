@@ -4,14 +4,17 @@ import Image from "next/image";
 import BtnLogin from "./BtnLogin";
 import { useRouter } from "next/navigation";
 import UserCard from "./UserCard";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   
+
   return (
     
-    <div className="sticky top-0 z-80">
+
+    <div className="sticky top-0 z-40">
     
       <nav className="p-4 bg-gray-800">
         <div className="max-w-7xl max-h-15 mx-auto flex justify-between items-center">
@@ -29,10 +32,10 @@ export default function Navbar() {
   
 
           {/* Meni (desktop) */}
-          <div className="hidden md:flex gap-5 items-center">
+           <div className="hidden md:flex gap-5 items-center">
             <div className="flex gap-10 items-center text-xl text-white">
-                <a href="" className="hover:text-gray-300">Usluge</a>
-                <a href="" className="hover:text-gray-300">Profili</a>
+                <Link href="/" className="hover:text-gray-300">Usluge</Link>
+                <a href="/profiles" className="hover:text-gray-300">Profili</a>
                 <a href="" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
             </div>
             
@@ -55,10 +58,10 @@ export default function Navbar() {
 
         {/* Meni (mobilni) */}
         <div
-          className={`md:hidden flex flex-col w-full px-4 py-2 space-y-2 transition-all duration-300 bg-gray-800 ${
+          className={`md:hidden flex flex-col w-full px-4 py-2 space-y-2 transition-all duration-300 bg-gray-800 text-white ${
             isOpen ? "block" : "hidden"}`}>
-            <a href="" className=" text-white hover:text-gray-300">Usluge</a>
-            <a href="" className=" text-white hover:text-gray-300">Profili</a>
+            <Link href="/" className="hover:text-gray-300">Usluge</Link>
+            <a href="/profiles" className="hover:text-gray-300">Profili</a>
             <a href="" className=" text-white hover:text-gray-300">O nama</a>
             
         </div> 
@@ -73,7 +76,7 @@ export default function Navbar() {
                 <BtnLogin></BtnLogin>
               </div>
 
-              <div className="fixed p-1 max-h-25 max-w-25 rounded-md bottom-0 right-0 bg-blue-400 ">
+              <div className="fixed p-1 max-h-25 max-w-25 rounded-md bottom-0 right-0 bg-cyan-700 ">
                 <UserCard></UserCard>
               </div>
           </div>

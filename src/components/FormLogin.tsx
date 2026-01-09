@@ -4,8 +4,8 @@ interface PropsFormLogin {
 
 export default function FormLogin({setIsLoginOpen}: PropsFormLogin) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 ">
-                <div className="relative rounded-lg p-6 w-full max-w-md border  border-gray-600  bg-white">
+    <div className="fixed inset-0 flex items-center justify-center z-50 mb-30 ">
+                <div className="relative rounded-lg p-6 w-full max-w-md  bg-white border border-gray-700">
                 {/* Dugme za zatvaranje */}
                 <button
                     onClick={() => setIsLoginOpen(false)}
@@ -15,7 +15,7 @@ export default function FormLogin({setIsLoginOpen}: PropsFormLogin) {
                 </button>
 
                 {/* Login forma */}
-                <h2 className="text-2xl font-semibold mb-4">Login</h2>
+                <h2 className="text-2xl font-semibold mb-4">Logovanje</h2>
                 <form className="flex flex-col gap-4">
                     <input
                     type="email"
@@ -24,14 +24,14 @@ export default function FormLogin({setIsLoginOpen}: PropsFormLogin) {
                     />
                     <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Lozinka"
                     className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none"
                     />
                     <button
                     type="submit"
                     className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
                     >
-                    Login
+                    Prijavi se
                     </button>
                 </form>
                 </div>
