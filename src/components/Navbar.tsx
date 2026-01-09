@@ -34,7 +34,11 @@ export default function Navbar() {
           {/* Meni (desktop) */}
            <div className="hidden md:flex gap-5 items-center">
             <div className="flex gap-10 items-center text-xl text-white">
-                <Link href="/" className="hover:text-gray-300">Usluge</Link>
+                <Link href="/" className="hover:text-gray-300" 
+                          onClick={() => {
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          router.push('/');
+                          }}>Usluge</Link>
                 <a href="/profiles" className="hover:text-gray-300">Profili</a>
                 <a href="" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
             </div>
@@ -60,8 +64,12 @@ export default function Navbar() {
         <div
           className={`md:hidden flex flex-col w-full px-4 py-2 space-y-2 transition-all duration-300 bg-gray-800 text-white ${
             isOpen ? "block" : "hidden"}`}>
-            <Link href="/" className="hover:text-gray-300">Usluge</Link>
-            <a href="/profiles" className="hover:text-gray-300">Profili</a>
+             <Link href="/" className="hover:text-gray-300" 
+                          onClick={() => {
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          router.push('/');
+                          }}>Usluge</Link>
+                <a href="/profiles" className="hover:text-gray-300">Profili</a>
             <a href="" className=" text-white hover:text-gray-300">O nama</a>
             
         </div> 

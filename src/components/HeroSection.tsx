@@ -1,6 +1,14 @@
 import Image from "next/image";
 
-export default function HeroSection() {
+type PropsHeroSection = {
+  search: string,
+  setSearch: (value: string) => void,
+  title: string,
+  desc: string,
+  placeholder: string
+}
+
+export default function HeroSection({search, setSearch, title, desc, placeholder}: PropsHeroSection) {
   return (
     <section className="relative py-12 md:py-20">
       
@@ -17,35 +25,39 @@ export default function HeroSection() {
       <div className="relative flex flex-col gap-1 z-20 max-w-4xl mx-auto px-6 text-center">
 
             <h1 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-4">
-            Mesto na kojem možete pronaći ili ponuditi usluge
+            {/* Mesto na kojem možete pronaći ili ponuditi usluge */}
+            {title}
             </h1>
 
             <p className=" text-1xl md:text-2xl text-gray-600 mb-8">
-            Brzo, lako, pouzdano, 500+ zadovoljnih korisnika
+            {/* Brzo, lako, pouzdano, 500+ zadovoljnih korisnika */}
+            {desc}
             </p>
 
             {/* Search */}
             <div className="flex flex-row md:text-xl gap-2 justify-center mb-6">
                 <input
                     type="text"
-                    placeholder="Pretraži usluge..."
+                    placeholder={placeholder}
                     className="w-full  px-4 py-3 border rounded-md focus:outline-none border-gray-300 bg-white"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <button className="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700">
-                    Traži
-                </button>
+                <a href="#usluge" className="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 scroll-smooth">
+                    Traži 
+                </a>
             </div>
 
             {/* Buttons */}
             <div className="flex flex-row md:text-xl gap-4 justify-center">
-                <button className="px-3 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 ">
+                <a href="" className="px-3 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 ">
                     Postavi svoj oglas ❯
-                </button>
+                </a>
 
-                <button className="px-3 py-3 border  rounded-md border-gray-400 text-gray-700 hover:bg-gray-200 bg-white">
+                <a href="#usluge" className="px-3 py-3 border  rounded-md border-gray-400 text-gray-700 hover:bg-gray-200 bg-white scroll-smooth">
                     Pronađi usluge ❯
-                </button>
+                </a>
             </div>
 
       </div>
