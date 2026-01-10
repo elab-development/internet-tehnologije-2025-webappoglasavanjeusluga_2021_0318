@@ -5,15 +5,14 @@ import Link from "next/link"
 type Props = {
     service: FullServiceDto;
     categories: FullCategoryDto[];
-    type: string
 }
 
-export default function Card({ service, categories, type }: Props) {
+export default function ServiceCard({ service, categories}: Props) {
 
     return (
         <div
             key={service.id}
-            className="group relative overflow-hidden rounded-lg border border-gray-200 bg-gray-100" >
+            className="group relative overflow-hidden rounded-lg border border-gray-400 bg-gray-100 hover:scale-103" >
             <Image
                 src="https://picsum.photos/300/400"
                 alt=""
@@ -31,7 +30,7 @@ export default function Card({ service, categories, type }: Props) {
                 </p>
                 <p className="text-xl font-bold border border-gray-400 p-1">{service.price} rsd</p>
             </div>
-            <Link href={`/${type}/${service.id}`} className="absolute inset-0" />
+            <Link href={`/services/${service.id}`} className="absolute inset-0" />
         </div>
     )
 }

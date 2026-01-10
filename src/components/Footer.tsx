@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <div className='relative z-90  bg-cyan-700 text-white'>
+    <div className='relative z-40  bg-cyan-700 text-white'>
 
       <div className=' text-xs md:text-base flex flex-row justify-between md:px-40 bg-blue p-5'>
           <div className='  px-5 h-40 '>
@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
       </div>
       
-      <div>
+      <div className="pb-10">
         <hr className="border-t  border-white my-1 mx-5" />
         <hr className="border-t  border-white my-1 mx-5" />
         <p className="py-2 text-center text-xs md:text-lg">© 2026 SveUsluge • by <i>Ivana&Branka</i> </p>

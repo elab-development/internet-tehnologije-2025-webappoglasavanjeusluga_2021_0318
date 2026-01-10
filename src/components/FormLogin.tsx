@@ -4,7 +4,7 @@ interface PropsFormLogin {
 
 export default function FormLogin({setIsLoginOpen}: PropsFormLogin) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 mb-30 ">
+    <div className="fixed inset-0 flex items-center justify-center mb-30 ">
                 <div className="relative rounded-lg p-6 w-full max-w-md  bg-white border border-gray-700">
                 {/* Dugme za zatvaranje */}
                 <button

@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     
 
-    <div className="sticky top-0 z-40">
+    <div className="sticky top-0 z-80">
     
       <nav className="p-4 bg-gray-800">
         <div className="max-w-7xl max-h-15 mx-auto flex justify-between items-center">
@@ -37,7 +37,7 @@ export default function Navbar() {
                 <Link href="/" className="hover:text-gray-300" 
                           onClick={() => {
                           window.scrollTo({ top: 0, behavior: "smooth" });
-                          router.push('/');
+                          router.push('#usluge');
                           }}>Usluge</Link>
                 <a href="/profiles" className="hover:text-gray-300">Profili</a>
                 <a href="" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>

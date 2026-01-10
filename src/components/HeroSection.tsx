@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type PropsHeroSection = {
   search: string,
@@ -25,12 +26,10 @@ export default function HeroSection({search, setSearch, title, desc, placeholder
       <div className="relative flex flex-col gap-1 z-20 max-w-4xl mx-auto px-6 text-center">
 
             <h1 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-4">
-            {/* Mesto na kojem možete pronaći ili ponuditi usluge */}
             {title}
             </h1>
 
             <p className=" text-1xl md:text-2xl text-gray-600 mb-8">
-            {/* Brzo, lako, pouzdano, 500+ zadovoljnih korisnika */}
             {desc}
             </p>
 
@@ -44,7 +43,7 @@ export default function HeroSection({search, setSearch, title, desc, placeholder
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <a href="#usluge" className="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 scroll-smooth">
+                <a href="#trazi" className="px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 scroll-smooth">
                     Traži 
                 </a>
             </div>
@@ -55,9 +54,17 @@ export default function HeroSection({search, setSearch, title, desc, placeholder
                     Postavi svoj oglas ❯
                 </a>
 
-                <a href="#usluge" className="px-3 py-3 border  rounded-md border-gray-400 text-gray-700 hover:bg-gray-200 bg-white scroll-smooth">
-                    Pronađi usluge ❯
-                </a>
+                {placeholder==="Pretraži uslugu..." ? (
+                    <a href="#trazi" className="px-3 py-3 border  rounded-md border-gray-400 text-gray-700 hover:bg-gray-200 bg-white scroll-smooth">
+                      Pronađi usluge ❯
+                    </a>
+                ):(
+                    <Link href="/" className="px-3 py-3 border  rounded-md border-gray-400 text-gray-700 hover:bg-gray-200 bg-white scroll-smooth">
+                      Pronađi usluge ❯
+                    </Link>
+                )
+                }
+                
             </div>
 
       </div>
