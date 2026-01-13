@@ -1,6 +1,10 @@
+"use client"
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
+  const router = useRouter();
   return (
     <div className='relative z-40  bg-cyan-700 text-white'>
 
@@ -8,7 +12,11 @@ export default function Footer() {
           <div className='  px-5 h-40 '>
               <h1 className='font-bold py-3 pb-7 md:text-lg whitespace-nowrap'>Brzi linkovi</h1>
               <div className='flex flex-col gap-2'>
-                <a href="" className="hover:text-gray-300">Usluge</a>
+                <Link href="/" className="hover:text-gray-300" 
+                          onClick={() => {
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          router.push('/');
+                          }}>Usluge</Link>
                 <a href="" className="hover:text-gray-300">Registracija</a>
               </div>
           </div>
@@ -16,7 +24,7 @@ export default function Footer() {
               <h1 className='font-bold py-3 pb-7 md:text-lg whitespace-nowrap'>Kontakt informacije</h1>
               <div className='flex flex-col gap-2'>
                 <a href="" className="hover:text-gray-300">O nama</a>
-                <a href="" className="hover:text-gray-300">Profili</a>
+                <a href="/profiles" className="hover:text-gray-300">Profili</a>
               </div>
           </div>
           <div className='flex flex-col border-l px-3 border-amber-50 h-45'>

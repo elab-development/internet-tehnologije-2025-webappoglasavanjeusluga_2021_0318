@@ -204,10 +204,10 @@ export const mockCompanies: FullCompanyDto[] = [
         address: "Bulevar Kralja Aleksandra 153",
         description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar u Srbiji. Naš tim sastavljen je od najboljih stručnjaka za održavanje, dijagnostiku i servisiranje vozila. U našem auto servisu održavamo i servisiramo sve vrste, tipove i marke vozila.",
         image: "/images/car-service.jpg",
-        servicesCount: 4,
+        //servicesCount: 4,
         averageRating: 4.7,
         companyName: "Beograd Royal",
-        verified: false,
+        //verified: false,
         user: getUser(6),
     },
     {
@@ -217,10 +217,10 @@ export const mockCompanies: FullCompanyDto[] = [
         description:
             "Salon lepote Bella pruža vrhunske kozmetičke i estetske usluge u prijatnom i luksuznom ambijentu. Naš stručni tim koristi profesionalnu kozmetiku i savremene tretmane kako bi istakao vašu prirodnu lepotu. Posvećeni smo individualnom pristupu i maksimalnom zadovoljstvu klijenata.",
         image: "/images/beauty-salon.jpg",
-        servicesCount: 8,
+        //servicesCount: 8,
         averageRating: 4.9,
         companyName: "Bella Beauty Salon",
-        verified: true,
+        //verified: true,
         user: getUser(5),
     },
     {
@@ -230,10 +230,10 @@ export const mockCompanies: FullCompanyDto[] = [
     description:
         "Tech Solutions je IT kompanija koja pruža profesionalne usluge web i softverskog razvoja, kao i konsultacije za digitalnu transformaciju. Fokusirani smo na kvalitet i inovativna rešenja prilagođena klijentima.",
     image: "/images/tech-solutions.jpg",
-    servicesCount: 3,
+    //servicesCount: 3,
     averageRating: 4.7,
     companyName: "Tech Solutions",
-    verified: false,
+    //verified: false,
     user: getUser(7),
 },
 {
@@ -243,10 +243,10 @@ export const mockCompanies: FullCompanyDto[] = [
     description:
         "FitLife Gym je moderna teretana koja nudi personalizovane trening programe, grupne časove i nutricionističke savete. Naš cilj je da klijenti postignu svoje fitnes ciljeve na zdrav i održiv način.",
     image: "/images/fitlife-gym.jpg",
-    servicesCount: 5,
+    //servicesCount: 5,
     averageRating: 4.8,
     companyName: "FitLife Gym",
-    verified: false,
+    //verified: false,
     user: getUser(8),
 },
 {
@@ -256,10 +256,10 @@ export const mockCompanies: FullCompanyDto[] = [
     description:
         "Creative Agency pruža profesionalne usluge grafičkog dizajna, brendiranja i digitalnog marketinga. Naš tim kreativaca pomaže kompanijama da izgrade prepoznatljiv vizuelni identitet i uspešno komuniciraju sa publikom.",
     image: "/images/creative-agency.jpg",
-    servicesCount: 7,
+    //servicesCount: 7,
     averageRating: 4.6,
     companyName: "Creative Agency",
-    verified: true,
+    //verified: true,
     user: getUser(9),
 },
 {
@@ -269,10 +269,10 @@ export const mockCompanies: FullCompanyDto[] = [
   description:
     "IT Optimus je specijalizovana kompanija za optimizaciju, održavanje i unapređenje IT uređaja i sistema. Bavimo se ubrzavanjem rada računara, optimizacijom softvera, nadogradnjom hardvera i preventivnim održavanjem IT opreme za fizička lica i kompanije.",
   image: "/images/it-optimization.jpg",
-  servicesCount: 8,
+  //servicesCount: 8,
   averageRating: 4.7,
   companyName: "IT Optimus",
-  verified: true,
+  //verified: true,
   user: getUser(13),
 },
 {
@@ -282,10 +282,10 @@ export const mockCompanies: FullCompanyDto[] = [
   description:
     "Mi smo preduzece koje nudi pansion za pse smešten u mirnom okruženju sa velikim dvorištem i stručno obučenim osobljem. Nudimo dnevni i višednevni boravak, šetnje, obroke, igru i osnovnu veterinarsku brigu kako bi se vaš ljubimac osećao sigurno i voljeno.",
   image: "/images/dog-hotel.jpg",
-  servicesCount: 5,
+  //servicesCount: 5,
   averageRating: 4.8,
   companyName: "Sapa Pansion",
-  verified: false,
+  //verified: false,
   user: getUser(14),
 },
 {
@@ -294,10 +294,10 @@ export const mockCompanies: FullCompanyDto[] = [
   address: "Bulevar Kralja Aleksandra 45",
   description: "Preduzeće specijalizovano za transportne usluge, uključujući dostavu paketa, selidbe i logistiku. Pružamo siguran i pouzdan prevoz sa modernim vozilima i iskusnim vozačima.",
   image: "/images/transport-services.jpg",
-  servicesCount: 3,
+  //servicesCount: 3,
   averageRating: 4.7,
   companyName: "Gonzales Transport",
-  verified: false,
+  //verified: false,
   user: getUser(16)
 }
 ];
@@ -310,7 +310,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         address: "Kumanovska 8",
         description:"Profesor i freelance instruktor za arhitektonske softvere sa više od 10 godina iskustva u radu i edukaciji. Specijalizovan za Revit, AutoCAD i Archicad, sa fokusom na BIM metodologiju. Održavam individualne i grupne časove, prilagođene studentima arhitekture, inženjerima i profesionalcima koji žele da unaprede svoje znanje.",
         image: "/images/freelancer-architecture.jpg",
-        servicesCount: 1,
+        //servicesCount: 1,
         averageRating: 4.6,
         firstName: "Petar",
         lastName: "Petrović",
@@ -322,7 +322,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         address: "Bulevar oslobodjenja 86",
         description:"Iskusni tehničar za računare i IT podršku, specijalizovan za popravku hardvera i softvera. Pružam servis, održavanje i čišćenje desktop i laptop računara, instalaciju i optimizaciju softvera, kao i rešavanje tehničkih problema. Radim sa pojedincima i malim firmama koje žele pouzdanu i brzu IT podršku.",
         image: "/images/freelancer-it.jpg",
-        servicesCount: 3,
+        //servicesCount: 3,
         averageRating: 4.8,
         firstName: "Stevan",
         lastName: "Stevanović",
@@ -335,7 +335,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         description:
             "Profesionalna radnica za čišćenje stanova i poslovnih prostora. Koristim kvalitetna sredstva i garantujem detaljno i pouzdano čišćenje po dogovoru.",
         image: "/images/freelancer-cleaning.jpg",
-        servicesCount: 6,
+        //servicesCount: 6,
         averageRating: 4.6,
         firstName: "Marija",
         lastName: "Stojanović",
@@ -348,7 +348,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         description:
             "Auto-mehaničar specijalizovan za brze intervencije i redovno održavanje vozila. Pružam usluge malog servisa, dijagnostike i popravki na terenu.",
         image: "/images/freelancer-auto.jpg",
-        servicesCount: 9,
+        //servicesCount: 9,
         averageRating: 4.5,
         firstName: "Vladimir",
         lastName: "Pavlović",
@@ -361,7 +361,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         description:
             "Samostalni serviser klima uređaja sa višegodišnjim iskustvom u popravci, redovnom održavanju i dubinskom čišćenju klima uređaja. Pružam usluge dezinfekcije, dopune freona i dijagnostike kvarova za kućne i poslovne objekte.",
         image: "/images/freelancer-ac-service.jpg",
-        servicesCount: 7,
+        //servicesCount: 7,
         averageRating: 4.7,
         firstName: "Marko",
         lastName: "Jovanović",
@@ -374,7 +374,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         description:
             "Samostalni pravnik sa iskustvom u pružanju pravnih usluga fizičkim i pravnim licima. Bavim se pravnim savetovanjem, izradom ugovora, zastupanjem pred sudovima i rešavanjem imovinsko-pravnih i radno-pravnih odnosa.",
         image: "/images/freelancer-lawyer.jpg",
-        servicesCount: 6,
+        //servicesCount: 6,
         averageRating: 4.6,
         firstName: "Jelena",
         lastName: "Marković",
@@ -386,7 +386,7 @@ export const mockFreelancers: FullFreelancerDto[] = [
         address: "Bulevar Oslobođenja 22",
         description: "Iskusni moler sa više od 10 godina rada na unutrašnjem i spoljašnjem farbanju, dekorativnim tehnikama i adaptacijama prostora. Nudim preciznost, kvalitetnu izradu i savete za odabir boja i materijala.",
         image: "/images/freelancer-painter.jpg",
-        servicesCount: 5,
+        //servicesCount: 5,
         averageRating: 4.7,
         firstName: "Marko",
         lastName: "Petrović",
@@ -550,7 +550,17 @@ export const mockServices: FullServiceDto[] = [
         category: getCategory(14),
         user: getUser(17),
         profile: getProfile(7,17)
-    }
+    },
+    {
+        id: 15,
+        title: "Muško šišanje",
+        description: "Profesionalno šišanje prilagođeno vašem stilu i tipu kose. Usluga uključuje šišanje makazama i/ili mašinicom, precizne prelaze, sređivanje kontura i završno stilizovanje za uredan i moderan izgled.",
+        price: 1700,
+        createdAt: new Date("2025-12-20"),
+        category: getCategory(4),
+        user: getUser(5),
+        profile: getProfile(2,5)
+    },
 
 
 ];

@@ -1,7 +1,7 @@
 "use client"
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import ProfilPageContent from "@/components/ProfilPageContent";
+import ProfilesPageContent from "@/components/ProfilesPageContent";
 
 
 export default function Profiles() {
@@ -10,7 +10,7 @@ export default function Profiles() {
     <div>
       <Navbar></Navbar>
       
-      <ProfilPageContent></ProfilPageContent>
+      <ProfilesPageContent></ProfilesPageContent>
       
       <Footer></Footer>
     </div>    

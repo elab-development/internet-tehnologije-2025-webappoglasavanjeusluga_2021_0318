@@ -5,15 +5,17 @@ import Link from "next/link";
 type Props = {
     profile: FullCompanyDto | FullFreelancerDto;
     users: FullUserDto[];
+    extend?: boolean;
+    serviceCount?: number;
 }
 
-export default function ServiceCard({ profile, users}: Props) {
+export default function ProfileCard({profile, users, extend, serviceCount}: Props) {
 
     return (
         <div
             key={profile.id}
-            className="group relative overflow-hidden rounded-3xl border border-gray-400 bg-gray-100 
-            max-w-80 hover:scale-103 shadow-xl" >
+            className={`group relative overflow-hidden rounded-3xl border border-gray-400 bg-gray-100 
+            max-w-80 max-h-200 shadow-xl ${ extend ? "" : "hover:scale-103" }`} >
             
             <div className="flex flex-row justify-between p-2">
                 { "companyName" in profile  ? (
@@ -27,7 +29,9 @@ export default function ServiceCard({ profile, users}: Props) {
                     )
                 }
 
-                { "companyName" in profile && profile.verified===true ? (
+                 
+                {/* { "companyName" in profile && profile.verified===true ? ( */}
+                    { "companyName" in profile && serviceCount!=null && serviceCount > 2 ? (
                     <Image src="/images/bedz-verifikovan.png" alt="Bedž" width={50} height={50}></Image>
                     ) : (
                     <p></p>
@@ -52,7 +56,7 @@ export default function ServiceCard({ profile, users}: Props) {
                 
             </div>
                 <div className="flex flex-col p-2 md:p-4 gap-1">
-                    <p className="text-sm md:text-base whitespace-nowrap"><i className=" text-gray-500">Odgovorno lice:</i> 
+                    <p className="text-sm md:text-base whitespace-nowrap pb-2"><i className=" text-gray-500">Odgovorno lice:</i> 
                     <br className="sm:hidden" /> {" "}
                     {
                         
@@ -70,22 +74,56 @@ export default function ServiceCard({ profile, users}: Props) {
                         {" "+profile.city}
                     </p>
 
+                    {/* Ekstenzija kartice (Adresa) ********************************************/}
+                    {
+                    extend===true ? 
+                    (<div>
+                        <p><i className=" text-gray-500">Adresa:</i> {profile.address}</p>
+                        <p></p>
+                    </div>):
+                    (<p></p>)
+                    }
+                    {/*************************************************************************/}
+
                     <p className="text-sm md:text-base"><i className=" text-gray-500">Telefon:</i>
                         {" "+users.find((u) => u.id === profile.user.id)?.phone}
                     </p>
 
-                    <p className="text-sm md:text-base line-clamp-3 p-1 my-2 border border-gray-400 rounded-2xl">
-                        <i className="md:text-base text-gray-500">Opis:</i>{" "+profile.description}
+                    
+                    {/* Ekstenzija kartice (Pruzalac od) ********************************************/}
+                    {
+                    extend===true ? 
+                    (<div>
+                        <p className="text-sm md:text-base pt-2 "><i className=" text-gray-500">Pružalac od:</i>
+                        
+                        {" "+users.find((u) => u.id === profile.user.id)?.createdAt.toLocaleDateString("sr-RS")}
+                        </p>
+                    </div>):
+                    (<p></p>)
+                    }
+                    {/*************************************************************************/}
+
+                    {/* Ekstenzija opisa */}
+                    <p className={`text-sm md:text-base p-1 my-2 border border-gray-400 rounded-2xl 
+                        ${extend ? "" : "line-clamp-3"}`}> 
+                            <i className="md:text-base text-gray-500">Opis:</i>{" "+profile.description}
                     </p>
 
-                    <p className="text-sm md:text-base "><i className=" text-gray-500">Pružalac od:</i>
-                        <br className="sm:hidden" />
-                        {" "+users.find((u) => u.id === profile.user.id)?.createdAt.toLocaleDateString("sr-RS")}
-                    </p>
+                    {/* Ekstenzija kartice (Broj oglasa i Ocena) ********************************************/}
+                    {extend ? 
+                        (<div className="flex flex-row justify-between">
+                            {/* <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {profile.servicesCount}</p> */}
+                            <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {serviceCount}</p>
+                            {/* <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br />{profile.averageRating}</p> */}
+                            <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br /></p>
+                        </div>):
+                        (<p></p>)
+                    }
+                    {/**************************************************************************/}
 
                 </div>
                 
-            <Link href={`/profiles/${profile.id}`} className="absolute inset-0" />
+            <Link href={`/profiles/${profile.id}/${profile.user.id}`} className="absolute inset-0" />
         </div>
     )
 }

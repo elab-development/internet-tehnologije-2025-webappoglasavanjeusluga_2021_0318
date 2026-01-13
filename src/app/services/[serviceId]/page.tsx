@@ -44,7 +44,7 @@ export default async function Service({ params }: Props) {
             <p className="font-semibold text-sm bg-gray-300 pl-1">OSNOVNI PODACI</p>
             <div className="flex flex-col xl:flex-row ">
               <div className="xl:w-1/2 py-3">
-                <h1 className=""><i className="text-gray-500">Usluga:</i> {service.title} </h1>
+                <h1><i className="text-gray-500">Usluga:</i> {service.title} </h1>
                 <p><i className="text-gray-500">Kategorija:</i> {mockCategories.find((k)=>k.id===service.category.id)?.name}</p>
                 <p><i className="text-gray-500">Kreirana:</i>{service.createdAt.toLocaleDateString("sr-RS")}</p>
               </div>

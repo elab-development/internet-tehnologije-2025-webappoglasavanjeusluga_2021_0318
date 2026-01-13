@@ -44,7 +44,7 @@ export interface FullProfileDto {
   address: string;
   description: string;
   image: string;
-  servicesCount: number;
+  //servicesCount: number;
   averageRating: number;
   user:{
         id: number;
@@ -53,7 +53,7 @@ export interface FullProfileDto {
 
 export interface FullCompanyDto extends FullProfileDto {
   companyName: string;
-  verified: boolean;
+  //verified: boolean;
 }
 
 export interface FullFreelancerDto extends FullProfileDto {

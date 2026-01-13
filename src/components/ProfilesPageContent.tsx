@@ -4,7 +4,7 @@ import { mockProfiles, mockUsers } from "@/mock/data";
 import { Profile} from "@/shared/types";
 import { useEffect, useState } from "react";
 
-export default function ProfilPageContent() {
+export default function ProfilesPageContent() {
         //type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
       const [profiles, setProfiles] = useState<Profile[]>([]);
       const users = mockUsers;
