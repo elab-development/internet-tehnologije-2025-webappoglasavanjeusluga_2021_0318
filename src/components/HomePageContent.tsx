@@ -37,7 +37,7 @@ export default function HomePageContent({ categories }: Props) {
         <div>
                 {/* Hero sekcija */}
             <HeroSection title={"Mesto na kojem možete pronaći ili ponuditi usluge"} 
-                            desc={"Brzo, lako, pouzdano, 500+ zadovoljnih korisnika"} 
+                            desc={"Brzo, lako, pouzdano, 300+ zadovoljnih korisnika"} 
                             placeholder={"Pretraži uslugu..."}
                             search={search} setSearch={setSearch} >             
             </HeroSection>
@@ -72,7 +72,7 @@ export default function HomePageContent({ categories }: Props) {
                             <h2 className="text-3xl font-bold">
                             <CountUp end={20} duration={3} />
                             </h2>
-                            <p className="text-gray-500">Kompanija</p>
+                            <p className="text-gray-500">Preduzeća</p>
                         </div>
                         <div className="text-center">
                             <h2 className="text-3xl font-bold">

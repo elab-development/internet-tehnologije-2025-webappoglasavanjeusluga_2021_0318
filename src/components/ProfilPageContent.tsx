@@ -1,23 +1,23 @@
 import HeroSection from "@/components/HeroSection";
 import ProfileCard from "@/components/ProfileCard";
-import { mockCompanies, mockFreelancers, mockUsers } from "@/mock/data";
-import { FullCompanyDto, FullFreelancerDto} from "@/shared/types";
+import { mockProfiles, mockUsers } from "@/mock/data";
+import { Profile} from "@/shared/types";
 import { useEffect, useState } from "react";
 
 export default function ProfilPageContent() {
-        type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
+        //type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
       const [profiles, setProfiles] = useState<Profile[]>([]);
       const users = mockUsers;
       const [search, setSearch] = useState("");
 
       useEffect(() => {
-                 const profiles = [...mockCompanies, ...mockFreelancers];
+                 const profiles = mockProfiles;
                   const shuffledProfiles = profiles.sort(() => Math.random() - 0.5);
                   // eslint-disable-next-line react-hooks/set-state-in-effect
                   setProfiles(shuffledProfiles);
       
                   console.log(search);
-                  let data = profiles;
+                  let data = shuffledProfiles;
                    if (search.trim()) {
                       data = data.filter(d => {
                       if ("companyName" in d) {
@@ -73,7 +73,7 @@ export default function ProfilPageContent() {
              <p className="text-center text-gray-500 pb-50 pt-20"> Nema profila </p>
         ):(
            
-            <div className="flex mx-auto md:flex-row flex-wrap  justify-center gap-5 p-10">
+            <div className="flex mx-auto md:flex-row flex-wrap  justify-center gap-5 p-10 max-w-7xl">
                 {profiles.map((profile, id) => (
                 <ProfileCard key={id} profile={profile} users={users}
                 />

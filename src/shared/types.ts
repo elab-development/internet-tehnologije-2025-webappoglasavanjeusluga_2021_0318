@@ -6,8 +6,12 @@ export interface FullServiceDto {
     createdAt: Date;
     category: {
         id: number;
-        name: string;
     };
+    user:{
+        id: number;
+    };
+    profile:Profile
+    
     
 }
 
@@ -16,8 +20,6 @@ export interface FullCategoryDto {
     name: string;
     icon: string;
 }
-
-//********************************** */
 
 export enum FullRoleDto {
   USER = "USER",
@@ -42,8 +44,6 @@ export interface FullProfileDto {
   address: string;
   description: string;
   image: string;
-  phone: string;
-  createdAt: Date;
   servicesCount: number;
   averageRating: number;
   user:{
@@ -60,3 +60,5 @@ export interface FullFreelancerDto extends FullProfileDto {
   firstName: string;
   lastName: string;
 }
+
+export type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova

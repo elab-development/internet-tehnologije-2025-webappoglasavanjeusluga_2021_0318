@@ -12,7 +12,7 @@ export default function ServiceCard({ service, categories}: Props) {
     return (
         <div
             key={service.id}
-            className="group relative overflow-hidden rounded-lg border border-gray-400 bg-gray-100 hover:scale-103" >
+            className="group relative overflow-hidden rounded-lg border border-gray-400 bg-gray-100 hover:scale-103 shadow-xl" >
             <Image
                 src="https://picsum.photos/300/400"
                 alt=""
@@ -22,6 +22,7 @@ export default function ServiceCard({ service, categories}: Props) {
 
             <div className="flex flex-col gap-3 p-4">
                 <h3 className="font-semibold text-xl truncate">{service.title}</h3>
+                <p className="text-base text-gray-500">{service.profile.city}</p>
                 <p className="font-lg line-clamp-2">{service.description}</p>
                 <p className="text-base text-gray-500">
                     {
