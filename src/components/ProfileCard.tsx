@@ -7,9 +7,10 @@ type Props = {
     users: FullUserDto[];
     extend?: boolean;
     serviceCount?: number;
+    averageRating?: number;
 }
 
-export default function ProfileCard({profile, users, extend, serviceCount}: Props) {
+export default function ProfileCard({profile, users, extend, serviceCount, averageRating}: Props) {
 
     return (
         <div
@@ -31,7 +32,7 @@ export default function ProfileCard({profile, users, extend, serviceCount}: Prop
 
                  
                 {/* { "companyName" in profile && profile.verified===true ? ( */}
-                    { "companyName" in profile && serviceCount!=null && serviceCount > 2 ? (
+                    { "companyName" in profile && serviceCount!=null && serviceCount > 2 && averageRating!=null && averageRating >= 4.5 ? (
                     <Image src="/images/bedz-verifikovan.png" alt="Bedž" width={50} height={50}></Image>
                     ) : (
                     <p></p>
@@ -115,7 +116,7 @@ export default function ProfileCard({profile, users, extend, serviceCount}: Prop
                             {/* <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {profile.servicesCount}</p> */}
                             <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {serviceCount}</p>
                             {/* <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br />{profile.averageRating}</p> */}
-                            <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br /></p>
+                            <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br /> {averageRating} </p>
                         </div>):
                         (<p></p>)
                     }

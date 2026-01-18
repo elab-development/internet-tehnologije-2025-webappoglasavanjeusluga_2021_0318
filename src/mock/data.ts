@@ -1,4 +1,4 @@
-import { FullServiceDto, FullCategoryDto, FullUserDto, FullRoleDto, FullCompanyDto, FullFreelancerDto, Profile } from "@/shared/types";
+import { FullServiceDto, FullCategoryDto, FullUserDto, FullRoleDto, FullCompanyDto, FullFreelancerDto, Profile, FullReviewDto, FullAppointmentDto, FullEmployeeDto, FullAvailabilityDto } from "@/shared/types";
 
 
 
@@ -39,7 +39,7 @@ export const mockUsers: FullUserDto[] = [
     lastName: "Anic",
     phone: "062185574",
     role: FullRoleDto.USER,
-    createdAt: new Date("2026-01-03"),
+    createdAt: new Date("2025-09-03"),
   },
   {
     id: 3,
@@ -49,7 +49,7 @@ export const mockUsers: FullUserDto[] = [
     lastName: "Milanovic",
     phone: "064758446",
     role: FullRoleDto.USER,
-    createdAt: new Date("2025-12-27"),
+    createdAt: new Date("2025-10-27"),
   },
   {
     id: 4,
@@ -564,6 +564,199 @@ export const mockServices: FullServiceDto[] = [
 
 
 ];
+
+const getService = (id: number) => mockServices.find((s) => s.id===id)!;
+const getService1 = (idService: number, idUser:number) => mockServices.find((s) => s.id===idService && s.user.id===idUser)!;
+
+
+export const mockReviews: FullReviewDto[] = [
+    {
+        id: 1,
+        rating: 5,
+        comment: "Frizura tačno kako sam tražio, prijatna atmosfera.",
+        createdAt:new Date("2025-12-26"),
+        user: getUser(3),
+        service: getService1(15,5)
+    },
+    {
+        id: 2,
+        rating: 4,
+        comment: "Vrlo lepo šišanje i prijatno iskustvo. Frizerka je pažljiva i profesionalna, frizura je ispala baš kako sam želela. Mala zamerka na trajanje termina, ali svakako bih došla ponovo.",
+        createdAt:new Date("2025-12-29"),
+        user: getUser(2),
+        service: getService1(3,5)
+    },
+    {
+        id: 3,
+        rating: 5,
+        comment: "Računar je detaljno očišćen i radi znatno brže nego ranije. Serviser je profesionalan, objasnio je šta je rađeno i dao korisne savete za dalje održavanje. Usluga je obavljena brzo i kvalitetno.",
+        createdAt: new Date("2026-01-15"),
+        user: getUser(2),
+        service: getService1(2,4)
+    },
+    {
+        id: 4,
+        rating: 2,
+        comment: "Čišćenje je odrađeno, ali računar i dalje povremeno ima probleme u radu. Očekivao sam detaljniju dijagnostiku i bolje objašnjenje uzroka kvara. Usluga je korektna, ali ne i zadovoljavajuća.",
+        createdAt: new Date("2026-01-16"),
+        user: getUser(3),
+        service: getService1(2,4)
+}
+
+];
+
+export const mockAppointments: FullAppointmentDto[] = [
+  {
+    id: 1,
+    date: new Date(2026, 0, 20), // Jan = 0
+    time: "9:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 2,
+    date: new Date(2026, 0, 23),
+    time: "10:30",
+    isBooked: true,
+    service: getService1(2,4),
+  },
+  {
+    id: 3,
+    date: new Date(2026, 0, 27),
+    time: "12:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 4,
+    date: new Date(2026, 0, 27),
+    time: "14:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 5,
+    date: new Date(2026, 0, 27),
+    time: "16:00",
+    isBooked: true,
+    service: getService1(2,4),
+  },
+  {
+    id: 6,
+    date: new Date(2026, 0, 27),
+    time: "18:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 7,
+    date: new Date(2026, 0, 27),
+    time: "20:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 8,
+    date: new Date(2026, 0, 30),
+    time: "10:30",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 9,
+    date: new Date(2026, 0, 30),
+    time: "15:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 10,
+    date: new Date(2026, 0, 17),
+    time: "15:00",
+    isBooked: false,
+    service: getService1(3,5),
+  },
+  {
+    id: 11,
+    date: new Date(2026, 0, 19),
+    time: "17:00",
+    isBooked: false,
+    service: getService1(3,5),
+  },
+  {
+    id: 12,
+    date: new Date(2026, 0, 19),
+    time: "19:00",
+    isBooked: false,
+    service: getService1(3,5),
+  },
+   {
+    id: 13,
+    date: new Date(2026, 0, 27),
+    time: "21:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+  {
+    id: 14,
+    date: new Date(2026, 0, 27),
+    time: "21:00",
+    isBooked: false,
+    service: getService1(2,4),
+  },
+];
+
+export const mockEmployees: FullEmployeeDto[] = [
+    {
+        id: 1,
+        firstname: "Marko",
+        lastname: "Marković",
+        description:"FRIZER",
+        //user:getUser(5),
+        profile:getProfile(2,5)
+    },
+    {
+        id: 2,
+        firstname: "Jelena",
+        lastname: "Jovanović",
+        description: "FRIZER",
+        //user: getUser(5),
+        profile: getProfile(2, 5),
+    },
+    {
+        id: 3,
+        firstname: "Stefan",
+        lastname: "Milošević",
+        description: "FRIZER",
+        //user: getUser(5),
+        profile: getProfile(2, 5),
+    },
+]
+
+const getEmployee = (idEmployee:number, idProfile:number, idUser: number) => mockEmployees.find((e) => e.id===idEmployee && e.profile.id===idProfile && e.profile.user.id===idUser)!;
+const getAppointment = (idAppointment:number, idService: number, idUser:number) => mockAppointments.find((a)=> a.id===idAppointment && a.service.id===idService && a.service.user.id===idUser)!;
+
+export const mockAvailabilities: FullAvailabilityDto[] = [
+    {
+      id:1,
+      employee: getEmployee(1,2,5),
+      appointment: getAppointment(11,3,5),
+      note:"",
+    },
+    {
+      id:2,
+      employee: getEmployee(2,2,5),
+      appointment: getAppointment(11,3,5),
+      note:"",
+    },
+    {
+      id:3,
+      employee: getEmployee(3,2,5),
+      appointment: getAppointment(11,3,5),
+      note:"",
+    },
+    
+]
 
 
 

@@ -62,3 +62,71 @@ export interface FullFreelancerDto extends FullProfileDto {
 }
 
 export type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
+
+
+export interface FullReviewDto {
+  id: number;
+  rating: number;
+  comment: string;
+  createdAt:Date;
+  user:{
+    id: number;
+    firstName: string;
+    lastName: string;
+  }
+  service:{
+    id: number;
+    title: string;
+    user: {
+      id:number;
+    }
+  }
+}
+
+export interface FullAppointmentDto {
+  id: number;
+  date:Date;
+  time:string;
+  isBooked:boolean;
+  service:{
+    id:number;
+    user:{
+        id: number;
+    };
+  }
+}
+
+export interface FullEmployeeDto {
+  id:number;
+  firstname:string;
+  lastname:string;
+  description:string;
+  // user:{
+  //   id:number;
+  // }
+  profile:Profile;
+}
+
+export interface  FullAvailabilityDto {
+  id:number;
+  employee:{
+    id:number;
+    firstname:string;
+    lastname:string;
+    description:string;
+    profile:Profile;
+    }
+  appointment:{
+    id: number;
+    date:Date;
+    time:string;
+    isBooked:boolean;
+    service:{
+        id:number;
+        user:{
+            id: number;
+        };
+      }
+    }
+    note:string;
+}

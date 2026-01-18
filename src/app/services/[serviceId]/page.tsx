@@ -1,3 +1,4 @@
+import CalendarForBooking from "@/components/CalendarForBooking";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ProfileCard from "@/components/ProfileCard";
@@ -24,6 +25,9 @@ export default async function Service({ params }: Props) {
   const users: FullUserDto[] = [user];
   const profile = mockProfiles.find((p) => p.id===service.profile.id && p.user.id===service.user.id)!;
 
+  /////////////DODATO
+  const mode = "companyName" in profile ? "company":"freelancer"; 
+
   return (
       
       <div className="bg-linear-to-r from-blue-400 via-blue-200 to-yellow-100">
@@ -46,11 +50,11 @@ export default async function Service({ params }: Props) {
               <div className="xl:w-1/2 py-3">
                 <h1><i className="text-gray-500">Usluga:</i> {service.title} </h1>
                 <p><i className="text-gray-500">Kategorija:</i> {mockCategories.find((k)=>k.id===service.category.id)?.name}</p>
-                <p><i className="text-gray-500">Kreirana:</i>{service.createdAt.toLocaleDateString("sr-RS")}</p>
+                <p><i className="text-gray-500">Kreirana:</i> {service.createdAt.toLocaleDateString("sr-RS")}</p>
               </div>
                 
               <div className="xl:w-1/2 py-3">
-                <p><i className="text-gray-500">Pružalac:</i> 
+                <p><i className="text-gray-500">Pružalac: </i> 
                     {"companyName" in profile ? profile.companyName : `${profile.firstName} ${profile.lastName}`}
                 </p>
                 <p><i className="text-gray-500">Mesto</i>: {profile.city}</p>
@@ -63,6 +67,8 @@ export default async function Service({ params }: Props) {
               <hr className="border-gray-300"/>
               <p className="py-5"><i className="text-gray-500">Opis:</i> <br className="mb-2"/>{service.description}</p>
           </div>
+
+           <CalendarForBooking mode={mode} serviceId={serviceId}></CalendarForBooking>
          
         </div>
 
