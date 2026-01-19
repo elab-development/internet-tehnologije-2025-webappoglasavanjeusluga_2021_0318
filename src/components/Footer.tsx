@@ -17,7 +17,7 @@ export default function Footer() {
                           window.scrollTo({ top: 0, behavior: "smooth" });
                           router.push('/');
                           }}>Usluge</Link>
-                <a href="" className="hover:text-gray-300">Registracija</a>
+                <a href="/register" className="hover:text-gray-300">Registracija</a>
               </div>
           </div>
           <div className=' border-l px-3 border-amber-50 h-45'>

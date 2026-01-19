@@ -44,7 +44,7 @@ export default function Navbar() {
             </div>
             
             <div className="flex gap-3 ml-4 items-center text-center">
-                <a href="" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
+                <a href="/register" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
                 <BtnLogin></BtnLogin>
                 <UserCard></UserCard>
             </div>
@@ -79,7 +79,7 @@ export default function Navbar() {
           
           <div className="fixed md:hidden">
               <div className="fixed flex gap-2 bottom-0 ">
-                <a href="" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
+                <a href="/register" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
             
                 <BtnLogin></BtnLogin>
               </div>
