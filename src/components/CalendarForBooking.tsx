@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { mockAppointments, mockAvailabilities } from '@/mock/data';
 import { srLatn } from 'date-fns/locale';
 import { FullEmployeeDto } from '@/shared/types';
+import { format } from "date-fns";
 
 type Mode = "company" | "freelancer";
 
@@ -14,8 +15,8 @@ export default function CalendarForBooking({mode, serviceId}: {mode:Mode, servic
   const [time, setTime]=useState("Po dogovoru");
   const [selectedEmployee, setSelectedEmployee] = useState("Slobodan zaposleni");
 
-  // const [err, setErr]=useState("");
-  // const [loading, setLoading]=useState(false);
+   const [err, setErr]=useState("");
+   const [loading, setLoading]=useState(false);
 
   const availableAppointments = mockAppointments.filter((a) => a.service.id===serviceId && a.isBooked===false);
   const availableDates = availableAppointments.map((b) => b.date);
@@ -89,34 +90,43 @@ export default function CalendarForBooking({mode, serviceId}: {mode:Mode, servic
   //Slanje podataka na Backend
   const handleBooking = async () => {
   if (!selectedDate || !time) {
-    alert("Molimo izaberite datum i vreme!");
+    setErr("Molimo izaberite datum i vreme.");
     return;
   }
 
-  const endpoint = "/api/booking";
+  setErr("");
+  setLoading(true);
 
-  //selectedDate - Date tip, backend mora znati da parsira ISO string
-  const body= mode==="freelancer" ? {selectedDate, time}:{selectedDate, time, selectedEmployee};
+  const endpoint = "/api/booking";
+  const reservatedDate = format(selectedDate, "yyyy-MM-dd");
+  const now = new Date().toISOString().split("T")[0];
+
+  const body =
+    mode === "freelancer"
+      ? { reservatedDate, time, serviceId, createdAt: now }
+      : { reservatedDate, time, selectedEmployee, serviceId, createdAt: now };
 
   try {
     const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     });
 
-    if (res.ok) {
-      alert("Termin uspešno rezervisan!");
-      setSelectedDate(undefined);
-      setTimes([]);
-      setTime("");
-      setTimeId(undefined);
-    } else {
-      alert("Greška pri rezervaciji.");
+    if (!res.ok) {
+      setErr("Greška pri rezervaciji termina.");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    alert("Greška pri povezivanju sa serverom.");
+
+    // success
+    setSelectedDate(undefined);
+    setTimes([]);
+    setTime("Po dogovoru");
+    setTimeId(undefined);
+  } catch (e) {
+    setErr("Greška pri povezivanju sa serverom.");
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -180,17 +190,24 @@ export default function CalendarForBooking({mode, serviceId}: {mode:Mode, servic
             </div>
             }
 
-            {selectedDate && <div className='mt-4'>
-                <button
-                  onClick={handleBooking}
-                  className=' px-4 py-3 mt-10  bg-gray-700 text-white rounded-md hover:bg-gray-800'
-                >
-                  Rezerviši termin
+            <div className='flex items-center'>
+
+              {selectedDate && <div className='mt-4'>
+                  <button
+                    onClick={handleBooking}
+                    disabled={loading}
+                    className="px-3 py-3 mt-5 bg-gray-700 text-white rounded-md hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed"
+                    > {loading ? "Obrada..." : "Rezerviši termin"}
                 </button>
-            </div>
-            }
-        </div>
-        
+              </div>
+              }
+              {err && (
+              <p className="ml-5 mt-10 text-sm text-red-600 text-center">
+                {err}
+              </p>
+            )}
+          </div>
+            </div>  
     </div>
   );
 }
