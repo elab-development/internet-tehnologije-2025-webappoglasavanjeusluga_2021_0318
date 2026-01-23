@@ -3,7 +3,9 @@ import { db } from "./index";
 import { categories, users } from "./schema";
 import { profiles } from "./schema";
 import { services } from "./schema";
-import { sql } from "drizzle-orm"; // na vrhu fajla
+import { reviews } from "./schema";
+import { appointments } from "./schema";
+import { sql } from "drizzle-orm"; // na vrhu fajla 
 
 
 async function seed() {
@@ -11,13 +13,23 @@ async function seed() {
 
   // prvo obriši stare podatke da ne pravi duplikate
    // obriši stare profile (poželjno pre brisanja users zbog FK)
-await db.delete(services); 
-await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`); 
-await db.delete(profiles); 
-await db.execute(sql`ALTER SEQUENCE profiles_id_seq RESTART WITH 1`); 
-await db.delete(users); 
+// prvo obriši zavisne tabele da ne pravi duplikate
+await db.delete(reviews);
+await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
+
+await db.delete(appointments);
+await db.execute(sql`ALTER SEQUENCE appointments_id_seq RESTART WITH 1`);
+
+await db.delete(services);
+await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`);
+
+await db.delete(profiles);
+await db.execute(sql`ALTER SEQUENCE profiles_id_seq RESTART WITH 1`);
+
+await db.delete(users);
 await db.execute(sql`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
-await db.delete(categories); 
+
+await db.delete(categories);
 await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
 
@@ -508,6 +520,149 @@ const servicesData: typeof services.$inferInsert[] = [
 ];
 
 await db.insert(services).values(servicesData);
+
+// ubaci reviews
+const reviewsData: typeof reviews.$inferInsert[] = [
+  {
+    rating: 5,
+    comment: "Odlična usluga, sve preporuke!",
+    createdAt: new Date("2025-12-15"),
+    userId: 2, // Ana (USER)
+    serviceId: 1, // Servis klime
+  },
+  {
+    rating: 4,
+    comment: "Brzo i kvalitetno, ali malo skuplje.",
+    createdAt: new Date("2025-12-20"),
+    userId: 3, // Milan (USER)
+    serviceId: 2, // Čišćenje i popravka komponenti računara
+  },
+  {
+    rating: 5,
+    comment: "Najbolji salon u gradu!",
+    createdAt: new Date("2025-12-22"),
+    userId: 2,
+    serviceId: 3, // Žensko šišanje
+  },
+  {
+    rating: 5,
+    comment: "Manikir je bio savršen!",
+    createdAt: new Date("2025-12-23"),
+    userId: 3,
+    serviceId: 4, // Manikir
+  },
+  {
+    rating: 4,
+    comment: "Kurs je odličan, predavač stručan.",
+    createdAt: new Date("2026-01-10"),
+    userId: 2,
+    serviceId: 6, // Kurs REVIT-a
+  },
+  {
+    rating: 5,
+    comment: "Pansion za pse je fantastičan, moj pas je bio srećan!",
+    createdAt: new Date("2025-12-12"),
+    userId: 3,
+    serviceId: 7, // Pansion za pse
+  },
+  {
+    rating: 5,
+    comment: "Stan je blistao posle čišćenja!",
+    createdAt: new Date("2025-08-22"),
+    userId: 2,
+    serviceId: 8, // Generalno čišćenje
+  },
+  {
+    rating: 4,
+    comment: "Servis vozila urađen korektno.",
+    createdAt: new Date("2026-01-12"),
+    userId: 3,
+    serviceId: 9, // Mali servis vozila
+  },
+  {
+    rating: 5,
+    comment: "Masaža je bila fantastična!",
+    createdAt: new Date("2025-12-13"),
+    userId: 2,
+    serviceId: 10, // Relaks masaža
+  },
+  {
+    rating: 5,
+    comment: "Pravni savet mi je mnogo pomogao.",
+    createdAt: new Date("2025-06-21"),
+    userId: 3,
+    serviceId: 11, // Pravno savetovanje
+  },
+];
+
+await db.insert(reviews).values(reviewsData);
+
+// ubaci appointments
+const appointmentsData: typeof appointments.$inferInsert[] = [
+  {
+    date: new Date("2026-02-01T10:00:00"),
+    time: "10:00",
+    isBooked: true,
+    serviceId: 1,
+  },
+  {
+    date: new Date("2026-02-02T14:00:00"),
+    time: "14:00",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date("2026-02-03T09:00:00"),
+    time: "09:00",
+    isBooked: true,
+    serviceId: 3,
+  },
+  {
+    date: new Date("2026-02-04T11:00:00"),
+    time: "11:00",
+    isBooked: false,
+    serviceId: 4,
+  },
+  {
+    date: new Date("2026-02-05T15:00:00"),
+    time: "15:00",
+    isBooked: true,
+    serviceId: 6,
+  },
+  {
+    date: new Date("2026-02-06T13:00:00"),
+    time: "13:00",
+    isBooked: true,
+    serviceId: 7,
+  },
+  {
+    date: new Date("2026-02-07T16:00:00"),
+    time: "16:00",
+    isBooked: false,
+    serviceId: 8,
+  },
+  {
+    date: new Date("2026-02-08T10:30:00"),
+    time: "10:30",
+    isBooked: true,
+    serviceId: 9,
+  },
+  {
+    date: new Date("2026-02-09T12:00:00"),
+    time: "12:00",
+    isBooked: true,
+    serviceId: 10,
+  },
+  {
+    date: new Date("2026-02-10T09:30:00"),
+    time: "09:30",
+    isBooked: false,
+    serviceId: 11,
+  },
+];
+
+await db.insert(appointments).values(appointmentsData);
+
 
 
 console.log("✅ Seed finished");
