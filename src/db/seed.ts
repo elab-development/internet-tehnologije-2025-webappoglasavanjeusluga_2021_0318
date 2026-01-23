@@ -5,6 +5,7 @@ import { profiles } from "./schema";
 import { services } from "./schema";
 import { reviews } from "./schema";
 import { appointments } from "./schema";
+import { employees, availabilities } from "./schema"
 import { sql } from "drizzle-orm"; // na vrhu fajla 
 
 
@@ -14,6 +15,12 @@ async function seed() {
   // prvo obriši stare podatke da ne pravi duplikate
    // obriši stare profile (poželjno pre brisanja users zbog FK)
 // prvo obriši zavisne tabele da ne pravi duplikate
+await db.delete(employees);
+await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
+
+await db.delete(availabilities);
+await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
+
 await db.delete(reviews);
 await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
 
@@ -598,72 +605,146 @@ const reviewsData: typeof reviews.$inferInsert[] = [
 await db.insert(reviews).values(reviewsData);
 
 // ubaci appointments
+
 const appointmentsData: typeof appointments.$inferInsert[] = [
   {
-    date: new Date("2026-02-01T10:00:00"),
-    time: "10:00",
-    isBooked: true,
-    serviceId: 1,
+    date: new Date(2026, 0, 20), // Jan = 0
+    time: "9:00",
+    isBooked: false,
+    serviceId: 2, // Čišćenje i popravka komponenti računara
   },
   {
-    date: new Date("2026-02-02T14:00:00"),
+    date: new Date(2026, 0, 23),
+    time: "10:30",
+    isBooked: true,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 27),
+    time: "12:00",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 27),
     time: "14:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date("2026-02-03T09:00:00"),
-    time: "09:00",
+    date: new Date(2026, 0, 27),
+    time: "16:00",
     isBooked: true,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 27),
+    time: "18:00",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 27),
+    time: "20:00",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 30),
+    time: "10:30",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 30),
+    time: "15:00",
+    isBooked: false,
+    serviceId: 2,
+  },
+  {
+    date: new Date(2026, 0, 17),
+    time: "15:00",
+    isBooked: false,
+    serviceId: 3, // Žensko šišanje
+  },
+  {
+    date: new Date(2026, 0, 19),
+    time: "17:00",
+    isBooked: false,
     serviceId: 3,
   },
   {
-    date: new Date("2026-02-04T11:00:00"),
-    time: "11:00",
+    date: new Date(2026, 0, 19),
+    time: "19:00",
     isBooked: false,
-    serviceId: 4,
+    serviceId: 3,
   },
   {
-    date: new Date("2026-02-05T15:00:00"),
-    time: "15:00",
-    isBooked: true,
-    serviceId: 6,
-  },
-  {
-    date: new Date("2026-02-06T13:00:00"),
-    time: "13:00",
-    isBooked: true,
-    serviceId: 7,
-  },
-  {
-    date: new Date("2026-02-07T16:00:00"),
-    time: "16:00",
+    date: new Date(2026, 0, 27),
+    time: "21:00",
     isBooked: false,
-    serviceId: 8,
+    serviceId: 2,
   },
   {
-    date: new Date("2026-02-08T10:30:00"),
-    time: "10:30",
-    isBooked: true,
-    serviceId: 9,
-  },
-  {
-    date: new Date("2026-02-09T12:00:00"),
-    time: "12:00",
-    isBooked: true,
-    serviceId: 10,
-  },
-  {
-    date: new Date("2026-02-10T09:30:00"),
-    time: "09:30",
+    date: new Date(2026, 0, 27),
+    time: "21:00",
     isBooked: false,
-    serviceId: 11,
+    serviceId: 2,
   },
 ];
 
 await db.insert(appointments).values(appointmentsData);
 
 
+// Employees iz mock-a
+const employeesData: typeof employees.$inferInsert[] = [
+  {
+    firstName: "Marko",
+    lastName: "Marković",
+    description: "FRIZER",
+    profileId: profileMap[5], // Bella Beauty Salon
+  },
+  {
+    firstName: "Jelena",
+    lastName: "Jovanović",
+    description: "FRIZER",
+    profileId: profileMap[5],
+  },
+  {
+    firstName: "Stefan",
+    lastName: "Milošević",
+    description: "FRIZER",
+    profileId: profileMap[5],
+  },
+];
+
+const insertedEmployees = await db.insert(employees).values(employeesData).returning({
+  id: employees.id,
+  firstName: employees.firstName,
+});
+const employeeMap = Object.fromEntries(
+  insertedEmployees.map((e) => [e.firstName, e.id])
+);
+
+const availabilitiesData: typeof availabilities.$inferInsert[] = [
+  {
+    note: "",
+    employeeId: employeeMap["Marko"],
+    appointmentId: 11, // sada postoji u appointmentsData
+  },
+  {
+    note: "",
+    employeeId: employeeMap["Jelena"],
+    appointmentId: 11,
+  },
+  {
+    note: "",
+    employeeId: employeeMap["Stefan"],
+    appointmentId: 11,
+  },
+];
+
+await db.insert(availabilities).values(availabilitiesData);
 
 console.log("✅ Seed finished");
 process.exit(0);
