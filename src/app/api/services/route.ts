@@ -79,3 +79,30 @@ export async function PUT(req: Request) {
   }
 }
 
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing service id" },
+        { status: 400 }
+      );
+    }
+
+    const deletedService = await db
+      .delete(services)
+      .where(eq(services.id, id))
+      .returning();
+
+    return NextResponse.json(deletedService[0], { status: 200 });
+  } catch (err) {
+    console.error("Error deleting service:", err);
+    return NextResponse.json(
+      { error: "Failed to delete service" },
+      { status: 500 }
+    );
+  }
+}
+
