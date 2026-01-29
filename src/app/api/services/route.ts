@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { services } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function GET() {
   try {
@@ -42,6 +43,37 @@ export async function POST(req: Request) {
     console.error("Error creating service:", err);
     return NextResponse.json(
       { error: "Failed to create service" },
+      { status: 500 }
+    );
+  }
+}
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, title, description, price } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing service id" },
+        { status: 400 }
+      );
+    }
+
+    const updatedService = await db
+      .update(services)
+      .set({
+        title,
+        description,
+        price,
+      })
+      .where(eq(services.id, id))
+      .returning();
+
+    return NextResponse.json(updatedService[0], { status: 200 });
+  } catch (err) {
+    console.error("Error updating service:", err);
+    return NextResponse.json(
+      { error: "Failed to update service" },
       { status: 500 }
     );
   }
