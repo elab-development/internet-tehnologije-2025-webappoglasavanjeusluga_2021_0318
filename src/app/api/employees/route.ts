@@ -65,4 +65,28 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "Failed to update employee" }, { status: 500 });
   }
 }
+// DELETE /api/employees → brisanje zaposlenog
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing employee id" }, { status: 400 });
+    }
+
+    const deletedEmployee = await db.delete(employees)
+      .where(eq(employees.id, id))
+      .returning();
+
+    if (!deletedEmployee[0]) {
+      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(deletedEmployee[0], { status: 200 });
+  } catch (err) {
+    console.error("Error deleting employee:", err);
+    return NextResponse.json({ error: "Failed to delete employee" }, { status: 500 });
+  }
+}
 
