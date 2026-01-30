@@ -5,17 +5,20 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt"; 
 import jwt from "jsonwebtoken";
 
-
-
 export async function GET() {
   try {
     const data = await db.select().from(users);
-    return NextResponse.json(data);
+
+    // Izbaci password iz svih korisnika
+    const safeData = data.map(({ password, ...rest }) => rest);
+
+    return NextResponse.json(safeData);
   } catch (err) {
     console.error("Error fetching users:", err);
     return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
-}     
+}
+
 // POST /api/users (registracija)
 export async function POST(req: Request) {
   try {
@@ -44,7 +47,7 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     }).returning();
 
-    // Izbaci password iz odgovora
+    // Izbacivanje password iz odgovora
     const { password: _, ...safeUser } = newUser[0];
 
     return NextResponse.json(safeUser, { status: 201 });
@@ -81,7 +84,7 @@ export async function PUT(req: Request) {
       { expiresIn: "1h" }
     );
 
-    // Izbaci password iz odgovora
+    // Izbacivanje password iz odgovora
     const { password: _, ...safeUser } = user[0];
 
     return NextResponse.json({ token, user: safeUser }, { status: 200 });
@@ -90,4 +93,38 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: "Failed to login" }, { status: 500 });
   }
 }
+// PATCH /api/users/update
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, email, password } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing user id" }, { status: 400 });
+    }
+
+    const updateData: any = {};
+    if (email) updateData.email = email;
+    if (password) updateData.password = await bcrypt.hash(password, 10);
+
+    const updatedUser = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, id))
+      .returning();
+
+    if (!updatedUser[0]) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Izbacivanje password iz odgovora
+    const { password: _, ...safeUser } = updatedUser[0];
+
+    return NextResponse.json(safeUser, { status: 200 });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
+}
+
 
