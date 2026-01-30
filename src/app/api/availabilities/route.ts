@@ -35,6 +35,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to create availability" }, { status: 500 });
   }
 }
+// DELETE /api/availabilities → brisanje dostupnosti
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing availability id" }, { status: 400 });
+    }
+
+    const deletedAvailability = await db.delete(availabilities)
+      .where(eq(availabilities.id, id))
+      .returning();
+
+    if (!deletedAvailability[0]) {
+      return NextResponse.json({ error: "Availability not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(deletedAvailability[0], { status: 200 });
+  } catch (err) {
+    console.error("Error deleting availability:", err);
+    return NextResponse.json({ error: "Failed to delete availability" }, { status: 500 });
+  }
+}
+
 
 
 
