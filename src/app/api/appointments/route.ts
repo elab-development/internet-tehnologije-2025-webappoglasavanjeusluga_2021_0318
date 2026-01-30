@@ -14,3 +14,26 @@ export async function GET() {
   }
 }
 
+// POST /api/appointments → kreiranje termina
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { date, time, serviceId } = body;
+
+    if (!date || !time || !serviceId) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const newAppointment = await db.insert(appointments).values({
+      date: new Date(date),
+      time,
+      serviceId,
+      isBooked: true, // označavamo da je termin rezervisan
+    }).returning();
+
+    return NextResponse.json(newAppointment[0], { status: 201 });
+  } catch (err) {
+    console.error("Error creating appointment:", err);
+    return NextResponse.json({ error: "Failed to create appointment" }, { status: 500 });
+  }
+}
