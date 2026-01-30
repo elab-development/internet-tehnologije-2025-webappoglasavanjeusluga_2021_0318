@@ -13,4 +13,28 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
   }
 }
+// POST /api/reviews → dodavanje ocene
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { rating, comment, userId, serviceId } = body;
+
+    if (!rating || !userId || !serviceId) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const newReview = await db.insert(reviews).values({
+      rating,
+      comment,
+      userId,
+      serviceId,
+      createdAt: new Date(),
+    }).returning();
+
+    return NextResponse.json(newReview[0], { status: 201 });
+  } catch (err) {
+    console.error("Error creating review:", err);
+    return NextResponse.json({ error: "Failed to create review" }, { status: 500 });
+  }
+}
 
