@@ -37,3 +37,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to create appointment" }, { status: 500 });
   }
 }
+// DELETE /api/appointments → brisanje termina
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing appointment id" }, { status: 400 });
+    }
+
+    const deletedAppointment = await db.delete(appointments).where(eq(appointments.id, id)).returning();
+
+    if (!deletedAppointment[0]) {
+      return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(deletedAppointment[0], { status: 200 });
+  } catch (err) {
+    console.error("Error deleting appointment:", err);
+    return NextResponse.json({ error: "Failed to delete appointment" }, { status: 500 });
+  }
+}
