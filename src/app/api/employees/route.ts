@@ -36,4 +36,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to create employee" }, { status: 500 });
   }
 }
+// PATCH /api/employees → izmena zaposlenog
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, firstName, lastName, description } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing employee id" }, { status: 400 });
+    }
+
+    const updatedEmployee = await db.update(employees)
+      .set({
+        firstName,
+        lastName,
+        description,
+      })
+      .where(eq(employees.id, id))
+      .returning();
+
+    if (!updatedEmployee[0]) {
+      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(updatedEmployee[0], { status: 200 });
+  } catch (err) {
+    console.error("Error updating employee:", err);
+    return NextResponse.json({ error: "Failed to update employee" }, { status: 500 });
+  }
+}
 
