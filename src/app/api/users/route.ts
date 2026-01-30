@@ -127,4 +127,29 @@ export async function PATCH(req: Request) {
   }
 }
 
+// DELETE /api/users
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing user id" }, { status: 400 });
+    }
+
+    const deletedUser = await db.delete(users).where(eq(users.id, id)).returning();
+
+    if (!deletedUser[0]) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const { password: _, ...safeUser } = deletedUser[0];
+    return NextResponse.json(safeUser, { status: 200 });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
+  }
+}
+
+
 
