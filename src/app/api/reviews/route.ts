@@ -37,4 +37,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to create review" }, { status: 500 });
   }
 }
+// DELETE /api/reviews → brisanje ocene
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing review id" }, { status: 400 });
+    }
+
+    const deletedReview = await db.delete(reviews).where(eq(reviews.id, id)).returning();
+
+    if (!deletedReview[0]) {
+      return NextResponse.json({ error: "Review not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(deletedReview[0], { status: 200 });
+  } catch (err) {
+    console.error("Error deleting review:", err);
+    return NextResponse.json({ error: "Failed to delete review" }, { status: 500 });
+  }
+}
 
