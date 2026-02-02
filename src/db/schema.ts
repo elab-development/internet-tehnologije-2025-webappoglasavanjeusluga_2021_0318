@@ -19,6 +19,7 @@ export const roleEnum = pgEnum("role", [
   "COMPANY",
 ]);
 
+
 /* =======================
    USERS
 ======================= */
