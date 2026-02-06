@@ -10,6 +10,13 @@ export default function ProfilesPageContent() {
       const users = mockUsers;
       const [search, setSearch] = useState("");
 
+       useEffect(() => {
+                 const profiles = mockProfiles;
+                  const shuffledProfiles = profiles.sort(() => Math.random() - 0.5);
+                  // eslint-disable-next-line react-hooks/set-state-in-effect
+                  setProfiles(shuffledProfiles);
+                  }, []);
+
       useEffect(() => {
                  const profiles = mockProfiles;
                   const shuffledProfiles = profiles.sort(() => Math.random() - 0.5);
