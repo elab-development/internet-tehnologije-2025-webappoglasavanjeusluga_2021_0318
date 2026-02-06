@@ -1,18 +1,22 @@
 import { SignJWT } from "jose";
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET || "super_tajna_sifra");
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-async function createToken(role) {
-  return await new SignJWT({ role })
+async function createToken(id, role, extra = {}) {
+  return await new SignJWT({ id, role, ...extra })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("1h")
     .sign(secret);
 }
 
 const run = async () => {
-  console.log("USER token:", await createToken("USER"));
-  console.log("FREELANCER token:", await createToken("FREELANCER"));
-  console.log("COMPANY token:", await createToken("COMPANY"));
+  console.log("USER token:", await createToken(1, "USER"));
+  console.log("FREELANCER token:", await createToken(2, "FREELANCER"));
+  console.log("COMPANY token:", await createToken(3, "COMPANY"));
+  console.log(
+    "RESET token:",
+    await createToken(2, "FREELANCER", { action: "reset" })
+  );
 };
 
 run();

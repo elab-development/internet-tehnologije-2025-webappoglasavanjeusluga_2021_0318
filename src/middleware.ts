@@ -4,38 +4,66 @@ import { jwtVerify } from "jose";
 
 const roleAccess: Record<string, Record<string, string[]>> = {
   USER: {
-    GET: ["/api/categories", "/api/services", "/api/reviews", "/api/appointments"],
+    GET: [
+      "/api/categories",
+      "/api/services",
+      "/api/reviews",
+      "/api/appointments",
+      "/api/profiles",
+      "/api/employees",
+      "/api/availabilities"
+    ],
     POST: ["/api/appointments", "/api/reviews"],
     PUT: [],
     DELETE: [],
   },
   FREELANCER: {
-    GET: ["/api/categories", "/api/services", "/api/reviews", "/api/appointments", "/api/profiles", "/api/availabilities"],
+    GET: [
+      "/api/categories",
+      "/api/services",
+      "/api/reviews",
+      "/api/appointments",
+      "/api/profiles",
+      "/api/availabilities",
+      "/api/employees"
+    ],
     POST: ["/api/services", "/api/availabilities"],
     PUT: ["/api/services", "/api/availabilities"],
     DELETE: ["/api/services", "/api/availabilities"],
   },
   COMPANY: {
-    GET: ["/api/categories", "/api/services", "/api/employees", "/api/profiles"],
+    GET: [
+      "/api/categories",
+      "/api/services",
+      "/api/employees",
+      "/api/profiles",
+      "/api/reviews",
+      "/api/appointments",
+      "/api/availabilities"
+    ],
     POST: ["/api/employees", "/api/profiles"],
     PUT: ["/api/employees", "/api/profiles"],
     DELETE: ["/api/employees", "/api/profiles"],
   },
 };
 
+// Rute koje su javne (bez tokena)
 const publicRoutes = ["/api/categories", "/api/services"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Auth rute su uvek dostupne
   if (pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
 
+  // Public rute su dostupne svima
   if (publicRoutes.some(route => pathname === route || pathname.startsWith(route + "/"))) {
     return NextResponse.next();
   }
 
+  // Provera tokena
   const authHeader = req.headers.get("authorization");
   if (!authHeader) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -60,7 +88,8 @@ export async function middleware(req: NextRequest) {
     }
 
     return NextResponse.next();
-  } catch {
+  } catch (err) {
+    console.error("JWT verification failed:", err);
     return NextResponse.json({ error: "Invalid token" }, { status: 403 });
   }
 }

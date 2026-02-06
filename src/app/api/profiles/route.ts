@@ -1,50 +1,56 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { profiles } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { profiles, services, reviews } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 
-// GET /api/profiles → lista svih profila
-export async function GET() {
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const data = await db.select().from(profiles);
-    return NextResponse.json(data);
-  } catch (err) {
-    console.error("Error fetching profiles:", err);
-    return NextResponse.json({ error: "Failed to fetch profiles" }, { status: 500 });
-  }
-}
+    const profileId = Number(params.id);
 
-// PATCH /api/profiles → izmena profila
-export async function PATCH(req: Request) {
-  try {
-    const body = await req.json();
-    const { id, city, address, description, image, averageRating, companyName, firstName, lastName } = body;
+    // 1. Učitaj profil
+    const profile = await db
+      .select()
+      .from(profiles)
+      .where(eq(profiles.id, profileId));
 
-    if (!id) {
-      return NextResponse.json({ error: "Missing profile id" }, { status: 400 });
-    }
-
-    const updatedProfile = await db.update(profiles)
-      .set({
-        city,
-        address,
-        description,
-        image,
-        averageRating,
-        companyName,
-        firstName,
-        lastName,
-      })
-      .where(eq(profiles.id, id))
-      .returning();
-
-    if (!updatedProfile[0]) {
+    if (!profile[0]) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    return NextResponse.json(updatedProfile[0], { status: 200 });
+    // 2. Broj usluga
+    const servicesCount = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(services)
+      .where(eq(services.profileId, profileId));
+
+    // 3. Prosečna ocena
+    const avgRating = await db
+      .select({ avg: sql<number>`coalesce(avg(rating),0)` })
+      .from(reviews)
+      .where(
+        sql`reviews.service_id IN (SELECT id FROM services WHERE profile_id = ${profileId})`
+      );
+
+    // 4. Verified logika
+    const verified =
+      Number(avgRating[0]?.avg ?? 0) > 4.5 &&
+      Number(servicesCount[0]?.count ?? 0) > 7;
+
+    // 5. Vrati JSON
+    return NextResponse.json({
+      ...profile[0],
+      servicesCount: Number(servicesCount[0]?.count ?? 0),
+      averageRating: Number(avgRating[0]?.avg ?? 0),
+      verified,
+    });
   } catch (err) {
-    console.error("Error updating profile:", err);
-    return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    console.error("Error fetching profile details:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch profile details" },
+      { status: 500 }
+    );
   }
 }

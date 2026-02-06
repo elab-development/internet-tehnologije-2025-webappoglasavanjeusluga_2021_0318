@@ -1,11 +1,42 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { services } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, ilike, and, or } from "drizzle-orm";
 
-export async function GET() {
+/* ============================
+   GET - Pregled, filtriranje, pretraga
+============================ */
+export async function GET(req: Request) {
   try {
-    const data = await db.select().from(services);
+    const { searchParams } = new URL(req.url);
+
+    const categoryId = searchParams.get("categoryId");
+    const keyword = searchParams.get("search");
+
+    let condition;
+
+    if (categoryId && keyword) {
+      // filtriranje po kategoriji + pretraga po title ili description
+      condition = and(
+        eq(services.categoryId, Number(categoryId)),
+        or(
+          ilike(services.title, `%${keyword}%`),
+          ilike(services.description, `%${keyword}%`)
+        )
+      );
+    } else if (categoryId) {
+      condition = eq(services.categoryId, Number(categoryId));
+    } else if (keyword) {
+      condition = or(
+        ilike(services.title, `%${keyword}%`),
+        ilike(services.description, `%${keyword}%`)
+      );
+    }
+
+    const data = condition
+      ? await db.select().from(services).where(condition)
+      : await db.select().from(services);
+
     return NextResponse.json(data);
   } catch (err) {
     console.error("Error fetching services:", err);
@@ -16,6 +47,9 @@ export async function GET() {
   }
 }
 
+/* ============================
+   POST - Kreiranje usluge
+============================ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -35,7 +69,7 @@ export async function POST(req: Request) {
       categoryId,
       userId,
       profileId,
-      createdAt: new Date(), // ako imaš kolonu createdAt
+      createdAt: new Date(),
     }).returning();
 
     return NextResponse.json(newService[0], { status: 201 });
@@ -47,6 +81,10 @@ export async function POST(req: Request) {
     );
   }
 }
+
+/* ============================
+   PUT - Izmena usluge
+============================ */
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
@@ -79,6 +117,9 @@ export async function PUT(req: Request) {
   }
 }
 
+/* ============================
+   DELETE - Brisanje usluge
+============================ */
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();
@@ -105,4 +146,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-
