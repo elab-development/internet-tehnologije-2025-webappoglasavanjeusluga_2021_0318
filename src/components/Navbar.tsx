@@ -40,7 +40,7 @@ export default function Navbar() {
                           router.push('#usluge');
                           }}>Usluge</Link>
                 <a href="/profiles" className="hover:text-gray-300">Profili</a>
-                <a href="" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
+                <a href="/about" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
             </div>
             
             <div className="flex gap-3 ml-4 items-center text-center">
@@ -70,7 +70,7 @@ export default function Navbar() {
                           router.push('/');
                           }}>Usluge</Link>
                 <a href="/profiles" className="hover:text-gray-300">Profili</a>
-            <a href="" className=" text-white hover:text-gray-300">O nama</a>
+            <a href="/about" className=" text-white hover:text-gray-300">O nama</a>
             
         </div> 
       </nav>  
