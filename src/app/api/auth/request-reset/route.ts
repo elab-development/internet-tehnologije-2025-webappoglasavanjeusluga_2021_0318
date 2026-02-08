@@ -9,20 +9,12 @@ export async function POST(req: Request) {
     const { email } = await req.json();
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Email is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    // 1. Proveri da li korisnik postoji
-    const foundUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, email));
+    const foundUser = await db.select().from(users).where(eq(users.email, email));
 
     if (foundUser.length === 0) {
-      // namerno ne otkrivamo da li email postoji (bezbednost)
       return NextResponse.json(
         { message: "If the email exists, reset instructions were sent." },
         { status: 200 }
@@ -30,8 +22,6 @@ export async function POST(req: Request) {
     }
 
     const user = foundUser[0];
-
-    // 2. Generiši RESET token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
     const resetToken = await new SignJWT({
@@ -43,19 +33,15 @@ export async function POST(req: Request) {
       .setExpirationTime("15m")
       .sign(secret);
 
-    // 3. Simulacija slanja email-a
     return NextResponse.json(
       {
         message: "Reset token generated (email simulation)",
-        resetToken, // 👈 ovo koristiš dalje
+        resetToken,
       },
       { status: 200 }
     );
   } catch (err) {
     console.error("Request reset failed:", err);
-    return NextResponse.json(
-      { error: "Failed to request password reset" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to request password reset" }, { status: 500 });
   }
 }

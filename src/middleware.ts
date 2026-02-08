@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
+const AUTH_COOKIE = "auth";
+
 const roleAccess: Record<string, Record<string, string[]>> = {
   USER: {
     GET: [
@@ -11,7 +13,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/appointments",
       "/api/profiles",
       "/api/employees",
-      "/api/availabilities"
+      "/api/availabilities",
     ],
     POST: ["/api/appointments", "/api/reviews"],
     PUT: [],
@@ -25,7 +27,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/appointments",
       "/api/profiles",
       "/api/availabilities",
-      "/api/employees"
+      "/api/employees",
     ],
     POST: ["/api/services", "/api/availabilities"],
     PUT: ["/api/services", "/api/availabilities"],
@@ -39,7 +41,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/profiles",
       "/api/reviews",
       "/api/appointments",
-      "/api/availabilities"
+      "/api/availabilities",
     ],
     POST: ["/api/employees", "/api/profiles"],
     PUT: ["/api/employees", "/api/profiles"],
@@ -48,7 +50,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
 };
 
 // Rute koje su javne (bez tokena)
-const publicRoutes = ["/api/categories", "/api/services"];
+const publicRoutes = ["/api/categories", "/api/services", "/api/profiles", "/api/reviews"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -58,18 +60,16 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Public rute su dostupne svima
-  if (publicRoutes.some(route => pathname === route || pathname.startsWith(route + "/"))) {
+  // Public GET rute su dostupne svima
+  if (req.method === "GET" && publicRoutes.some(route => pathname.startsWith(route))) {
     return NextResponse.next();
   }
 
-  // Provera tokena
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) {
+  // Provera tokena iz cookie-a
+  const token = req.cookies.get(AUTH_COOKIE)?.value;
+  if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const token = authHeader.split(" ")[1];
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
