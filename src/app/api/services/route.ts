@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { services } from "@/db/schema";
+import { services, categories, profiles } from "@/db/schema"; // ✅ dodate tabele
 import { eq, ilike, and, or } from "drizzle-orm";
 
 /* ============================
@@ -33,9 +33,33 @@ export async function GET(req: Request) {
       );
     }
 
+    // ✅ query sada radi JOIN sa kategorijama i profilima
+    const query = db
+      .select({
+        id: services.id,
+        title: services.title,
+        description: services.description,
+        price: services.price,
+        createdAt: services.createdAt, // ✅ dodato
+
+        category: { // ✅ dodato
+          id: categories.id,
+          name: categories.name,
+        },
+
+        profile: { // ✅ dodato
+          id: profiles.id,
+          city: profiles.city,
+        },
+      })
+      .from(services)
+      .leftJoin(categories, eq(services.categoryId, categories.id)) // ✅
+      .leftJoin(profiles, eq(services.profileId, profiles.id)); // ✅
+
+      // ✅ OVDE koristimo query
     const data = condition
-      ? await db.select().from(services).where(condition)
-      : await db.select().from(services);
+      ? await query.where(condition)
+      : await query;
 
     return NextResponse.json(data);
   } catch (err) {

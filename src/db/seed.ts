@@ -15,17 +15,41 @@ async function seed() {
   // prvo obriši stare podatke da ne pravi duplikate
    // obriši stare profile (poželjno pre brisanja users zbog FK)
 // prvo obriši zavisne tabele da ne pravi duplikate
-await db.delete(employees);
-await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
+// await db.delete(employees);
+// await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
+
+// await db.delete(availabilities);
+// await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
+
+// await db.delete(reviews);
+// await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
+
+// await db.delete(appointments);
+// await db.execute(sql`ALTER SEQUENCE appointments_id_seq RESTART WITH 1`);
+
+// await db.delete(services);
+// await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`);
+
+// await db.delete(profiles);
+// await db.execute(sql`ALTER SEQUENCE profiles_id_seq RESTART WITH 1`);
+
+// await db.delete(users);
+// await db.execute(sql`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
+
+// await db.delete(categories);
+// await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
 await db.delete(availabilities);
 await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
 
-await db.delete(reviews);
-await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
+await db.delete(employees);
+await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
 
 await db.delete(appointments);
 await db.execute(sql`ALTER SEQUENCE appointments_id_seq RESTART WITH 1`);
+
+await db.delete(reviews);
+await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
 
 await db.delete(services);
 await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`);
@@ -391,7 +415,7 @@ const profileMap = Object.fromEntries(
 const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Servis klime",
-    description: "Redovni godišnji servis klima uređaja...",
+    description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
     price: 7000,
     createdAt: new Date("2025-12-01"),
     categoryId: 2,   // Zanatske i instalaterske usluge
@@ -400,7 +424,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Čišćenje i popravka komponenti računara",
-    description: "Profesionalno čišćenje i popravku kompjuterskih delova...",
+    description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
     price: 5000,
     createdAt: new Date("2026-01-11"),
     categoryId: 1,   // IT i digitalne usluge
@@ -409,7 +433,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Žensko šišanje - sve dužine kose",
-    description: "Lepa i zdrava kosa najlepši je „nakit“ na ženi...",
+    description: "Lepa i zdrava kosa najlepši je nakit na ženi, ali za to je potreban trud kao i znanje i iz tog razloga veoma je važno kome ćete poveriti brigu o Vašoj kosi. Mesto gde je zdravlje kose, kao i stručnost, na prvom mestu sada je na samo jedan klik od Vas",
     price: 1700,
     createdAt: new Date("2025-12-20"),
     categoryId: 4,   // Zdravlje i lepota
@@ -418,7 +442,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Manikir + lakiranje noktiju",
-    description: "Profesionalni manikir za negovane ruke...",
+    description: "Profesionalni manikir za negovane ruke, zdrave nokte i uredan, dugotrajan izgled.",
     price: 2000,
     createdAt: new Date("2025-12-01"),
     categoryId: 4,
@@ -427,7 +451,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Optimizacija Operativnog Sistema | Rešavanje Problema sa Hlađenjem",
-    description: "Vaš računar je usporen, pregreva se ili bučno radi...",
+    description: "Vaš računar je usporen, pregreva se ili bučno radi? Nudimo profesionalne usluge optimizacije sistema i poboljšanja hlađenja za stabilan i efikasan rad.",
     price: 8000,
     createdAt: new Date("2026-01-11"),
     categoryId: 1,
@@ -436,7 +460,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Kurs REVIT-a za arhitekte",
-    description: "Predavač je Autodesk Certifikovani Instruktor...",
+    description: "Predavač je Autodesk Certifikovani Instruktor PLATINUM, iskustvo preko 30 godina rada. Časovi mogu biti onlajn ili uživo, na srpskom ili engeskom jeziku. Po završenoj obuci se dobija zvanična Autodeskova diploma ATC. Časovi se održavaju najčešće po 3 termina nedeljno sa 2 ili 3 školska časa 45 min. po terminu. Kurs obuhvata 12 termina.",
     price: 52000,
     createdAt: new Date("2026-01-08"),
     categoryId: 3,   // Obrazovanje i obuke
@@ -445,7 +469,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Pansion za pse - jednonedeljni boravak",
-    description: "Dobrodošli u Pansion za pse...",
+    description: "Dobrodošli u Pansion za pse, smešten u domaćinstvu okruženim prirodom, gde će vaš ljubimac uživati dok ste vi odsutni. Za Vašeg ljubimca obezbeđujemo: čuvanje, šetnju, vežbe, obrok, veterinarsku negu. Vaš pas zaslužuje najbolju brigu. Rezervišite mesto u našem pansionu za pse već danas!",
     price: 8000,
     createdAt: new Date("2025-12-10"),
     categoryId: 5,   // Kućni ljubimci
@@ -454,7 +478,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Generalno čišćenje stanova",
-    description: "Detaljno čišćenje stanova i kuća...",
+    description: "Detaljno čišćenje stanova i kuća, uključujući kuhinju, kupatilo, podove i staklene površine. Idealno nakon renoviranja ili pred useljenje.",
     price: 6000,
     createdAt: new Date("2025-08-20"),
     categoryId: 6,   // Usluga pranja i čišćenja
@@ -463,7 +487,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Mali servis vozila",
-    description: "Zamena ulja i filtera uz osnovnu dijagnostiku...",
+    description: "Zamena ulja i filtera uz osnovnu dijagnostiku vozila. Brza i pouzdana usluga održavanja putničkih automobila.",
     price: 5500,
     createdAt: new Date("2026-01-11"),
     categoryId: 7,   // Auto usluge
@@ -472,7 +496,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Relaks masaža celog tela",
-    description: "Profesionalna relaks masaža koja pomaže u smanjenju stresa...",
+    description: "Profesionalna relaks masaža koja pomaže u smanjenju stresa, opuštanju mišića i poboljšanju cirkulacije. Tretman se prilagođava individualnim potrebama klijenta.",
     price: 4500,
     createdAt: new Date("2025-12-12"),
     categoryId: 4,
@@ -481,7 +505,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Pravno savetovanje",
-    description: "Stručno pravno savetovanje za fizička i pravna lica...",
+    description:  "Stručno pravno savetovanje za fizička i pravna lica. Pomoć u izradi ugovora, tumačenju zakona i rešavanju imovinsko-pravnih odnosa.",
     price: 7000,
     createdAt: new Date("2025-06-20"),
     categoryId: 8,   // Finansijske i pravne usluge
@@ -490,7 +514,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Kombi prevoz stvari",
-    description: "Pouzdana usluga kombi prevoza za selidbe i transport robe...",
+    description: "Pouzdana usluga kombi prevoza za selidbe i transport robe na teritoriji grada i okoline. Brza organizacija i siguran prevoz.",
     price: 9000,
     createdAt: new Date("2025-06-18"),
     categoryId: 9,   // Transportne usluge
@@ -499,7 +523,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Krečenje stanova",
-    description: "Profesionalno krečenje stanova i kuća...",
+    description: "Profesionalno krečenje stanova i kuća, uključujući pripremu zidova i završnu obradu. Kvalitetan i uredan rad po dogovoru.",
     price: 12000,
     createdAt: new Date("2025-06-25"),
     categoryId: 11,  // Dom i građevinski radovi
@@ -508,7 +532,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Ketering za proslave",
-    description: "Organizacija keteringa za rođendane, svadbe i poslovne događaje...",
+    description: "Organizacija keteringa za rođendane, svadbe i poslovne događaje. Bogat meni, profesionalna usluga i prilagođavanje potrebama klijenata.",
     price: 25000,
     createdAt: new Date("2025-06-15"),
     categoryId: 14,  // Događaji i Ketering
@@ -517,7 +541,7 @@ const servicesData: typeof services.$inferInsert[] = [
   },
   {
     title: "Muško šišanje",
-    description: "Profesionalno šišanje prilagođeno vašem stilu i tipu kose...",
+    description: "Profesionalno šišanje prilagođeno vašem stilu i tipu kose. Usluga uključuje šišanje makazama i/ili mašinicom, precizne prelaze, sređivanje kontura i završno stilizovanje za uredan i moderan izgled.",
     price: 1700,
     createdAt: new Date("2025-12-20"),
     categoryId: 4,

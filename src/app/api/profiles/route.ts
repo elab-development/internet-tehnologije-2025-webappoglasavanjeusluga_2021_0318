@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { profiles, services, reviews } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 
+//dodati funkciju POST    !!!!!!!!!!!!!!!!!!!!!!! 
+
 export async function GET(
   req: Request,
   { params }: { params: { id: string } }

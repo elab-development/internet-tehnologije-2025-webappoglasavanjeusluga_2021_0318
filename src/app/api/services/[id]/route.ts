@@ -3,12 +3,21 @@ import { db } from "@/db";
 import { services, reviews, appointments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+// ✅ Uklonjen `{ params }` iz argumenta GET funkcije
+// export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request) {  // ✅ samo jedan argument, req
+
   try {
-    const serviceId = Number(params.id);
+    const url = new URL(req.url); // ✅ novo, uzimamo URL da dohvatimo id
+    const segments = url.pathname.split("/").filter(Boolean); // ✅ parsira path na segmente
+    const serviceId = Number(segments[segments.length - 1]); // ✅ poslednji segment je id
+
+    // ✅ dodata provera NaN
+    if (isNaN(serviceId)) {
+      return NextResponse.json({ error: "Invalid service ID" }, { status: 400 });
+    }
+
+    //✅✅✅✅✅✅✅✅✅✅✅✅✅izmenjen kod iznad✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
 
     // osnovni podaci o usluzi
     const service = await db
