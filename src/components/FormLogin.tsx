@@ -48,17 +48,24 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
         return;
       }
 
-      const data: LoginResponse = await res.json();
-      const role = data.user.role;
+      const data = await res.json(); 
+      const role = data.user.role; 
+
+      localStorage.clear();//✅
+      localStorage.setItem("userId", data.user.id.toString());//✅
+      localStorage.setItem("role", data.user.role);//✅
+      localStorage.setItem("email", data.user.email);//✅
+      localStorage.setItem("token", data.token); //✅
+      
 
       setIsLoginOpen(false); // zatvori modal
-      router.refresh();
+      //router.refresh();
 
       // preusmeravanje na osnovu tipa korisnika
       if (role === "FREELANCER" || role === "COMPANY") {
         router.push("/dashboard");
       } else {
-        router.push("/"); // običan korisnik ide na home
+       window.location.reload(); //reload svih komponenti
       }
     } catch (error) {
       setErr("Greška pri logovanju");

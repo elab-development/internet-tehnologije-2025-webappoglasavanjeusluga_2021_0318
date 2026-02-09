@@ -1,12 +1,28 @@
-import Image from 'next/image'
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import FormLogout from "./FormLogout";
 
 export default function UserCard() {
+
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    setEmail(localStorage.getItem("email"));
+  }, []);
+
   return (
-    <div>
-        <a href="" className="flex flex-col items-center rounded-4xl hover:text-gray-600">
-            <Image src="/images/image3.png" alt="Korisnik" width={50} height={50}></Image>
-            <p className="text-xs text-white ">Ime i prezime</p>
-        </a>
+    <div className="relative"> 
+      <button
+        onClick={() => setIsLogoutOpen((prev) => !prev)} 
+        className="flex flex-col items-center rounded-4xl hover:text-gray-600 cursor-pointer"
+      >
+        <Image src="/images/image3.png" alt="Korisnik" width={50} height={50} />
+        <p className="text-xs text-white">{email}</p>
+      </button>
+
+      {isLogoutOpen && <FormLogout setIsLogoutOpen={setIsLogoutOpen} />}
     </div>
-  )
+  );
 }
+

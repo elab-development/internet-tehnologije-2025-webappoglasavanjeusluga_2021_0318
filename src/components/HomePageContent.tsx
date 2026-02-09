@@ -96,7 +96,6 @@ export default function HomePageContent({ categories }: Props) {
                         
                         {/* Sidebar */}
                         <div className="flex flex-col items-center pb-10 p-2">
-                            {/* <div className="h-25"></div> */}
                             <h1 className="mb-5 text-xl pt-25 mt-5 font-semibold text-gray-800">KATEGORIJE</h1>
                             <Sidebar categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} setSearch={setSearch}/>
                         </div>
@@ -104,7 +103,6 @@ export default function HomePageContent({ categories }: Props) {
 
                         {/* Kartice usluga */}
                         <section  className="flex-1 flex flex-col items-center pb-10">
-                            {/* <div id="usluge" className="h-25"></div> */}
                             <h1 id="trazi" className="mb-5 pt-25 mt-5 text-2xl font-semibold text-gray-800">USLUGE</h1>
                             {services.length === 0 ? (
                                 <p className="text-center text-gray-500"> Nema usluga </p>) :

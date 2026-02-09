@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import UserCard from "./UserCard";
 import Link from "next/link";
 
-export default function Navbar() {
+export default function NavbarDashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -26,63 +26,57 @@ export default function Navbar() {
           className="mr-3 cursor-pointer"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
-            router.push('/');
+            router.push('/dashboard');
           }}/>
   
 
           {/* Meni (desktop) */}
            <div className="hidden md:flex gap-5 items-center">
             <div className="flex gap-10 items-center text-xl text-white">
-                <Link href="/" className="hover:text-gray-300" 
+                <Link href="/dashboard" className="hover:text-gray-300" 
                           onClick={() => {
                           window.scrollTo({ top: 0, behavior: "smooth" });
-                          //router.push('/');
-                          }}>Usluge</Link>
-                <a href="/profiles" className="hover:text-gray-300">Profili</a>
-                <a href="/about" className="hover:text-gray-300 whitespace-nowrap pr-2">O nama</a>
+                          //router.push('/dashboard');
+                          }}>Profil</Link>
+                <a href="/reservations" className="hover:text-gray-300">Rezervacije</a>
             </div>
             
             <div className="flex gap-3 ml-4 items-center text-center">
-                <a href="/register" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
-                <BtnLogin></BtnLogin>
+                <a href="/service/new" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
                 <UserCard></UserCard>
             </div>
     
           </div>
 
           {/* Hamburger dugme (mobilni) */}
-          <button
-            className="md:hidden text-3xl text-white"
+          <div className="md:hidden  flex gap-3 ml-4 items-center text-center">
+            <a href="/service/new" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
+            <button
+            className="text-3xl text-white"
             onClick={() => setIsOpen(!isOpen)}
           >
               ☰
           </button>
+          </div>
+          
         </div>
 
         {/* Meni (mobilni) */}
         <div
           className={`md:hidden flex flex-col w-full px-4 py-2 space-y-2 transition-all duration-300 bg-gray-800 text-white ${
             isOpen ? "block" : "hidden"}`}>
-             <Link href="/" className="hover:text-gray-300" 
+             <Link href="/dashboard" className="hover:text-gray-300" 
                           onClick={() => {
                           window.scrollTo({ top: 0, behavior: "smooth" });
-                          //router.push('/');
-                          }}>Usluge</Link>
-                <a href="/profiles" className="hover:text-gray-300">Profili</a>
-            <a href="/about" className=" text-white hover:text-gray-300">O nama</a>
-            
+                          //router.push('/dashboard');
+                          }}>Profil</Link>
+                <a href="/reservations" className="hover:text-gray-300">Rezervacije</a>    
         </div> 
       </nav>  
     
         {/* Dugme za registraciju, logovanje i UserCard (mobilni) */}
           
           <div className="fixed md:hidden">
-              <div className="fixed flex gap-2 bottom-0 ">
-                <a href="/register" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">Registracija</a>
-            
-                <BtnLogin></BtnLogin>
-              </div>
-
               <div className="fixed p-1 max-h-25  rounded-md bottom-0 right-0 bg-cyan-700 ">
                 <UserCard></UserCard>
               </div>

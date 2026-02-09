@@ -75,6 +75,10 @@ export default function RegisterPage() {
       localStorage.setItem("userId", userData.id); //Treba uraditi preko JWT tokena na backend-u
       localStorage.setItem("role", userData.role);
 
+      //✅
+      localStorage.setItem("email", userData.email);
+
+
 
       // REDIRECT PREMA ROLE
       if (userData.role === "FREELANCER" || userData.role === "COMPANY") {

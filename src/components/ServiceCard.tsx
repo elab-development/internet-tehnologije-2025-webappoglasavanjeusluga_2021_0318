@@ -21,9 +21,9 @@ export default function ServiceCard({ service }: Props){
 
             <div className="flex flex-col gap-3 p-4">
                 <h3 className="font-semibold text-xl truncate">{service.title}</h3>
-                <p className="text-base text-gray-500">{service.profile?.city}</p>
+                <p className="text-base text-gray-500">{service.profile.city}</p>
                 <p className="font-lg line-clamp-2">{service.description}</p>
-                <p className="text-base text-gray-500">{service.category?.name}</p>
+                <p className="text-base text-gray-500">{service.category.name}</p>
                 <p className="text-xl font-bold border border-gray-400 p-1">{service.price} rsd</p>
             </div>
             <Link href={`/services/${service.id}`} className="absolute inset-0" />
