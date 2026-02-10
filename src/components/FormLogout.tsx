@@ -21,8 +21,9 @@ export default function FormLogout() {
 
       localStorage.clear();
    
+      router.refresh();
       router.push("/");
-      window.location.reload();
+      //window.location.reload();
 
     } catch (error) {
       console.error("Logout error:", error);

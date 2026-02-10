@@ -118,7 +118,6 @@ export default function CalendarForBooking({mode, serviceId}: {mode:Mode, servic
       return;
     }
 
-    // success
     setSelectedDate(undefined);
     setTimes([]);
     setTime("Po dogovoru");

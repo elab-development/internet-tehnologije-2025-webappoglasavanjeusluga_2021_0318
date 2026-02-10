@@ -42,7 +42,7 @@ export default function NavbarDashboard() {
             </div>
             
             <div className="flex gap-3 ml-4 items-center text-center">
-                <a href="/service/new" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
+                <a href="/service-create" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
                 <UserCard></UserCard>
             </div>
     
@@ -50,7 +50,7 @@ export default function NavbarDashboard() {
 
           {/* Hamburger dugme (mobilni) */}
           <div className="md:hidden  flex gap-3 ml-4 items-center text-center">
-            <a href="/service/new" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
+            <a href="/service-create" className="px-4 py-2 rounded-md text-white bg-gray-600 hover:bg-red-400 ">+ Dodaj oglas</a>
             <button
             className="text-3xl text-white"
             onClick={() => setIsOpen(!isOpen)}

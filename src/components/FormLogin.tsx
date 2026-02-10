@@ -44,7 +44,7 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
 
       if (!res.ok) {
         const data = await res.json();
-        setErr(data.message || "Greška pri logovanju");
+        setErr(data.error || "Greška pri logovanju");
         return;
       }
 

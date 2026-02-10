@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { error: "Missing credentials" },
+        { error: "Niste popunili sva polja" },
         { status: 400 }
       );
     }
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     if (foundUser.length === 0) {
       return NextResponse.json(
-        { error: "Invalid email or password" },
+        { error: "Neispravan email ili lozinka" },
         { status: 401 }
       );
     }
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
       return NextResponse.json(
-        { error: "Invalid email or password" },
+        { error: "Neispravan email ili lozinka" },
         { status: 401 }
       );
     }
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Login error:", error);
-    return NextResponse.json({ error: "Login failed" }, { status: 500 });
+    console.error("Neuspešno logovanje:", error);
+    return NextResponse.json({ error: "Neuspešno logovanje" }, { status: 500 });
   }
 }

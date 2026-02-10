@@ -20,13 +20,14 @@ export default function HomePageContent({ categories }: Props) {
     async function loadServices() {
         const res = await fetch("/api/services");
         const data = await res.json();
+        const sorted = [...data].sort((a, b) =>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-        setAllServices(data);
-        setServices(data);
-    }
+        setAllServices(sorted);
+        setServices(sorted);
+        }
 
-    loadServices();
-    }, []);
+        loadServices();
+        }, []);
 
     useEffect(() => {
     let data = allServices;

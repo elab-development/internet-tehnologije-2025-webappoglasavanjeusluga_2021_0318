@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { email, password, role, firstName, lastName, phone } = await req.json();
 
     if (!email || !password || !role || !firstName || !lastName) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json({ error: "Niste popunili sva polja" }, { status: 400 });
     }
 
     // Heširanje lozinke
@@ -30,6 +30,6 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
+    return NextResponse.json({ error: "Neuspešna registracija" }, { status: 500 });
   }
 }

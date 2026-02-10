@@ -66,7 +66,8 @@ export default function RegisterPage() {
       });
 
       if (!res.ok) {
-        setErr("Došlo je do greške pri registraciji");
+         const data = await res.json();
+        setErr(data.error || "Došlo je do greške pri registraciji");
         return;
       }
 
