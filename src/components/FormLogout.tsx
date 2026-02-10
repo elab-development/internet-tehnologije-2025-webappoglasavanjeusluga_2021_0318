@@ -3,11 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface PropsFormLogout {
-  setIsLogoutOpen: (value: boolean) => void;
-}
 
-export default function FormLogout({ setIsLogoutOpen }: PropsFormLogout) {
+export default function FormLogout() {
   const [loading, setLoading] = useState(false);
   const router = useRouter(); 
 
@@ -21,10 +18,8 @@ export default function FormLogout({ setIsLogoutOpen }: PropsFormLogout) {
         "Content-Type": "application/json", 
       },
     });
-      localStorage.removeItem("userId");
-      localStorage.removeItem("role");
-      localStorage.removeItem("email");
-      localStorage.removeItem("token");
+
+      localStorage.clear();
    
       router.push("/");
       window.location.reload();
@@ -33,7 +28,6 @@ export default function FormLogout({ setIsLogoutOpen }: PropsFormLogout) {
       console.error("Logout error:", error);
     } finally {
       setLoading(false);
-      setIsLogoutOpen(false); 
     }
   };
 

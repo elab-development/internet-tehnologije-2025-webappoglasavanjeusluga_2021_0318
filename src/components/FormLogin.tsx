@@ -51,15 +51,14 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
       const data = await res.json(); 
       const role = data.user.role; 
 
-      localStorage.clear();//✅
-      localStorage.setItem("userId", data.user.id.toString());//✅
-      localStorage.setItem("role", data.user.role);//✅
-      localStorage.setItem("email", data.user.email);//✅
-      localStorage.setItem("token", data.token); //✅
+      localStorage.clear();
+      localStorage.setItem("userId", data.user.id.toString());
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("email", data.user.email);
+      localStorage.setItem("token", data.token);
       
 
       setIsLoginOpen(false); // zatvori modal
-      //router.refresh();
 
       // preusmeravanje na osnovu tipa korisnika
       if (role === "FREELANCER" || role === "COMPANY") {

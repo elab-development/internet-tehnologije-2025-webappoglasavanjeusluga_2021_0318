@@ -14,14 +14,14 @@ export default function UserCard() {
   return (
     <div className="relative"> 
       <button
-        onClick={() => setIsLogoutOpen((prev) => !prev)} 
+        onClick={() => setIsLogoutOpen((prev) => !prev)} //prev - je trenutna (prethodna) vrednost state-a
         className="flex flex-col items-center rounded-4xl hover:text-gray-600 cursor-pointer"
       >
         <Image src="/images/image3.png" alt="Korisnik" width={50} height={50} />
         <p className="text-xs text-white">{email}</p>
       </button>
 
-      {isLogoutOpen && <FormLogout setIsLogoutOpen={setIsLogoutOpen} />}
+      {isLogoutOpen && <FormLogout/>}
     </div>
   );
 }
