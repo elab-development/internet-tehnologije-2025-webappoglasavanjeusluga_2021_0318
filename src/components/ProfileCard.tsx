@@ -87,7 +87,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     {/*************************************************************************/}
 
                     <p className="text-sm md:text-base"><i className=" text-gray-500">Telefon:</i>
-                        {" "+profile.phone}
+                        {" "+profile.user.phone}
                     </p>
 
                     
@@ -97,7 +97,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     (<div>
                         <p className="text-sm md:text-base pt-2 "><i className=" text-gray-500">Pružalac od:</i>
                         
-                        {" "+profile.user?.createdAt}
+                        {" "+new Date (profile.user?.createdAt).toLocaleDateString("sr-RS")}
                         </p>
                     </div>):
                     (<p></p>)

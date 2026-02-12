@@ -223,7 +223,26 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         lastName: "Petrović", 
         phone: "0661122334",
          role: "FREELANCER" 
-        }, ]);
+        }, 
+       { 
+        email: "sara.petrovic@gmail.com", 
+        //password: "petar123", 
+        password: hashed,
+        firstName: "Sara", 
+        lastName: "Petrovic", 
+        phone: "063215391", 
+        role: "USER" }, 
+        
+         { 
+        email: "olja.lukic@gmail.com", 
+        //password: "petar123", 
+        password: hashed,
+        firstName: "Olja", 
+        lastName: "Lukic", 
+        phone: "063124685", 
+        role: "USER" }, 
+      
+      ]);
    
 
   // pripremi podatke sa eksplicitnim tipom (numeric -> string)
@@ -553,7 +572,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Odlična usluga, sve preporuke!",
     createdAt: new Date("2025-12-15"),
-    userId: 12, // Ana (USER)
+    userId: 2, // Ana (USER)
     serviceId: 1, // Servis klime
     profileId:5
   },
@@ -561,7 +580,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 4,
     comment: "Brzo i kvalitetno, ali malo skuplje.",
     createdAt: new Date("2025-12-20"),
-    userId: 4, // Milan (USER)
+    userId: 3, // Milan (USER)
     serviceId: 2, // Čišćenje i popravka komponenti računara
     profileId: 2
   },
@@ -569,7 +588,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Najbolji salon u gradu!",
     createdAt: new Date("2025-12-22"),
-    userId: 5,
+    userId: 2,
     serviceId: 3, // Žensko šišanje
     profileId:8
   },
@@ -577,7 +596,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Manikir je bio savršen!",
     createdAt: new Date("2025-12-23"),
-    userId: 5,
+    userId: 19,
     serviceId: 4, // Manikir
     profileId:8
   },
@@ -586,14 +605,14 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     comment: "Kurs je odličan, predavač stručan.",
     createdAt: new Date("2026-01-10"),
     userId: 1,
-    serviceId: 6, // Kurs REVIT-a
+    serviceId: 3, // Kurs REVIT-a
     profileId:1
   },
   {
     rating: 5,
     comment: "Pansion za pse je fantastičan, moj pas je bio srećan!",
     createdAt: new Date("2025-12-12"),
-    userId: 14,
+    userId: 3,
     serviceId: 7, // Pansion za pse
     profileId:14
   },
@@ -601,7 +620,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Stan je blistao posle čišćenja!",
     createdAt: new Date("2025-08-22"),
-    userId: 10,
+    userId: 2,
     serviceId: 8, // Generalno čišćenje
     profileId:3
   },
@@ -609,7 +628,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 4,
     comment: "Servis vozila urađen korektno.",
     createdAt: new Date("2026-01-12"),
-    userId: 11,
+    userId: 3,
     serviceId: 9, // Mali servis vozila
     profileId:4
   },
@@ -617,7 +636,7 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Masaža je bila fantastična!",
     createdAt: new Date("2025-12-13"),
-    userId: 5,
+    userId: 18,
     serviceId: 10, // Relaks masaža
     profileId: 8
   },
@@ -625,15 +644,15 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Pravni savet mi je mnogo pomogao.",
     createdAt: new Date("2025-06-21"),
-    userId: 15,
+    userId: 19,
     serviceId: 11, // Pravno savetovanje
     profileId:6
   },
   {
     rating: 4,
-    comment: "Zadovoljan frizuram. Bas kako sam trazio!",
+    comment: "Zadovoljan frizurom. Bas kako sam trazio!",
     createdAt: new Date("2025-12-25"),
-    userId: 5,
+    userId: 3,
     serviceId: 4, // Musko sisanje
     profileId:8
   },

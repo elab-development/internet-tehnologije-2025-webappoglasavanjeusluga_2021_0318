@@ -23,6 +23,7 @@ export async function GET() {
           firstName: users.firstName,
           lastName: users.lastName,
           phone: users.phone,
+          createdAt: users.createdAt,
         },
         serviceCount: sql<number>`
           COUNT(DISTINCT ${services.id})
