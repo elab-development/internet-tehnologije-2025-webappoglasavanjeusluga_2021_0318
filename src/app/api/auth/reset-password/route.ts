@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     if (!token || !newPassword) {
       return NextResponse.json(
-        { error: "Missing token or password" },
+        { error: "Nedostaje token ili lozinka" },
         { status: 400 }
       );
     }
@@ -26,11 +26,11 @@ export async function POST(req: Request) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
     const { payload } = await jwtVerify(token, secret, { algorithms: ["HS256"] });
 
-    // Cast preko unknown → AuthPayload
+    // Cast preko unknown - AuthPayload
     const typedPayload = payload as unknown as AuthPayload;
 
     if (typedPayload.action !== "reset") {
-      return NextResponse.json({ error: "Invalid token" }, { status: 403 });
+      return NextResponse.json({ error: "Nespravan token" }, { status: 403 });
     }
 
     // 2. Hashuj novu lozinku
@@ -43,13 +43,13 @@ export async function POST(req: Request) {
       .where(eq(users.id, Number(typedPayload.id)));
 
     return NextResponse.json(
-      { message: "Password updated successfully" },
+      { message: "Uspesno postavljanje lozinke" },
       { status: 200 }
     );
   } catch (err) {
-    console.error("Reset password failed:", err);
+    console.error("Neuspesno resetovanje lozinke", err);
     return NextResponse.json(
-      { error: "Failed to reset password" },
+      { error: "Neuspesno resetovanje lozinke" },
       { status: 500 }
     );
   }

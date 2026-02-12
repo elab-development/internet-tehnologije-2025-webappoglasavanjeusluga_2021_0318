@@ -8,12 +8,12 @@ export interface FullServiceDto {
         id: number;
         name:string;
     };
-    user:{
-        id: number;
-    };
-    profile:Profile
-    
-    
+    user: {
+        id: number,
+        firstName: string,
+        lastName: string,
+    },
+    profile:FullProfileDto;
 }
 
 export interface FullCategoryDto {
@@ -45,24 +45,45 @@ export interface FullProfileDto {
   address: string;
   description: string;
   image: string;
-  //servicesCount: number;
-  averageRating: number;
+  companyName: null,
+  firstName: string,
+  lastName: string,
   user:{
         id: number;
+        firstName: string,
+        lastName: string,
+        phone: string,
+
   };
+  servicesCount: number;
+  averageRating: number;
 }
 
-export interface FullCompanyDto extends FullProfileDto {
-  companyName: string;
-  //verified: boolean;
-}
 
-export interface FullFreelancerDto extends FullProfileDto {
-  firstName: string;
-  lastName: string;
-}
+// export interface FullProfileDto {
+//   id: number;
+//   city: string;
+//   address: string;
+//   description: string;
+//   image: string;
+//   //servicesCount: number;
+//   averageRating: number;
+//   user:{
+//         id: number;
+//   };
+// }
 
-export type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
+// export interface FullCompanyDto extends FullProfileDto {
+//   companyName: string;
+//   //verified: boolean;
+// }
+
+// export interface FullFreelancerDto extends FullProfileDto {
+//   firstName: string;
+//   lastName: string;
+// }
+
+// export type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
 
 
 export interface FullReviewDto {
@@ -70,6 +91,7 @@ export interface FullReviewDto {
   rating: number;
   comment: string;
   createdAt:Date;
+  profileId: number;
   user:{
     id: number;
     firstName: string;
@@ -78,9 +100,11 @@ export interface FullReviewDto {
   service:{
     id: number;
     title: string;
-    user: {
-      id:number;
-    }
+    // user: {
+    //   id: number;
+    //   firstName: string;
+    //   lastName: string;
+    // }
   }
 }
 
@@ -105,7 +129,7 @@ export interface FullEmployeeDto {
   // user:{
   //   id:number;
   // }
-  profile:Profile;
+  profile:FullProfileDto;
 }
 
 export interface  FullAvailabilityDto {
@@ -115,7 +139,7 @@ export interface  FullAvailabilityDto {
     firstname:string;
     lastname:string;
     description:string;
-    profile:Profile;
+    profile:FullProfileDto;
     }
   appointment:{
     id: number;

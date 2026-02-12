@@ -1,6 +1,6 @@
 {
-  "id": "1ba80acd-4831-43b5-90b4-3b6c0d6b68cc",
-  "prevId": "93f85a01-af52-4f6b-8a1a-33f62678f00a",
+  "id": "ae1108f8-bfba-4a8e-9656-44902911680e",
+  "prevId": "ae175041-afa6-4b28-aada-77fddccd67b6",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -248,12 +248,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "average_rating": {
-          "name": "average_rating",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false
-        },
         "company_name": {
           "name": "company_name",
           "type": "text",
@@ -341,6 +335,12 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true
+        },
+        "profile_id": {
+          "name": "profile_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -364,6 +364,19 @@
           "tableTo": "services",
           "columnsFrom": [
             "service_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reviews_profile_id_profiles_id_fk": {
+          "name": "reviews_profile_id_profiles_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "profile_id"
           ],
           "columnsTo": [
             "id"

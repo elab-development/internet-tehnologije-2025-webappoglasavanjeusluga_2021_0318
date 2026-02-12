@@ -34,7 +34,6 @@ CREATE TABLE "profiles" (
 	"address" text NOT NULL,
 	"description" text,
 	"image" text,
-	"average_rating" numeric,
 	"company_name" text,
 	"first_name" text,
 	"last_name" text,
@@ -73,7 +72,6 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-DROP TABLE "korisnik" CASCADE;--> statement-breakpoint
 ALTER TABLE "appointments" ADD CONSTRAINT "appointments_service_id_services_id_fk" FOREIGN KEY ("service_id") REFERENCES "public"."services"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "availabilities" ADD CONSTRAINT "availabilities_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "availabilities" ADD CONSTRAINT "availabilities_appointment_id_appointments_id_fk" FOREIGN KEY ("appointment_id") REFERENCES "public"."appointments"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

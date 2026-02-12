@@ -1,33 +1,36 @@
 import HeroSection from "@/components/HeroSection";
 import ProfileCard from "@/components/ProfileCard";
-import { mockProfiles, mockUsers } from "@/mock/data";
-import { Profile} from "@/shared/types";
+//import { mockProfiles, mockUsers } from "@/mock/data";
+import { FullProfileDto} from "@/shared/types";
 import { useEffect, useState } from "react";
 
 export default function ProfilesPageContent() {
-        //type Profile = FullCompanyDto | FullFreelancerDto; //union tip (za elemente niza) - omogucava da niz sadrzi elemente razlicitih tipova
-      const [profiles, setProfiles] = useState<Profile[]>([]);
-      const users = mockUsers;
+
+      const [profiles, setProfiles] = useState<FullProfileDto[]>([]);
+ 
       const [search, setSearch] = useState("");
 
-       useEffect(() => {
-                 const profiles = mockProfiles;
-                  const shuffledProfiles = profiles.sort(() => Math.random() - 0.5);
-                  // eslint-disable-next-line react-hooks/set-state-in-effect
-                  setProfiles(shuffledProfiles);
-                  }, []);
 
+       useEffect(() => {
+           async function loadProfiles() {
+               const res = await fetch("/api/profiles");
+               const data = await res.json();
+                const shuffledProfiles =[...data] .sort(() => Math.random() - 0.5);
+       
+               setProfiles(shuffledProfiles);
+               
+               }
+              loadProfiles();
+              }, []);
       useEffect(() => {
-                 const profiles = mockProfiles;
-                  const shuffledProfiles = profiles.sort(() => Math.random() - 0.5);
-                  // eslint-disable-next-line react-hooks/set-state-in-effect
-                  setProfiles(shuffledProfiles);
-      
+               
+                  let data = profiles;
+                   const shuffledProfiles =[...data] .sort(() => Math.random() - 0.5);
                   console.log(search);
-                  let data = shuffledProfiles;
+                  //let data = shuffledProfiles;
                    if (search.trim()) {
                       data = data.filter(d => {
-                      if ("companyName" in d) {
+                      if (d.companyName!=null) {
                         // Kompanija
                         return d.companyName
                           ?.toLowerCase()
@@ -82,7 +85,7 @@ export default function ProfilesPageContent() {
            
             <div className="flex mx-auto md:flex-row flex-wrap  justify-center gap-5 p-10 max-w-7xl">
                 {profiles.map((profile, id) => (
-                <ProfileCard key={id} profile={profile} users={users}
+                <ProfileCard key={id} profile={profile}
                 />
                 ))}
             </div> 

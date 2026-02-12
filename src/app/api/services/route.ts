@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { services, categories, profiles } from "@/db/schema"; // ✅ dodate tabele
+import { services, categories, profiles } from "@/db/schema"; 
 import { eq, ilike, and, or } from "drizzle-orm";
 
 /* ============================

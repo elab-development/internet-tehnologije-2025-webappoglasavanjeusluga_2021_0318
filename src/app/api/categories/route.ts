@@ -8,7 +8,7 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (err) {
     return NextResponse.json(
-      { error: "Failed to fetch categories" },
+      { error: "Greska u prikazivanju kategorija" },
       { status: 500 }
     );
   }

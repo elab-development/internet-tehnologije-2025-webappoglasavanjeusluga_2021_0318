@@ -7,37 +7,14 @@ import { reviews } from "./schema";
 import { appointments } from "./schema";
 import { employees, availabilities } from "./schema"
 import { sql } from "drizzle-orm"; // na vrhu fajla 
+import bcrypt from "bcryptjs";
 
 
 async function seed() {
-  console.log("🌱 Seeding started...");
+  console.log("Seeding started...");
 
-  // prvo obriši stare podatke da ne pravi duplikate
-   // obriši stare profile (poželjno pre brisanja users zbog FK)
-// prvo obriši zavisne tabele da ne pravi duplikate
-// await db.delete(employees);
-// await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
-
-// await db.delete(availabilities);
-// await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
-
-// await db.delete(reviews);
-// await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
-
-// await db.delete(appointments);
-// await db.execute(sql`ALTER SEQUENCE appointments_id_seq RESTART WITH 1`);
-
-// await db.delete(services);
-// await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`);
-
-// await db.delete(profiles);
-// await db.execute(sql`ALTER SEQUENCE profiles_id_seq RESTART WITH 1`);
-
-// await db.delete(users);
-// await db.execute(sql`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
-
-// await db.delete(categories);
-// await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
+  const password = "123456";
+const hashed = await bcrypt.hash(password, 10);
 
 await db.delete(availabilities);
 await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
@@ -86,7 +63,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
  await db.insert(users).values([ 
     { 
         email: "petar.petrovic@gmail.com", 
-        password: "petar123", 
+        //password: "petar123", 
+        password: hashed,
         firstName: "Petar", 
         lastName: "Petrovic", 
         phone: "063245319", 
@@ -94,7 +72,9 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         
     { 
         email: "ana.anic@gmail.com", 
-            password: "ana123", 
+            //password: "ana123",
+            password: hashed, 
+            password: hashed,
             firstName: "Ana", 
             lastName: "Anic", 
             phone: "062185574", 
@@ -102,7 +82,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
             
     { 
         email: "milan.milanovic@gmail.com", 
-        password: "milan123", 
+        //password: "milan123", 
+        password: hashed,
         firstName: "Milan", 
         lastName: "Milanovic", 
         phone: "064758446", 
@@ -111,7 +92,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "stevan.stevanovic@gmail.com", 
-        password: "stevan123", 
+        //password: "stevan123", 
+        password: hashed,
         firstName: "Stevan", 
         lastName: "Stevanovic",
         phone: "062659423", 
@@ -120,7 +102,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "bellabeautysalon@gmail.com", 
-        password: "marija123", 
+        //password: "marija123", 
+        password: hashed,
         firstName: "Marija", 
         lastName: "Maric", 
         phone: "065674259", 
@@ -128,7 +111,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     }, 
     { 
         email: "beogradroyal@gmail.com", 
-        password: "jovan123", 
+        //password: "jovan123", 
+        password: hashed,
         firstName: "Jovan", 
         lastName: "Jovanovic", 
         phone: "063258963", 
@@ -136,7 +120,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     }, 
     {
          email: "techsolutions@gmail.com", 
-         password: "ana123", 
+         //password: "ana123", 
+         password: hashed,
          firstName: "Ana", 
          lastName: "Marković", 
          phone: "062112233", 
@@ -144,7 +129,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         }, 
     { 
          email: "fitlifegym@gmail.com", 
-         password: "petar123", 
+         //password: "petar123",
+         password: hashed, 
          firstName: "Petar", 
          lastName: "Simić", 
          phone: "063445566", 
@@ -153,7 +139,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "creativeagency@gmail.com", 
-        password: "milica123", 
+        //password: "milica123",
+        password: hashed, 
         firstName: "Milica", 
         lastName: "Kovačević", 
         phone: "064998877", 
@@ -162,7 +149,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "marija.stojanovic@gmail.com", 
-        password: "marija123", 
+        //password: "marija123", 
+        password: hashed,
         firstName: "Marija", 
         lastName: "Stojanović", 
         phone: "0623344559", 
@@ -171,7 +159,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "vladimir.pavlovic@gmail.com", 
-        password: "vladimir123", 
+       // password: "vladimir123",
+       password: hashed, 
         firstName: "Vladimir", 
         lastName: "Pavlović", 
         phone: "0656677881", 
@@ -180,7 +169,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "marko.jovanovic@gmail.com", 
-        password: "marko123", 
+        //password: "marko123",
+        password: hashed, 
         firstName: "Marko", 
         lastName: "Jovanović", 
         phone: "0645566778", 
@@ -189,7 +179,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "itoptimus@gmail.com", 
-        password: "nikola23", 
+        //password: "nikola23",
+        password: hashed, 
         firstName: "Nikola", 
         lastName: "Petrović", 
         phone: "063445566", 
@@ -198,7 +189,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "sapapansion@gmail.com", 
-        password: "ana123",
+        //password: "ana123",
+        password: hashed,
         firstName: "Ana", 
         lastName: "Milovanović", 
         phone: "0647788990",
@@ -206,7 +198,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         
     { 
         email: "jelena.markovic@gmail.com", 
-        password: "jelena123", 
+        //password: "jelena123",
+        password: hashed, 
         firstName: "Jelena", 
         lastName: "Marković", 
         phone: "0634455667",
@@ -214,7 +207,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "gonzalestransport@gmail.com", 
-        password: "zoran123", 
+        //password: "zoran123",
+        password: hashed, 
         firstName: "Zoran", 
         lastName: "Lekić", 
         phone: "0653344556", 
@@ -223,7 +217,8 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "marko.petrovic@gmail.com", 
-        password: "marko123", 
+        //password: "marko123",
+        password: hashed, 
         firstName: "Marko", 
         lastName: "Petrović", 
         phone: "0661122334",
@@ -239,7 +234,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Kumanovska 8",
     description: "Profesor i freelance instruktor za arhitektonske softvere sa više od 10 godina iskustva...",
     image: "/images/freelancer-architecture.jpg",
-    averageRating: "4.6",
+    //averageRating: "4.6",
     firstName: "Petar",
     lastName: "Petrović",
     companyName: null,
@@ -250,7 +245,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bulevar oslobodjenja 86",
     description: "Iskusni tehničar za računare i IT podršku, specijalizovan za popravku hardvera i softvera...",
     image: "/images/freelancer-it.jpg",
-    averageRating: "4.8",
+    //averageRating: "4.8",
     firstName: "Stevan",
     lastName: "Stevanović",
     companyName: null,
@@ -261,7 +256,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Cara Lazara 44",
     description: "Profesionalna radnica za čišćenje stanova i poslovnih prostora...",
     image: "/images/freelancer-cleaning.jpg",
-    averageRating: "4.6",
+    //averageRating: "4.6",
     firstName: "Marija",
     lastName: "Stojanović",
     companyName: null,
@@ -272,7 +267,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Industrijska zona bb",
     description: "Auto-mehaničar specijalizovan za brze intervencije i redovno održavanje vozila...",
     image: "/images/freelancer-auto.jpg",
-    averageRating: "4.5",
+    //averageRating: "4.5",
     firstName: "Vladimir",
     lastName: "Pavlović",
     companyName: null,
@@ -283,7 +278,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bulevar Evrope 92",
     description: "Samostalni serviser klima uređaja sa višegodišnjim iskustvom...",
     image: "/images/freelancer-ac-service.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: "Marko",
     lastName: "Jovanović",
     companyName: null,
@@ -294,7 +289,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Nemanjina 15",
     description: "Samostalni pravnik sa iskustvom u pružanju pravnih usluga...",
     image: "/images/freelancer-lawyer.jpg",
-    averageRating: "4.6",
+    //averageRating: "4.6",
     firstName: "Jelena",
     lastName: "Marković",
     companyName: null,
@@ -305,7 +300,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bulevar Oslobođenja 22",
     description: "Iskusni moler sa više od 10 godina rada na unutrašnjem i spoljašnjem farbanju...",
     image: "/images/freelancer-painter.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: "Marko",
     lastName: "Petrović",
     companyName: null,
@@ -318,7 +313,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Ustanička 22",
     description: "Salon lepote Bella pruža vrhunske kozmetičke i estetske usluge...",
     image: "/images/beauty-salon.jpg",
-    averageRating: "4.9",
+    //averageRating: "4.9",
     firstName: null,
     lastName: null,
     companyName: "Bella Beauty Salon",
@@ -329,7 +324,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bulevar Kralja Aleksandra 153",
     description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar...",
     image: "/images/car-service.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: null,
     lastName: null,
     companyName: "Beograd Royal",
@@ -340,7 +335,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Kralja Petra 45",
     description: "Tech Solutions je IT kompanija koja pruža profesionalne usluge web i softverskog razvoja...",
     image: "/images/tech-solutions.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: null,
     lastName: null,
     companyName: "Tech Solutions",
@@ -351,7 +346,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Pop Lukina 10",
     description: "FitLife Gym je moderna teretana koja nudi personalizovane trening programe...",
     image: "/images/fitlife-gym.jpg",
-    averageRating: "4.8",
+    //averageRating: "4.8",
     firstName: null,
     lastName: null,
     companyName: "FitLife Gym",
@@ -362,7 +357,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bajska 18",
     description: "Creative Agency pruža profesionalne usluge grafičkog dizajna, brendiranja i marketinga...",
     image: "/images/creative-agency.jpg",
-    averageRating: "4.6",
+    //averageRating: "4.6",
     firstName: null,
     lastName: null,
     companyName: "Creative Agency",
@@ -373,7 +368,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Futoška 102",
     description: "IT Optimus je specijalizovana kompanija za optimizaciju i održavanje IT sistema...",
     image: "/images/it-optimization.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: null,
     lastName: null,
     companyName: "IT Optimus",
@@ -384,7 +379,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Fruškogorska 12",
     description: "Pansion za pse smešten u mirnom okruženju sa velikim dvorištem...",
     image: "/images/dog-hotel.jpg",
-    averageRating: "4.8",
+    //averageRating: "4.8",
     firstName: null,
     lastName: null,
     companyName: "Sapa Pansion",
@@ -395,7 +390,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     address: "Bulevar Kralja Aleksandra 45",
     description: "Preduzeće specijalizovano za transportne usluge, uključujući dostavu paketa i selidbe...",
     image: "/images/transport-services.jpg",
-    averageRating: "4.7",
+    //averageRating: "4.7",
     firstName: null,
     lastName: null,
     companyName: "Gonzales Transport",
@@ -558,71 +553,89 @@ const reviewsData: typeof reviews.$inferInsert[] = [
     rating: 5,
     comment: "Odlična usluga, sve preporuke!",
     createdAt: new Date("2025-12-15"),
-    userId: 2, // Ana (USER)
+    userId: 12, // Ana (USER)
     serviceId: 1, // Servis klime
+    profileId:5
   },
   {
     rating: 4,
     comment: "Brzo i kvalitetno, ali malo skuplje.",
     createdAt: new Date("2025-12-20"),
-    userId: 3, // Milan (USER)
+    userId: 4, // Milan (USER)
     serviceId: 2, // Čišćenje i popravka komponenti računara
+    profileId: 2
   },
   {
     rating: 5,
     comment: "Najbolji salon u gradu!",
     createdAt: new Date("2025-12-22"),
-    userId: 2,
+    userId: 5,
     serviceId: 3, // Žensko šišanje
+    profileId:8
   },
   {
     rating: 5,
     comment: "Manikir je bio savršen!",
     createdAt: new Date("2025-12-23"),
-    userId: 3,
+    userId: 5,
     serviceId: 4, // Manikir
+    profileId:8
   },
   {
     rating: 4,
     comment: "Kurs je odličan, predavač stručan.",
     createdAt: new Date("2026-01-10"),
-    userId: 2,
+    userId: 1,
     serviceId: 6, // Kurs REVIT-a
+    profileId:1
   },
   {
     rating: 5,
     comment: "Pansion za pse je fantastičan, moj pas je bio srećan!",
     createdAt: new Date("2025-12-12"),
-    userId: 3,
+    userId: 14,
     serviceId: 7, // Pansion za pse
+    profileId:14
   },
   {
     rating: 5,
     comment: "Stan je blistao posle čišćenja!",
     createdAt: new Date("2025-08-22"),
-    userId: 2,
+    userId: 10,
     serviceId: 8, // Generalno čišćenje
+    profileId:3
   },
   {
     rating: 4,
     comment: "Servis vozila urađen korektno.",
     createdAt: new Date("2026-01-12"),
-    userId: 3,
+    userId: 11,
     serviceId: 9, // Mali servis vozila
+    profileId:4
   },
   {
     rating: 5,
     comment: "Masaža je bila fantastična!",
     createdAt: new Date("2025-12-13"),
-    userId: 2,
+    userId: 5,
     serviceId: 10, // Relaks masaža
+    profileId: 8
   },
   {
     rating: 5,
     comment: "Pravni savet mi je mnogo pomogao.",
     createdAt: new Date("2025-06-21"),
-    userId: 3,
+    userId: 15,
     serviceId: 11, // Pravno savetovanje
+    profileId:6
+  },
+  {
+    rating: 4,
+    comment: "Zadovoljan frizuram. Bas kako sam trazio!",
+    createdAt: new Date("2025-12-25"),
+    userId: 5,
+    serviceId: 4, // Musko sisanje
+    profileId:8
   },
 ];
 
@@ -770,7 +783,7 @@ const availabilitiesData: typeof availabilities.$inferInsert[] = [
 
 await db.insert(availabilities).values(availabilitiesData);
 
-console.log("✅ Seed finished");
+console.log("Seed finished");
 process.exit(0);
 }
 

@@ -52,7 +52,7 @@ export const profiles = pgTable("profiles", {
   address: text("address").notNull(),
   description: text("description"),
   image: text("image"),
-  averageRating: numeric("average_rating"),
+  //averageRating: numeric("average_rating"),   ✅ izbrisano, jer se dinamicki racuna na Back-u prilikom poziva GET operacije
   companyName: text("company_name"),
   firstName: text("first_name"),
   lastName: text("last_name"),
@@ -100,7 +100,13 @@ export const reviews = pgTable("reviews", {
   serviceId: integer("service_id")
     .references(() => services.id)
     .notNull(),
+
+  profileId: integer("profile_id")
+    .references(() => profiles.id)
+    .notNull(), //✅dodato
 });
+
+
 
 /* =======================
    APPOINTMENTS

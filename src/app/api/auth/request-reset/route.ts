@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
     if (!email) {
       return NextResponse.json(
-        { error: "Email is required" },
+        { error: "Unesite email" },
         { status: 400 }
       );
     }
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     if (foundUser.length === 0) {
       // namerno ne otkrivamo da li email postoji (bezbednost)
       return NextResponse.json(
-        { message: "If the email exists, reset instructions were sent." },
+        { message: "Ako email postoji, instrukcije ce biti poslate" },
         { status: 200 }
       );
     }
@@ -46,15 +46,15 @@ export async function POST(req: Request) {
     // 3. Simulacija slanja email-a
     return NextResponse.json(
       {
-        message: "Reset token generated (email simulation)",
-        resetToken, // 👈 ovo koristiš dalje
+        message: "Generisanje novog tokena",
+        resetToken, 
       },
       { status: 200 }
     );
   } catch (err) {
-    console.error("Request reset failed:", err);
+    console.error("Neuspesno resetovanje", err);
     return NextResponse.json(
-      { error: "Failed to request password reset" },
+      { error: "Pogresno resetovanje lozinke" },
       { status: 500 }
     );
   }

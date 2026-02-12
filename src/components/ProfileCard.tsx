@@ -4,7 +4,7 @@ import Link from "next/link";
 
 type Props = {
     profile: FullCompanyDto | FullFreelancerDto;
-    users: FullUserDto[];
+    users?: FullUserDto[]; //obrisi !!!!!!!!!!!!!!!!!!!!!!!!!!
     extend?: boolean;
     serviceCount?: number;
     averageRating?: number;
@@ -19,7 +19,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
             max-w-80 max-h-200 shadow-xl ${ extend ? "" : "hover:scale-103" }`} >
             
             <div className="flex flex-row justify-between p-2">
-                { "companyName" in profile  ? (
+                { profile.companyName!=null  ? (
                     <p className="text-xs md:text-base p-1 border rounded-xl w-17 h-6 md:w-21 md:h-8 mx-1 my-3 md:my-1 text-yellow-600
                      bg-amber-100">Preduzeće
                     </p>
@@ -32,7 +32,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
 
                  
                 {/* { "companyName" in profile && profile.verified===true ? ( */}
-                    { "companyName" in profile && serviceCount!=null && serviceCount > 2 && averageRating!=null && averageRating >= 4.5 ? (
+                    { profile.companyName!=null && serviceCount!=null && serviceCount > 2 && averageRating!=null && averageRating >= 4.5 ? (
                     <Image src="/images/bedz-verifikovan.png" alt="Bedž" width={50} height={50}></Image>
                     ) : (
                     <p></p>
@@ -43,7 +43,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
             <div className="flex flex-col gap-1 md:gap-3 p-4 px-5 justify-center items-center  ">
 
                 <h3 className="font-semibold text-base md:text-2xl truncate">
-                 {"companyName" in profile ? profile.companyName : `${profile.firstName} ${profile.lastName}`}
+                 {profile.companyName!=null ? profile.companyName : `${profile.firstName} ${profile.lastName}`}
                 </h3>
 
                 <div className="w-30 h-30 rounded-full overflow-hidden">
@@ -61,11 +61,11 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     <br className="sm:hidden" /> {" "}
                     {
                         
-                        users.find((u) => u.id === profile.user.id)?.firstName
+                        profile.user.firstName
                     }
                     {" "}
                     {
-                        users.find((u) => u.id === profile.user.id)?.lastName
+                        profile.user.lastName
                     
                     }
                     
@@ -87,7 +87,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     {/*************************************************************************/}
 
                     <p className="text-sm md:text-base"><i className=" text-gray-500">Telefon:</i>
-                        {" "+users.find((u) => u.id === profile.user.id)?.phone}
+                        {" "+profile.phone}
                     </p>
 
                     
@@ -97,7 +97,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     (<div>
                         <p className="text-sm md:text-base pt-2 "><i className=" text-gray-500">Pružalac od:</i>
                         
-                        {" "+users.find((u) => u.id === profile.user.id)?.createdAt.toLocaleDateString("sr-RS")}
+                        {" "+profile.user?.createdAt}
                         </p>
                     </div>):
                     (<p></p>)

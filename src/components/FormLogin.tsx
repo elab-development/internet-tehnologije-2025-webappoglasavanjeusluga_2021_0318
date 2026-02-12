@@ -10,7 +10,6 @@ interface PropsFormLogin {
 type UserRole = "USER" | "FREELANCER" | "COMPANY"; //uloge koje backend može vratiti
 
 type LoginResponse = {
-  token: string;
   user: {
     id: number;
     email: string;
@@ -48,14 +47,15 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
         return;
       }
 
-      const data = await res.json(); 
-      const role = data.user.role; 
+      const data = await res.json();
+      console.log("LOGIN DATA:", data);
+      const role = data.role;
 
       localStorage.clear();
-      localStorage.setItem("userId", data.user.id.toString());
-      localStorage.setItem("role", data.user.role);
-      localStorage.setItem("email", data.user.email);
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.id.toString());
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("email", data.email);
+      
       
 
       setIsLoginOpen(false); // zatvori modal

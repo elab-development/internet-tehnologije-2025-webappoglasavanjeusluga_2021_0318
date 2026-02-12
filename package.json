@@ -2,9 +2,11 @@
   "name": "appoglasi",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "npx drizzle-kit generate && npx drizzle-kit push",
+    "db:seed": "npx tsx src/db/seed.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

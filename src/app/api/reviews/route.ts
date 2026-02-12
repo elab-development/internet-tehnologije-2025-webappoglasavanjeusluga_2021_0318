@@ -1,18 +1,50 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { reviews } from "@/db/schema";
+import { reviews, users, services } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 // GET /api/reviews → lista svih ocena
 export async function GET() {
   try {
-    const data = await db.select().from(reviews);
+    const data = await db
+      .select({
+        id: reviews.id,
+        rating: reviews.rating,
+        comment: reviews.comment,
+        createdAt: reviews.createdAt,
+        profileId: reviews.profileId,
+        user: {
+          id: users.id,
+          firstName: users.firstName,
+          lastName: users.lastName,
+        },
+        service: {
+          id: services.id,
+          title: services.title,
+        },
+      })
+      .from(reviews)
+      .innerJoin(users, eq(reviews.userId, users.id)) //garancija da user postoji
+      .leftJoin(services, eq(reviews.serviceId, services.id));
+
     return NextResponse.json(data);
   } catch (err) {
     console.error("Error fetching reviews:", err);
-    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch reviews" },
+      { status: 500 }
+    );
   }
 }
+// export async function GET() {
+//   try {
+//     const data = await db.select().from(reviews);
+//     return NextResponse.json(data);
+//   } catch (err) {
+//     console.error("Error fetching reviews:", err);
+//     return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
+//   }
+// }
 // POST /api/reviews → dodavanje ocene
 export async function POST(req: Request) {
   try {
