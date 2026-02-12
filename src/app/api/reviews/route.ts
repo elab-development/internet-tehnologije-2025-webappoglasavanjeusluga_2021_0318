@@ -29,23 +29,14 @@ export async function GET() {
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error("Error fetching reviews:", err);
+    console.error("Neuspesno ucitavanje recencija", err);
     return NextResponse.json(
-      { error: "Failed to fetch reviews" },
+      { error: "Neuspesno ucitavanje recencija" },
       { status: 500 }
     );
   }
 }
-// export async function GET() {
-//   try {
-//     const data = await db.select().from(reviews);
-//     return NextResponse.json(data);
-//   } catch (err) {
-//     console.error("Error fetching reviews:", err);
-//     return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
-//   }
-// }
-// POST /api/reviews → dodavanje ocene
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

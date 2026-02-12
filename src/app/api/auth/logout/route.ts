@@ -1,12 +1,3 @@
-// import { NextResponse } from "next/server";
-
-// export async function POST() {
-//   // U JWT sistemu logout znači da frontend obriše token.
-  
-//   //Dodati brisanje tokena iz cookie-a !!!!
-
-//   return NextResponse.json({ message: "Izlogovani ste" }, { status: 200 });
-// }
 
 import { NextResponse } from "next/server";
 

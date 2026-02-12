@@ -1,6 +1,5 @@
 import HeroSection from "@/components/HeroSection";
 import ProfileCard from "@/components/ProfileCard";
-//import { mockProfiles, mockUsers } from "@/mock/data";
 import { FullProfileDto} from "@/shared/types";
 import { useEffect, useState } from "react";
 

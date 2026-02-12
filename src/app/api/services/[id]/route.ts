@@ -3,8 +3,7 @@ import { db } from "@/db";
 import { services, reviews, appointments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// ✅ Uklonjen `{ params }` iz argumenta GET funkcije
-// export async function GET(req: Request, { params }: { params: { id: string } }) {
+// ✅ 
 export async function GET(req: Request) {  // ✅ samo jedan argument, req
 
   try {

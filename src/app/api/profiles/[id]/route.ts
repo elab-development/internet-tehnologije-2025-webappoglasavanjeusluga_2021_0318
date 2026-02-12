@@ -19,7 +19,7 @@ export async function GET(
       .where(eq(profiles.id, profileId));
 
     if (!profile[0]) {
-      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+      return NextResponse.json({ error: "Profil nije pronadjen" }, { status: 404 });
     }
 
     // Usluge za ovaj profil
@@ -53,9 +53,9 @@ export async function GET(
 
     return NextResponse.json(result);
   } catch (err) {
-    console.error("Error fetching profile details:", err);
+    console.error("Neuspesno ucitavanje detalja o profilu:", err);
     return NextResponse.json(
-      { error: "Failed to fetch profile details" },
+      { error: "Neuspesno ucitavanje detalja o profilu" },
       { status: 500 }
     );
   }
@@ -89,7 +89,7 @@ export async function PATCH(
       .where(eq(profiles.id, profileId));
 
     if (!existingProfile[0]) {
-      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+      return NextResponse.json({ error: "Profil nije pronadjen" }, { status: 404 });
     }
 
     // Dozvoljeno samo vlasniku profila ili COMPANY
@@ -113,9 +113,9 @@ export async function PATCH(
 
     return NextResponse.json(updatedProfile[0], { status: 200 });
   } catch (err) {
-    console.error("Error updating profile:", err);
+    console.error("Greska pri azuriranju profila", err);
     return NextResponse.json(
-      { error: "Failed to update profile" },
+      { error: "Greska pri azuriranju profila" },
       { status: 500 }
     );
   }
