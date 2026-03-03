@@ -29,7 +29,7 @@ services:
     working_dir: /app
     env_file:
       - .env
-    command: sh -c "npx drizzle-kit migrate && npm run db:seed && npm run dev"
+    command: sh -c "npm install && npx drizzle-kit migrate && npm run db:seed && npm run dev"
     ports:
       - "3000:3000"
 

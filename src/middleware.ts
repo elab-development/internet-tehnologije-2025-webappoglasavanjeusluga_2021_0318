@@ -150,7 +150,11 @@ const roleAccess: Record<string, Record<string, string[]>> = {
 };
 
 // Rute koje su javne (bez tokena)
-const publicRoutes = ["/api/categories", "/api/services", "/api/profiles", "/api/reviews"];
+const publicRoutes = ["/api/categories", 
+                      "/api/services", 
+                      "/api/profiles", 
+                      "/api/reviews",
+                      "/api/swagger"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

@@ -3,71 +3,103 @@ import { db } from "@/db";
 import { services, categories, profiles } from "@/db/schema"; 
 import { eq, ilike, and, or } from "drizzle-orm";
 
-/* GET - Pregled, filtriranje, pretraga */
-export async function GET(req: Request) {
+/**
+ * @swagger
+ * /api/services:
+ *   get:
+ *     summary: Vraća listu svih usluga
+ *     description: Preuzima sve usluge zajedno sa kategorijom kojoj pripada i gradom pruzaoca (podatak sa profila)
+ *     tags:
+ *       - Usluge
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćena lista usluga
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Service'
+ *       500:
+ *         description: Neuspešno pronalaženje usluga
+ */
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-
-    const categoryId = searchParams.get("categoryId");
-    const keyword = searchParams.get("search");
-
-    let condition;
-
-    if (categoryId && keyword) {
-      // filtriranje po kategoriji + pretraga po title ili description
-      condition = and(
-        eq(services.categoryId, Number(categoryId)),
-        or(
-          ilike(services.title, `%${keyword}%`),
-          ilike(services.description, `%${keyword}%`)
-        )
-      );
-    } else if (categoryId) {
-      condition = eq(services.categoryId, Number(categoryId));
-    } else if (keyword) {
-      condition = or(
-        ilike(services.title, `%${keyword}%`),
-        ilike(services.description, `%${keyword}%`)
-      );
-    }
-
-    // ✅ query sada radi JOIN sa kategorijama i profilima
-    const query = db
+    const data = await db
       .select({
         id: services.id,
         title: services.title,
         description: services.description,
         price: services.price,
-        createdAt: services.createdAt, // ✅ dodato
+        createdAt: services.createdAt,
 
-        category: { // ✅ dodato
+        category: {
           id: categories.id,
           name: categories.name,
         },
 
-        profile: { // ✅ dodato
+        profile: {
           id: profiles.id,
           city: profiles.city,
         },
       })
       .from(services)
-      .leftJoin(categories, eq(services.categoryId, categories.id)) // ✅
-      .leftJoin(profiles, eq(services.profileId, profiles.id)); // ✅
-
-      // ✅ OVDE koristimo query
-    const data = condition
-      ? await query.where(condition)
-      : await query;
+      .leftJoin(categories, eq(services.categoryId, categories.id))
+      .leftJoin(profiles, eq(services.profileId, profiles.id));
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error("Usluge nisu pronadjene:", err);
+    console.error(err);
     return NextResponse.json(
-      { error: "Failed to fetch services" },
+      { error: "Neuspesno pronalazenje usluga" },
       { status: 500 }
     );
   }
 }
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Category:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *
+ *     Profile1:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         city:
+ *           type: string
+ *
+ *     Service:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         category:
+ *           $ref: '#/components/schemas/Category'
+ *         profile:
+ *           $ref: '#/components/schemas/Profile1'
+ */
+
+
+
 
 /*  POST - Kreiranje usluge */
 export async function POST(req: Request) {

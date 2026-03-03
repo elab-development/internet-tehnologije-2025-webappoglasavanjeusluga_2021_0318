@@ -2,6 +2,25 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { profiles, users, services, reviews } from "@/db/schema";
 import { eq, sql} from "drizzle-orm";
+/**  
+* @swagger
+* /api/profiles:
+ *   get:
+ *     summary: Vraća listu svih profila
+ *     tags:
+ *       - Profili
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćena lista profila
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Profile'
+ *       500:
+ *         description: Neuspešno pronalaženje profila
+ */
 
 // GET - svi profili
 export async function GET() {
@@ -47,6 +66,62 @@ export async function GET() {
     );
   }
 }
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *
+ *     Profile:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         city:
+ *           type: string
+ *         address:
+ *           type: string
+ *         description:
+ *           type: string
+ *         image:
+ *           type: string
+ *           nullable: true
+ *         companyName:
+ *           type: string
+ *           nullable: true
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         userId:
+ *           type: integer
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *         serviceCount:
+ *           type: string
+ *           example: "1"
+ *           description: Ukupan broj usluga (vraća se kao string iz baze)
+ *         averageRating:
+ *           type: string
+ *           example: "4.00"
+ *           description: Prosečna ocena (zaokružena na 2 decimale, vraća se kao string)
+ */
+
+
 
 // POST - kreiranje novog profila
 export async function POST(req: Request) {
