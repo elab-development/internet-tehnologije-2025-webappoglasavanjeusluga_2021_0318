@@ -55,9 +55,9 @@ export async function POST(req: Request) {
     const newProfile = await db.insert(profiles).values(body).returning();
     return NextResponse.json(newProfile[0], { status: 201 });
   } catch (err) {
-    console.error("Error creating profile:", err);
+    console.error("Neuspesno kreiranje profila:", err);
     return NextResponse.json(
-      { error: "Failed to create profile" },
+      { error: "Neuspesno kreiranje profila" },
       { status: 500 }
     );
   }
@@ -77,9 +77,9 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated[0]);
   } catch (err) {
-    console.error("Error updating profile:", err);
+    console.error("Neuspesno azuriranje profila:", err);
     return NextResponse.json(
-      { error: "Failed to update profile" },
+      { error: "Neuspesno azuriranje profila" },
       { status: 500 }
     );
   }
@@ -99,9 +99,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(updated[0]);
   } catch (err) {
-    console.error("Error patching profile:", err);
+    console.error("Neuspesna izmena profila:", err);
     return NextResponse.json(
-      { error: "Failed to patch profile" },
+      { error: "Neuspesna izmena profila" },
       { status: 500 }
     );
   }
@@ -116,9 +116,9 @@ export async function DELETE(req: Request) {
     await db.delete(profiles).where(eq(profiles.id, profileId));
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("Error deleting profile:", err);
+    console.error("Neuspesno brisanje profila:", err);
     return NextResponse.json(
-      { error: "Failed to delete profile" },
+      { error: "Neuspesno brisanje profila" },
       { status: 500 }
     );
   }

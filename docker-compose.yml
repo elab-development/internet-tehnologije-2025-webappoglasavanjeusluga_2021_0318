@@ -1,18 +1,37 @@
-version: "3.9"
-
 services:
   db:
-    image: postgres:16
+    image: postgres:17
     container_name: usluge-db
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: usluge
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:     # ceka da baza bude spremna pre migracija
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+
+  app:
+    build: .
+    container_name: usluge-app
+    depends_on:
+      db:
+        condition: service_healthy   # ceka da db bude spremna
+    volumes:
+      - .:/app # omogućava live reload i razvoj bez rebuild-a kontejnera
+      - /app/node_modules
+    working_dir: /app
+    env_file:
+      - .env
+    command: sh -c "npx drizzle-kit migrate && npm run db:seed && npm run dev"
+    ports:
+      - "3000:3000"
 
 volumes:
   pgdata:

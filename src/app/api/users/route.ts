@@ -14,8 +14,8 @@ export async function GET() {
 
     return NextResponse.json(safeData);
   } catch (err) {
-    console.error("Error fetching users:", err);
-    return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
+    console.error("Korisnici nisu pronadjeni:", err);
+    return NextResponse.json({ error: "Korisnici nisu pronadjeni" }, { status: 500 });
   }
 }
 
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
     // Validacija obaveznih polja
     if (!firstName || !lastName || !email || !password || !role) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json({ error: "Nisu popunjena sva polja" }, { status: 400 });
     }
 
     // Hash lozinke
@@ -52,8 +52,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(safeUser, { status: 201 });
   } catch (err: any) {
-    console.error("Error registering user:", err.message);
-    return NextResponse.json({ error: "Failed to register user" }, { status: 500 });
+    console.error("Greska prilikom registracije korisnika:", err.message);
+    return NextResponse.json({ error: "Greska prilikom registracije korisnika" }, { status: 500 });
   }
 }
 
@@ -64,18 +64,18 @@ export async function PUT(req: Request) {
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje email ili lozinka" }, { status: 400 });
     }
 
     const user = await db.select().from(users).where(eq(users.email, email));
 
     if (!user[0]) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "Korisnik nije pronadjen" }, { status: 404 });
     }
 
     const validPassword = await bcrypt.compare(password, user[0].password);
     if (!validPassword) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json({ error: "Nesipravni kredencijali" }, { status: 401 });
     }
 
     const token = jwt.sign(
@@ -89,8 +89,8 @@ export async function PUT(req: Request) {
 
     return NextResponse.json({ token, user: safeUser }, { status: 200 });
   } catch (err: any) {
-    console.error("Error logging in:", err.message);
-    return NextResponse.json({ error: "Failed to login" }, { status: 500 });
+    console.error("Greska prilikom logovanja:", err.message);
+    return NextResponse.json({ error: "Greska prilikom logovanja" }, { status: 500 });
   }
 }
 // PATCH /api/users/update
@@ -100,7 +100,7 @@ export async function PATCH(req: Request) {
     const { id, email, password } = body;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing user id" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje id korisnika" }, { status: 400 });
     }
 
     const updateData: any = {};
@@ -114,7 +114,7 @@ export async function PATCH(req: Request) {
       .returning();
 
     if (!updatedUser[0]) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "Korisnik nije pronadjen" }, { status: 404 });
     }
 
     // Izbacivanje password iz odgovora
@@ -122,8 +122,8 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(safeUser, { status: 200 });
   } catch (err) {
-    console.error("Error updating user:", err);
-    return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+    console.error("Neuspesno azuriranje korisnika:", err);
+    return NextResponse.json({ error: "Neuspesno azuriranje korisnika" }, { status: 500 });
   }
 }
 
@@ -134,7 +134,7 @@ export async function DELETE(req: Request) {
     const { id } = body;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing user id" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje id korisnika" }, { status: 400 });
     }
 
     const deletedUser = await db.delete(users).where(eq(users.id, id)).returning();
@@ -146,8 +146,8 @@ export async function DELETE(req: Request) {
     const { password: _, ...safeUser } = deletedUser[0];
     return NextResponse.json(safeUser, { status: 200 });
   } catch (err) {
-    console.error("Error deleting user:", err);
-    return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
+    console.error("Neuspesno brisanje korisnika:", err);
+    return NextResponse.json({ error: "Neuspesno brisanje korisnika" }, { status: 500 });
   }
 }
 

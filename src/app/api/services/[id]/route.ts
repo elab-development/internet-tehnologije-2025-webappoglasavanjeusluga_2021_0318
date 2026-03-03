@@ -13,7 +13,7 @@ export async function GET(req: Request) {  // ✅ samo jedan argument, req
 
     // ✅ dodata provera NaN
     if (isNaN(serviceId)) {
-      return NextResponse.json({ error: "Invalid service ID" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje id usluge" }, { status: 400 });
     }
 
     //✅✅✅✅✅✅✅✅✅✅✅✅✅izmenjen kod iznad✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
@@ -25,7 +25,7 @@ export async function GET(req: Request) {  // ✅ samo jedan argument, req
       .where(eq(services.id, serviceId));
 
     if (!service[0]) {
-      return NextResponse.json({ error: "Service not found" }, { status: 404 });
+      return NextResponse.json({ error: "Usluga nije pronadjena" }, { status: 404 });
     }
 
     // recenzije za uslugu
@@ -46,9 +46,9 @@ export async function GET(req: Request) {  // ✅ samo jedan argument, req
       appointments: serviceAppointments,
     });
   } catch (err) {
-    console.error("Error fetching service details:", err);
+    console.error("Neuspesno slanje podataka o usluzi:", err);
     return NextResponse.json(
-      { error: "Failed to fetch service details" },
+      { error: "Neuspesno slanje podataka o usluzi" },
       { status: 500 }
     );
   }

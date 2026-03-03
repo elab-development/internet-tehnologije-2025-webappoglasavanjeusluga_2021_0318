@@ -3,24 +3,24 @@ import { db } from "@/db";
 import { employees } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/employees → lista svih zaposlenih
+// GET /api/employees - lista svih zaposlenih
 export async function GET() {
   try {
     const data = await db.select().from(employees);
     return NextResponse.json(data);
   } catch (err) {
-    console.error("Error fetching employees:", err);
-    return NextResponse.json({ error: "Failed to fetch employees" }, { status: 500 });
+    console.error("Zaposleni nisu pronadjeni:", err);
+    return NextResponse.json({ error: "Zaposleni nisu pronadjeni" }, { status: 500 });
   }
 }
-// POST /api/employees → dodavanje zaposlenog
+// POST /api/employees - dodavanje zaposlenog
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { firstName, lastName, description, profileId } = body;
 
     if (!firstName || !lastName || !profileId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json({ error: "Niste popunili sva polja" }, { status: 400 });
     }
 
     const newEmployee = await db.insert(employees).values({
@@ -32,18 +32,18 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newEmployee[0], { status: 201 });
   } catch (err) {
-    console.error("Error creating employee:", err);
-    return NextResponse.json({ error: "Failed to create employee" }, { status: 500 });
+    console.error("Greska u kreiranju zaposlenog:", err);
+    return NextResponse.json({ error: "Greska u kreiranju zaposlenog" }, { status: 500 });
   }
 }
-// PATCH /api/employees → izmena zaposlenog
+// PATCH /api/employees - izmena zaposlenog
 export async function PATCH(req: Request) {
   try {
     const body = await req.json();
     const { id, firstName, lastName, description } = body;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing employee id" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
     }
 
     const updatedEmployee = await db.update(employees)
@@ -56,23 +56,23 @@ export async function PATCH(req: Request) {
       .returning();
 
     if (!updatedEmployee[0]) {
-      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+      return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
     }
 
     return NextResponse.json(updatedEmployee[0], { status: 200 });
   } catch (err) {
-    console.error("Error updating employee:", err);
-    return NextResponse.json({ error: "Failed to update employee" }, { status: 500 });
+    console.error("Azuriranje zaposlenog neuspesno:", err);
+    return NextResponse.json({ error: "Azuriranje zaposlenog neuspesno" }, { status: 500 });
   }
 }
-// DELETE /api/employees → brisanje zaposlenog
+// DELETE /api/employees - brisanje zaposlenog
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();
     const { id } = body;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing employee id" }, { status: 400 });
+      return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
     }
 
     const deletedEmployee = await db.delete(employees)
@@ -80,13 +80,13 @@ export async function DELETE(req: Request) {
       .returning();
 
     if (!deletedEmployee[0]) {
-      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+      return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
     }
 
     return NextResponse.json(deletedEmployee[0], { status: 200 });
   } catch (err) {
-    console.error("Error deleting employee:", err);
-    return NextResponse.json({ error: "Failed to delete employee" }, { status: 500 });
+    console.error("Brisanje zaposlenog neuspesno:", err);
+    return NextResponse.json({ error: "Brisanje zaposlenog neuspesno" }, { status: 500 });
   }
 }
 

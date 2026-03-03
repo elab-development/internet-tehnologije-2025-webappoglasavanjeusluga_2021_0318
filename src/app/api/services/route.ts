@@ -3,9 +3,7 @@ import { db } from "@/db";
 import { services, categories, profiles } from "@/db/schema"; 
 import { eq, ilike, and, or } from "drizzle-orm";
 
-/* ============================
-   GET - Pregled, filtriranje, pretraga
-============================ */
+/* GET - Pregled, filtriranje, pretraga */
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -63,7 +61,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error("Error fetching services:", err);
+    console.error("Usluge nisu pronadjene:", err);
     return NextResponse.json(
       { error: "Failed to fetch services" },
       { status: 500 }
@@ -71,9 +69,7 @@ export async function GET(req: Request) {
   }
 }
 
-/* ============================
-   POST - Kreiranje usluge
-============================ */
+/*  POST - Kreiranje usluge */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -81,7 +77,7 @@ export async function POST(req: Request) {
 
     if (!title || !price || !categoryId || !userId || !profileId) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Nisu popunjena sva polja" },
         { status: 400 }
       );
     }
@@ -98,17 +94,15 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newService[0], { status: 201 });
   } catch (err) {
-    console.error("Error creating service:", err);
+    console.error("Neuspesno kreiranje usluge:", err);
     return NextResponse.json(
-      { error: "Failed to create service" },
+      { error: "Neuspesno kreiranje usluge" },
       { status: 500 }
     );
   }
 }
 
-/* ============================
-   PUT - Izmena usluge
-============================ */
+/* PUT - Izmena usluge */
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
@@ -116,7 +110,7 @@ export async function PUT(req: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Missing service id" },
+        { error: "Nedostaje id usluge" },
         { status: 400 }
       );
     }
@@ -133,17 +127,15 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedService[0], { status: 200 });
   } catch (err) {
-    console.error("Error updating service:", err);
+    console.error("Neuspesno azuriranje usluge:", err);
     return NextResponse.json(
-      { error: "Failed to update service" },
+      { error: "Neuspesno azuriranje usluge" },
       { status: 500 }
     );
   }
 }
 
-/* ============================
-   DELETE - Brisanje usluge
-============================ */
+/* DELETE - Brisanje usluge */
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();
@@ -151,7 +143,7 @@ export async function DELETE(req: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Missing service id" },
+        { error: "Nedostaje id usluge" },
         { status: 400 }
       );
     }
@@ -163,9 +155,9 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json(deletedService[0], { status: 200 });
   } catch (err) {
-    console.error("Error deleting service:", err);
+    console.error("Neuspesno brisanje usluge:", err);
     return NextResponse.json(
-      { error: "Failed to delete service" },
+      { error: "Neuspesno brisanje usluge" },
       { status: 500 }
     );
   }
