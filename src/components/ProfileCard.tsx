@@ -4,13 +4,12 @@ import Link from "next/link";
 
 type Props = {
     profile: FullCompanyDto | FullFreelancerDto;
-    users?: FullUserDto[]; //obrisi !!!!!!!!!!!!!!!!!!!!!!!!!!
     extend?: boolean;
     serviceCount?: number;
     averageRating?: number;
 }
 
-export default function ProfileCard({profile, users, extend, serviceCount, averageRating}: Props) {
+export default function ProfileCard({profile, extend, serviceCount, averageRating}: Props) {
 
     return (
         <div
@@ -31,7 +30,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                 }
 
                  
-                {/* { "companyName" in profile && profile.verified===true ? ( */}
+               
                     { profile.companyName!=null && serviceCount!=null && serviceCount > 2 && averageRating!=null && averageRating >= 4.5 ? (
                     <Image src="/images/bedz-verifikovan.png" alt="Bedž" width={50} height={50}></Image>
                     ) : (
@@ -113,9 +112,9 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
                     {/* Ekstenzija kartice (Broj oglasa i Ocena) ********************************************/}
                     {extend ? 
                         (<div className="flex flex-row justify-between">
-                            {/* <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {profile.servicesCount}</p> */}
+                            
                             <p className="text-center"><i className=" text-gray-500">Broj oglasa:</i> <br /> {serviceCount}</p>
-                            {/* <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br />{profile.averageRating}</p> */}
+                            
                             <p className="text-center"><i className=" text-gray-500">Ocena:</i> <br /> {averageRating} </p>
                         </div>):
                         (<p></p>)
@@ -124,7 +123,7 @@ export default function ProfileCard({profile, users, extend, serviceCount, avera
 
                 </div>
                 
-            <Link href={`/profiles/${profile.id}/${profile.user.id}`} className="absolute inset-0" />
+            <Link href={`/profiles/${profile.id}`} className="absolute inset-0" />
         </div>
     )
 }

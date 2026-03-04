@@ -18,16 +18,9 @@ import { categories } from "@/db/schema";
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   icon:
- *                     type: string
+ *                 $ref: '#/components/schemas/Category'
  *       500:
- *         description: Greška na serveru. Neuspesno pronalazenje kategorija.
+ *         description: Greška na serveru. Neuspešno pronalaženje kategorija.
  */
 
 
@@ -42,3 +35,20 @@ export async function GET() {
     );
   }
 }
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *
+ *     Category:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         icon:
+ *           type: string
+ */

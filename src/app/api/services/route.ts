@@ -62,7 +62,7 @@ export async function GET() {
  * @swagger
  * components:
  *   schemas:
- *     Category:
+ *     CategoryName:
  *       type: object
  *       properties:
  *         id:
@@ -70,7 +70,7 @@ export async function GET() {
  *         name:
  *           type: string
  *
- *     Profile1:
+ *     ProfileCity:
  *       type: object
  *       properties:
  *         id:
@@ -93,9 +93,9 @@ export async function GET() {
  *           type: string
  *           format: date-time
  *         category:
- *           $ref: '#/components/schemas/Category'
+ *           $ref: '#/components/schemas/CategoryName'
  *         profile:
- *           $ref: '#/components/schemas/Profile1'
+ *           $ref: '#/components/schemas/ProfileCity'
  */
 
 

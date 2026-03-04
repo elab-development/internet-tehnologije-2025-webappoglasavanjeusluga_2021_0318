@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { profiles, users, services, reviews } from "@/db/schema";
 import { eq, sql} from "drizzle-orm";
-/**  
-* @swagger
-* /api/profiles:
+/**
+ * @swagger
+ * /api/profiles:
  *   get:
  *     summary: Vraća listu svih profila
  *     tags:
@@ -17,7 +17,7 @@ import { eq, sql} from "drizzle-orm";
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Profile'
+ *                 $ref: '#/components/schemas/ProfilePreview'
  *       500:
  *         description: Neuspešno pronalaženje profila
  */
@@ -27,10 +27,9 @@ export async function GET() {
   try {
     const data = await db
       .select({
-        //profile: profiles,
         id: profiles.id,
         city: profiles.city,
-        address: profiles.address,
+       
         description: profiles.description,
         image: profiles.image,
         companyName: profiles.companyName,
@@ -42,20 +41,13 @@ export async function GET() {
           firstName: users.firstName,
           lastName: users.lastName,
           phone: users.phone,
-          createdAt: users.createdAt,
+          
         },
-        serviceCount: sql<number>`
-          COUNT(DISTINCT ${services.id})
-        `,
-        averageRating: sql<number>`                       
-          COALESCE(ROUND(AVG(${reviews.rating})::numeric, 2), 0) 
-        `,
+        
       })                                                               
       .from(profiles)
       .leftJoin(users, eq(users.id, profiles.userId))
-      .leftJoin(services, eq(services.profileId, profiles.id))
-      .leftJoin(reviews, eq(reviews.profileId, profiles.id))
-      .groupBy(profiles.id, users.id);
+      
 
     return NextResponse.json(data);
   } catch (error) {
@@ -82,18 +74,13 @@ export async function GET() {
  *           type: string
  *         phone:
  *           type: string
- *         createdAt:
- *           type: string
- *           format: date-time
  *
- *     Profile:
+ *     ProfilePreview:
  *       type: object
  *       properties:
  *         id:
  *           type: integer
  *         city:
- *           type: string
- *         address:
  *           type: string
  *         description:
  *           type: string
@@ -111,16 +98,7 @@ export async function GET() {
  *           type: integer
  *         user:
  *           $ref: '#/components/schemas/User'
- *         serviceCount:
- *           type: string
- *           example: "1"
- *           description: Ukupan broj usluga (vraća se kao string iz baze)
- *         averageRating:
- *           type: string
- *           example: "4.00"
- *           description: Prosečna ocena (zaokružena na 2 decimale, vraća se kao string)
  */
-
 
 
 // POST - kreiranje novog profila
@@ -199,61 +177,3 @@ export async function DELETE(req: Request) {
   }
 }
 
-// import { NextResponse } from "next/server";
-// import { db } from "@/db";
-// import { profiles, services, reviews } from "@/db/schema";
-// import { eq, sql } from "drizzle-orm";
-
-// //dodati funkciju POST    !!!!!!!!!!!!!!!!!!!!!!! 
-
-// export async function GET(
-//   req: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   try {
-//     const profileId = Number(params.id);
-
-//     // 1. Učitaj profil
-//     const profile = await db
-//       .select()
-//       .from(profiles)
-//       .where(eq(profiles.id, profileId));
-
-//     if (!profile[0]) {
-//       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
-//     }
-
-//     // 2. Broj usluga
-//     const servicesCount = await db
-//       .select({ count: sql<number>`count(*)` })
-//       .from(services)
-//       .where(eq(services.profileId, profileId));
-
-//     // 3. Prosečna ocena
-//     const avgRating = await db
-//       .select({ avg: sql<number>`coalesce(avg(rating),0)` })
-//       .from(reviews)
-//       .where(
-//         sql`reviews.service_id IN (SELECT id FROM services WHERE profile_id = ${profileId})`
-//       );
-
-//     // 4. Verified logika
-//     const verified =
-//       Number(avgRating[0]?.avg ?? 0) > 4.5 &&
-//       Number(servicesCount[0]?.count ?? 0) > 7;
-
-//     // 5. Vrati JSON
-//     return NextResponse.json({
-//       ...profile[0],
-//       servicesCount: Number(servicesCount[0]?.count ?? 0),
-//       averageRating: Number(avgRating[0]?.avg ?? 0),
-//       verified,
-//     });
-//   } catch (err) {
-//     console.error("Error fetching profile details:", err);
-//     return NextResponse.json(
-//       { error: "Failed to fetch profile details" },
-//       { status: 500 }
-//     );
-//   }
-// }
