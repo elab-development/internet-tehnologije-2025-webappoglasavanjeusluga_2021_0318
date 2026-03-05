@@ -52,7 +52,6 @@ export const profiles = pgTable("profiles", {
   address: text("address").notNull(),
   description: text("description"),
   image: text("image"),
-  //averageRating: numeric("average_rating"),   ✅ izbrisano, jer se dinamicki racuna na Back-u prilikom poziva GET operacije
   companyName: text("company_name"),
   firstName: text("first_name"),
   lastName: text("last_name"),
@@ -67,6 +66,7 @@ export const profiles = pgTable("profiles", {
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  image: text("image"), //DODATO*************************************************
   description: text("description"),
   price: integer("price").notNull(),
   createdAt: timestamp("created_at").defaultNow(),

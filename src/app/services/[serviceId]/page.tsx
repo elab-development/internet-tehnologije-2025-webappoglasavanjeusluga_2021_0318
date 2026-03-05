@@ -2,9 +2,8 @@ import CalendarForBooking from "@/components/CalendarForBooking";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ProfileCard from "@/components/ProfileCard";
-import { mockCategories, mockProfiles, mockServices, mockUsers } from "@/mock/data";
-import { FullUserDto } from "@/shared/types";
 import Image from "next/image";
+import { RatingStars } from "@/components/RatingStars";
 
 
 type Props = {
@@ -16,17 +15,21 @@ type Props = {
 export default async function Service({ params }: Props) {
 
   const p = await params;
-
   const serviceId = Number(p.serviceId);
 
-  const service = mockServices.find((s) => s.id === serviceId)!;
-  const user = mockUsers.find((u) => u.id===service.user.id)!;
+  const res = await fetch(`http://localhost:3000/api/services/${serviceId}`, {cache: "no-store",});
 
-  const users: FullUserDto[] = [user];
-  const profile = mockProfiles.find((p) => p.id===service.profile.id && p.user.id===service.user.id)!;
+  if (!res.ok) {
+    throw new Error("Greška pri učitavanju usluge");
+  }
 
-  /////////////DODATO
-  const mode = "companyName" in profile ? "company":"freelancer"; 
+  const service = await res.json(); 
+
+  const profile = service.profile;
+  const user = service.user; 
+
+  const mode = profile.companyName ? "company" : "freelancer"; 
+
 
   return (
       
@@ -40,27 +43,28 @@ export default async function Service({ params }: Props) {
               <p className="font-semibold text-base md:text-xl py-3">Cena: {service.price} rsd</p>
             </div>
             <div className="sm:pt-10">
-              <ProfileCard profile={profile} users={users}></ProfileCard>
+              <ProfileCard profile={profile}></ProfileCard>
             </div> 
           </div>
            
           <div className="border border-gray-400 bg-gray-100 mt-3 p-2 gap-1">
-            <p className="font-semibold text-sm bg-gray-300 pl-1">OSNOVNI PODACI</p>
+            <p className="font-semibold text-sm bg-gray-300 pl-1 py-2 mb-3 text-center">OSNOVNI PODACI</p>
             <div className="flex flex-col xl:flex-row ">
               <div className="xl:w-1/2 py-3">
                 <h1><i className="text-gray-500">Usluga:</i> {service.title} </h1>
-                <p><i className="text-gray-500">Kategorija:</i> {mockCategories.find((k)=>k.id===service.category.id)?.name}</p>
-                <p><i className="text-gray-500">Kreirana:</i> {service.createdAt.toLocaleDateString("sr-RS")}</p>
+                 <p>
+                <i className="text-gray-500">Kategorija:</i>{" "}{service.category.name} </p>
+               <p><i className="text-gray-500">Kreirana:</i>{" "}{new Date(service.createdAt).toLocaleDateString("sr-RS")} </p>
               </div>
                 
               <div className="xl:w-1/2 py-3">
-                <p><i className="text-gray-500">Pružalac: </i> 
-                    {"companyName" in profile ? profile.companyName : `${profile.firstName} ${profile.lastName}`}
+                <p><i className="text-gray-500">Pružalac: </i>
+                {"companyName" in profile ? profile.companyName : `${profile.firstName} ${profile.lastName}`}
                 </p>
                 <p><i className="text-gray-500">Mesto</i>: {profile.city}</p>
                 <p><i className="text-gray-500">Adresa:</i> {profile.address}</p>
-                <p><i className="text-gray-500">Telefon:</i> {user.phone}</p>
-                <p><i className="text-gray-500">Pružalac od:</i> {user.createdAt.toLocaleDateString("sr-RS")}</p>
+                <p><i className="text-gray-500">Telefon:</i> {profile.user.phone}</p>
+                 <p><i className="text-gray-500">Pružalac od:</i>{" "}{new Date(profile.user.createdAt).toLocaleDateString("sr-RS")}</p>
               </div>
             </div>
               
@@ -68,7 +72,35 @@ export default async function Service({ params }: Props) {
               <p className="py-5"><i className="text-gray-500">Opis:</i> <br className="mb-2"/>{service.description}</p>
           </div>
 
-           <CalendarForBooking mode={mode} serviceId={serviceId}></CalendarForBooking>
+            
+        <CalendarForBooking mode={mode} appointments={service.appointments} availabilities={service.availabilities} serviceId={service.id}/>
+
+        <div className="bg-gray-300 pt-2 pb-2 px-5 rounded-sm border border-gray-400">
+          {/* Recenzije */}
+          <p className="font-semibold text-sm bg-gray-200 pl-1 py-2 mb-3 text-center">RECENZIJE</p>
+          {service.reviews.length === 0 ? (
+            <p className="text-gray-700 px-2 text-center">Nema recenzija</p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {service.reviews.map((review, id) => (
+                <div key={id} className="bg-gray-100 p-2 m-1">
+                  <div className="flex justify-between">
+                    <h1>{review.user?.firstName + " " + review.user?.lastName}</h1>
+                    <p className="text-sm text-gray-400">
+                      {new Date(review.createdAt).toLocaleDateString("sr-RS")}
+                    </p>
+                  </div>
+                  <hr className="border-gray-400 my-1" />
+                  <p className="text-gray-400 pb-1">
+                    <i>Usluga:</i> {review.service?.title}
+                  </p>
+                  <p className="pb-1">{review.comment}</p>
+                  <RatingStars rating={review.rating} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
          
         </div>
 
@@ -77,4 +109,5 @@ export default async function Service({ params }: Props) {
   );
 
 }
+
 

@@ -1,55 +1,135 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { services, reviews, appointments } from "@/db/schema";
+import {services, categories, profiles, users, reviews, appointments, employees, availabilities} from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// ✅ 
-export async function GET(req: Request) {  // ✅ samo jedan argument, req
-
+export async function GET(req: Request) {
   try {
-    const url = new URL(req.url); // ✅ novo, uzimamo URL da dohvatimo id
-    const segments = url.pathname.split("/").filter(Boolean); // ✅ parsira path na segmente
-    const serviceId = Number(segments[segments.length - 1]); // ✅ poslednji segment je id
+    const url = new URL(req.url);
+    const segments = url.pathname.split("/").filter(Boolean);
+    const serviceId = Number(segments[segments.length - 1]);
 
-    // ✅ dodata provera NaN
     if (isNaN(serviceId)) {
-      return NextResponse.json({ error: "Nedostaje id usluge" }, { status: 400 });
+      return NextResponse.json({ error: "Nevalidan ID usluge" }, { status: 400 });
     }
 
-    //✅✅✅✅✅✅✅✅✅✅✅✅✅izmenjen kod iznad✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+    // SERVICE + CATEGORY + PROFILE + USER
+    const serviceData = await db
+      .select({
+        id: services.id,
+        title: services.title,
+        description: services.description,
+        image: services.image,
+        price: services.price,
+        createdAt: services.createdAt,
 
-    // osnovni podaci o usluzi
-    const service = await db
-      .select()
+        category: {
+          id: categories.id,
+          name: categories.name,
+        },
+
+        profile: {
+          id: profiles.id,
+          city: profiles.city,
+          address: profiles.address,
+          description: profiles.description,
+          image: profiles.image,
+          companyName: profiles.companyName,
+          firstName: profiles.firstName,
+          lastName: profiles.lastName,
+
+          user: { 
+            id: users.id,
+            firstName: users.firstName,
+            lastName: users.lastName,
+            phone: users.phone,
+            createdAt: users.createdAt,
+          },
+        },
+      })
       .from(services)
+      .leftJoin(categories, eq(services.categoryId, categories.id))
+      .leftJoin(profiles, eq(services.profileId, profiles.id))
+      .leftJoin(users, eq(profiles.userId, users.id))
       .where(eq(services.id, serviceId));
 
-    if (!service[0]) {
-      return NextResponse.json({ error: "Usluga nije pronadjena" }, { status: 404 });
+    if (!serviceData[0]) {
+      return NextResponse.json({ error: "Usluga nije pronađena" }, { status: 404 });
     }
 
-    // recenzije za uslugu
+    // REVIEWS
     const serviceReviews = await db
-      .select()
+      .select({
+        id: reviews.id,
+        rating: reviews.rating,
+        comment: reviews.comment,
+        createdAt: reviews.createdAt,
+
+        user: {
+          id: users.id,
+          firstName: users.firstName,
+          lastName: users.lastName,
+        },
+
+        service: {
+          id: services.id,
+          title: services.title,
+        },
+      })
       .from(reviews)
+      .leftJoin(users, eq(reviews.userId, users.id))
+      .leftJoin(services, eq(reviews.serviceId, services.id))
       .where(eq(reviews.serviceId, serviceId));
 
-    // termini za uslugu
+    // APPOINTMENTS
     const serviceAppointments = await db
       .select()
       .from(appointments)
       .where(eq(appointments.serviceId, serviceId));
 
+    // EMPLOYEES
+    const profileEmployees = await db
+      .select()
+      .from(employees)
+      .where(eq(employees.profileId, serviceData[0].profile.id));
+
+    // AVAILABILITIES
+    const availabilityData = await db
+      .select({
+        id: availabilities.id,
+        note: availabilities.note,
+        employee: {
+          id: employees.id,
+          firstName: employees.firstName,
+          lastName: employees.lastName,
+          description: employees.description,
+        },
+        appointment: {
+          id: appointments.id,
+          date: appointments.date,
+          time: appointments.time,
+          isBooked: appointments.isBooked,
+        },
+      })
+      .from(availabilities)
+      .leftJoin(employees, eq(availabilities.employeeId, employees.id))
+      .leftJoin(appointments, eq(availabilities.appointmentId, appointments.id));
+
     return NextResponse.json({
-      ...service[0],
+      ...serviceData[0],
       reviews: serviceReviews,
       appointments: serviceAppointments,
+      employees: profileEmployees,
+      availabilities: availabilityData,
     });
   } catch (err) {
-    console.error("Neuspesno slanje podataka o usluzi:", err);
+    console.error("Greška:", err);
+
     return NextResponse.json(
-      { error: "Neuspesno slanje podataka o usluzi" },
+      { error: "Neuspešno učitavanje usluge" },
       { status: 500 }
     );
   }
 }
+
+

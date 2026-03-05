@@ -156,3 +156,43 @@ export interface  FullAvailabilityDto {
     }
     note:string;
 }
+
+
+
+
+
+
+
+
+
+export interface ServiceDetailsDto {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  createdAt: Date;
+
+  category: {
+    id: number;
+    name: string;
+  };
+
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    createdAt: Date;
+  };
+
+  profile: FullProfileDto;
+
+  reviews: FullReviewDto[];
+
+  appointments: FullAppointmentDto[];
+
+  availabilities: FullAvailabilityDto[];
+
+  employees: FullEmployeeDto[];
+}

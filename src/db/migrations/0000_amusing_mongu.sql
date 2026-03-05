@@ -53,6 +53,7 @@ CREATE TABLE "reviews" (
 CREATE TABLE "services" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
+	"image" text,
 	"description" text,
 	"price" integer NOT NULL,
 	"created_at" timestamp DEFAULT now(),
