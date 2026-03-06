@@ -46,12 +46,17 @@ export default function ProfileCard({profile, extend, serviceCount, averageRatin
                 </h3>
 
                 <div className="w-30 h-30 rounded-full overflow-hidden">
-                    <Image
-                        src="https://picsum.photos/300/400"
+                        <Image
+                        src={
+                            profile.image && profile.image.length > 0
+                            ? `${profile.image}`
+                            : `https://picsum.photos/seed/${profile.id}/300/300`
+                        }
                         alt="Avatar"
                         width={150}
                         height={150}
-                        className="object-cover transition-transform duration-200 group-hover:scale-110"/>
+                        className="object-cover transition-transform duration-200 group-hover:scale-110 bg-green-200"
+                        />
                 </div>
                 
             </div>

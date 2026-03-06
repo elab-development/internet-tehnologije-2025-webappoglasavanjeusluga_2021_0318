@@ -3,6 +3,35 @@ import { db } from "@/db";
 import {services, categories, profiles, users, reviews, appointments, employees, availabilities} from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+/**
+ * @swagger
+ * /api/services/{id}:
+ *   get:
+ *     summary: Detaljan prikaz jedne usluge
+ *     tags:
+ *       - Usluge
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID usluge
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćeni podaci o usluzi
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ServiceDetailsResponse'
+ *       400:
+ *         description: Nevalidan ID
+ *       404:
+ *         description: Usluga nije pronađena
+ *       500:
+ *         description: Greška na serveru
+ */
+
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
@@ -132,4 +161,113 @@ export async function GET(req: Request) {
   }
 }
 
-
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *
+ *     ServiceDetailsResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         image:
+ *           type: string
+ *           nullable: true
+ *         price:
+ *           type: number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         category:
+ *           $ref: '#/components/schemas/CategoryName'
+ *         profile:
+ *           $ref: '#/components/schemas/ProfileServiceDetails'
+ *         reviews:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Review'
+ *         appointments:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Appointment'
+ *         employees:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Employee'
+ *         availabilities:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Availability'
+ *
+ *
+ *     ProfileServiceDetails:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         city:
+ *           type: string
+ *         address:
+ *           type: string
+ *         description:
+ *           type: string
+ *         image:
+ *           type: string
+ *           nullable: true
+ *         companyName:
+ *           type: string
+ *           nullable: true
+ *         firstName:
+ *           type: string
+ *           nullable: true
+ *         lastName:
+ *           type: string
+ *           nullable: true
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *
+ *
+ *     Employee:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         description:
+ *           type: string
+ *
+ *
+ *     Appointment:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         time:
+ *           type: string
+ *         isBooked:
+ *           type: boolean
+ *
+ *
+ *     Availability:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         note:
+ *           type: string
+ *         employee:
+ *           $ref: '#/components/schemas/Employee'
+ *         appointment:
+ *           $ref: '#/components/schemas/Appointment'
+ */

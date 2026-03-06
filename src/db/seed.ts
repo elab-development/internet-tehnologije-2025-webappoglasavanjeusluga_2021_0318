@@ -251,7 +251,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Niš",
     address: "Kumanovska 8",
     description: "Profesor i freelance instruktor za arhitektonske softvere sa više od 10 godina iskustva...",
-    image: "/images/freelancer-architecture.jpg",
+    image: null,
     firstName: "Petar",
     lastName: "Petrović",
     companyName: null,
@@ -261,7 +261,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Beograd",
     address: "Bulevar oslobodjenja 86",
     description: "Iskusni tehničar za računare i IT podršku, specijalizovan za popravku hardvera i softvera...",
-    image: "/images/freelancer-it.jpg",
+    image: null,
     firstName: "Stevan",
     lastName: "Stevanović",
     companyName: null,
@@ -271,7 +271,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Pančevo",
     address: "Cara Lazara 44",
     description: "Profesionalna radnica za čišćenje stanova i poslovnih prostora...",
-    image: "/images/freelancer-cleaning.jpg",
+    image: null,
     firstName: "Marija",
     lastName: "Stojanović",
     companyName: null,
@@ -281,7 +281,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Čačak",
     address: "Industrijska zona bb",
     description: "Auto-mehaničar specijalizovan za brze intervencije i redovno održavanje vozila...",
-    image: "/images/freelancer-auto.jpg",
+    image: null,
     firstName: "Vladimir",
     lastName: "Pavlović",
     companyName: null,
@@ -291,7 +291,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Novi Sad",
     address: "Bulevar Evrope 92",
     description: "Samostalni serviser klima uređaja sa višegodišnjim iskustvom...",
-    image: "/images/freelancer-ac-service.jpg",
+    image: null,
     firstName: "Marko",
     lastName: "Jovanović",
     companyName: null,
@@ -301,7 +301,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Beograd",
     address: "Nemanjina 15",
     description: "Samostalni pravnik sa iskustvom u pružanju pravnih usluga...",
-    image: "/images/freelancer-lawyer.jpg",
+    image: null,
     firstName: "Jelena",
     lastName: "Marković",
     companyName: null,
@@ -311,7 +311,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Novi Sad",
     address: "Bulevar Oslobođenja 22",
     description: "Iskusni moler sa više od 10 godina rada na unutrašnjem i spoljašnjem farbanju...",
-    image: "/images/freelancer-painter.jpg",
+    image: null,
     firstName: "Marko",
     lastName: "Petrović",
     companyName: null,
@@ -323,7 +323,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Novi Sad",
     address: "Ustanička 22",
     description: "Salon lepote Bella pruža vrhunske kozmetičke i estetske usluge...",
-    image: "/images/beauty-salon.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Bella Beauty Salon",
@@ -333,7 +333,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Beograd",
     address: "Bulevar Kralja Aleksandra 153",
     description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar...",
-    image: "/images/car-service.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Beograd Royal",
@@ -343,7 +343,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Beograd",
     address: "Kralja Petra 45",
     description: "Tech Solutions je IT kompanija koja pruža profesionalne usluge web i softverskog razvoja...",
-    image: "/images/tech-solutions.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Tech Solutions",
@@ -353,7 +353,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Niš",
     address: "Pop Lukina 10",
     description: "FitLife Gym je moderna teretana koja nudi personalizovane trening programe...",
-    image: "/images/fitlife-gym.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "FitLife Gym",
@@ -363,7 +363,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Subotica",
     address: "Bajska 18",
     description: "Creative Agency pruža profesionalne usluge grafičkog dizajna, brendiranja i marketinga...",
-    image: "/images/creative-agency.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Creative Agency",
@@ -373,7 +373,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Novi Sad",
     address: "Futoška 102",
     description: "IT Optimus je specijalizovana kompanija za optimizaciju i održavanje IT sistema...",
-    image: "/images/it-optimization.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "IT Optimus",
@@ -383,7 +383,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Sremska Mitrovica",
     address: "Fruškogorska 12",
     description: "Pansion za pse smešten u mirnom okruženju sa velikim dvorištem...",
-    image: "/images/dog-hotel.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Sapa Pansion",
@@ -393,7 +393,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     city: "Beograd",
     address: "Bulevar Kralja Aleksandra 45",
     description: "Preduzeće specijalizovano za transportne usluge, uključujući dostavu paketa i selidbe...",
-    image: "/images/transport-services.jpg",
+    image: null,
     firstName: null,
     lastName: null,
     companyName: "Gonzales Transport",
@@ -414,7 +414,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Servis klime",
     description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 7000,
     createdAt: new Date("2025-12-01"),
     categoryId: 2,   // Zanatske i instalaterske usluge
@@ -424,7 +424,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Čišćenje i popravka komponenti računara",
     description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 5000,
     createdAt: new Date("2026-01-11"),
     categoryId: 1,   // IT i digitalne usluge
@@ -434,7 +434,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Žensko šišanje - sve dužine kose",
     description: "Lepa i zdrava kosa najlepši je nakit na ženi, ali za to je potreban trud kao i znanje i iz tog razloga veoma je važno kome ćete poveriti brigu o Vašoj kosi. Mesto gde je zdravlje kose, kao i stručnost, na prvom mestu sada je na samo jedan klik od Vas",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 1700,
     createdAt: new Date("2025-12-20"),
     categoryId: 4,   // Zdravlje i lepota
@@ -444,7 +444,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Manikir + lakiranje noktiju",
     description: "Profesionalni manikir za negovane ruke, zdrave nokte i uredan, dugotrajan izgled.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 2000,
     createdAt: new Date("2025-12-01"),
     categoryId: 4,
@@ -454,7 +454,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Optimizacija Operativnog Sistema | Rešavanje Problema sa Hlađenjem",
     description: "Vaš računar je usporen, pregreva se ili bučno radi? Nudimo profesionalne usluge optimizacije sistema i poboljšanja hlađenja za stabilan i efikasan rad.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 8000,
     createdAt: new Date("2026-01-11"),
     categoryId: 1,
@@ -464,7 +464,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Kurs REVIT-a za arhitekte",
     description: "Predavač je Autodesk Certifikovani Instruktor PLATINUM, iskustvo preko 30 godina rada. Časovi mogu biti onlajn ili uživo, na srpskom ili engeskom jeziku. Po završenoj obuci se dobija zvanična Autodeskova diploma ATC. Časovi se održavaju najčešće po 3 termina nedeljno sa 2 ili 3 školska časa 45 min. po terminu. Kurs obuhvata 12 termina.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 52000,
     createdAt: new Date("2026-01-08"),
     categoryId: 3,   // Obrazovanje i obuke
@@ -474,7 +474,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Pansion za pse - jednonedeljni boravak",
     description: "Dobrodošli u Pansion za pse, smešten u domaćinstvu okruženim prirodom, gde će vaš ljubimac uživati dok ste vi odsutni. Za Vašeg ljubimca obezbeđujemo: čuvanje, šetnju, vežbe, obrok, veterinarsku negu. Vaš pas zaslužuje najbolju brigu. Rezervišite mesto u našem pansionu za pse već danas!",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 8000,
     createdAt: new Date("2025-12-10"),
     categoryId: 5,   // Kućni ljubimci
@@ -484,7 +484,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Generalno čišćenje stanova",
     description: "Detaljno čišćenje stanova i kuća, uključujući kuhinju, kupatilo, podove i staklene površine. Idealno nakon renoviranja ili pred useljenje.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 6000,
     createdAt: new Date("2025-08-20"),
     categoryId: 6,   // Usluga pranja i čišćenja
@@ -494,7 +494,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Mali servis vozila",
     description: "Zamena ulja i filtera uz osnovnu dijagnostiku vozila. Brza i pouzdana usluga održavanja putničkih automobila.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 5500,
     createdAt: new Date("2026-01-11"),
     categoryId: 7,   // Auto usluge
@@ -504,7 +504,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Relaks masaža celog tela",
     description: "Profesionalna relaks masaža koja pomaže u smanjenju stresa, opuštanju mišića i poboljšanju cirkulacije. Tretman se prilagođava individualnim potrebama klijenta.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 4500,
     createdAt: new Date("2025-12-12"),
     categoryId: 4,
@@ -514,7 +514,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Pravno savetovanje",
     description:  "Stručno pravno savetovanje za fizička i pravna lica. Pomoć u izradi ugovora, tumačenju zakona i rešavanju imovinsko-pravnih odnosa.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 7000,
     createdAt: new Date("2025-06-20"),
     categoryId: 8,   // Finansijske i pravne usluge
@@ -524,7 +524,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Kombi prevoz stvari",
     description: "Pouzdana usluga kombi prevoza za selidbe i transport robe na teritoriji grada i okoline. Brza organizacija i siguran prevoz.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 9000,
     createdAt: new Date("2025-06-18"),
     categoryId: 9,   // Transportne usluge
@@ -534,7 +534,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Krečenje stanova",
     description: "Profesionalno krečenje stanova i kuća, uključujući pripremu zidova i završnu obradu. Kvalitetan i uredan rad po dogovoru.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 12000,
     createdAt: new Date("2025-06-25"),
     categoryId: 11,  // Dom i građevinski radovi
@@ -544,7 +544,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Ketering za proslave",
     description: "Organizacija keteringa za rođendane, svadbe i poslovne događaje. Bogat meni, profesionalna usluga i prilagođavanje potrebama klijenata.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 25000,
     createdAt: new Date("2025-06-15"),
     categoryId: 14,  // Događaji i Ketering
@@ -554,7 +554,7 @@ const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Muško šišanje",
     description: "Profesionalno šišanje prilagođeno vašem stilu i tipu kose. Usluga uključuje šišanje makazama i/ili mašinicom, precizne prelaze, sređivanje kontura i završno stilizovanje za uredan i moderan izgled.",
-    image: "/images/x-service.jpg",
+    image: null,
     price: 1700,
     createdAt: new Date("2025-12-20"),
     categoryId: 4,

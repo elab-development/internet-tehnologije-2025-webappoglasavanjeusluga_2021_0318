@@ -13,7 +13,9 @@ export default function ServiceCard({ service }: Props){
             key={service.id}
             className="group relative overflow-hidden rounded-lg border border-gray-400 bg-gray-100 hover:scale-103 shadow-xl max-h-105" >
             <Image
-                src="https://picsum.photos/300/400"
+                src={service.image && service.image.length > 0
+                        ? `${service.image}`
+                        : `https://picsum.photos/seed/${service.id}/300/300`}
                 alt=""
                 width={300}
                 height={400}
