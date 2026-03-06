@@ -14,6 +14,8 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
  *     summary: Dohvatanje profila trenutno prijavljenog korisnika
  *     tags:
  *       - Profili
+ *     security:
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: Uspešno vraćeni podaci profila
@@ -169,6 +171,12 @@ export async function GET() {
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     cookieAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: auth
+ *
  *   schemas:
  *
  *     ProfileMeResponse:

@@ -103,6 +103,14 @@ const companyAllowedPages = [
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+   /* =========================
+     SWAGGER DOCS (PUBLIC)
+  ========================== */
+
+  if (pathname.startsWith("/api-docs")) { 
+    return NextResponse.next();
+  }
+
   /* =========================
      AUTH RUTE
   ========================== */
@@ -219,7 +227,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+     "/((?!_next/static|_next/image|favicon.ico|api-docs).*)",
   ],
 };
 
