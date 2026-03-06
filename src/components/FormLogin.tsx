@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 
 interface PropsFormLogin {
   setIsLoginOpen: (value: boolean) => void;
@@ -9,13 +10,6 @@ interface PropsFormLogin {
 
 type UserRole = "USER" | "FREELANCER" | "COMPANY"; //uloge koje backend može vratiti
 
-type LoginResponse = {
-  user: {
-    id: number;
-    email: string;
-    role: UserRole;
-  };
-};
 
 export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
   const router = useRouter();
@@ -23,6 +17,7 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const { refresh } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,22 +45,15 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
       const data = await res.json();
       console.log("LOGIN DATA:", data);
       const role = data.role;
-
-      localStorage.clear();
-      localStorage.setItem("userId", data.id.toString());
-      localStorage.setItem("role", data.role);
-      localStorage.setItem("email", data.email);
       
-      
+      await refresh();
 
       setIsLoginOpen(false); // zatvori modal
 
       // preusmeravanje na osnovu tipa korisnika
       if (role === "FREELANCER" || role === "COMPANY") {
         router.push("/dashboard");
-      } else {
-       window.location.reload(); //reload svih komponenti
-      }
+      } 
     } catch (error) {
       setErr("Greška pri logovanju");
     } finally {

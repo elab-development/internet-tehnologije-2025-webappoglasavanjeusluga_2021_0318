@@ -2,28 +2,27 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 
 
-export default function FormLogout() {
+interface PropsFormLogout {
+  setIsLogoutOpen: (value: boolean) => void;
+}
+
+export default function FormLogout({ setIsLogoutOpen }: PropsFormLogout) {
   const [loading, setLoading] = useState(false);
   const router = useRouter(); 
 
+  const { logout } = useAuth();
+
   const handleLogout = async () => { 
   setLoading(true);
-
   try {
-    await fetch("/api/auth/logout", { 
-      method: "POST",                 
-      headers: {                      
-        "Content-Type": "application/json", 
-      },
-    });
+      await logout();
 
-      localStorage.clear();
-   
-      router.refresh();
+      setIsLogoutOpen(false);
+
       router.push("/");
-      //window.location.reload();
 
     } catch (error) {
       console.error("Logout error:", error);
@@ -44,7 +43,7 @@ export default function FormLogout() {
           disabled={loading}
           className="w-full bg-red-400 text-white py-2 rounded-md hover:bg-red-700"
         >
-          {loading ? "Odjavljivanje..." : "Logout"}
+          {loading ? "Odjavljivanje..." : "Odjavi se"}
         </button>
       </div>
     </div>
