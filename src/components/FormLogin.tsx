@@ -46,6 +46,7 @@ export default function FormLogin({ setIsLoginOpen }: PropsFormLogin) {
       console.log("LOGIN DATA:", data);
       const role = data.role;
       
+      router.refresh();
       await refresh();
 
       setIsLoginOpen(false); // zatvori modal

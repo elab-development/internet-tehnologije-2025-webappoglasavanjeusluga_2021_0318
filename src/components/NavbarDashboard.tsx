@@ -5,10 +5,13 @@ import BtnLogin from "./BtnLogin";
 import { useRouter } from "next/navigation";
 import UserCard from "./UserCard";
 import Link from "next/link";
+import { useAuth } from "@/components/AuthProvider";
 
 export default function NavbarDashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const {user, status} = useAuth();
 
   return (
     
@@ -39,6 +42,11 @@ export default function NavbarDashboard() {
                           //router.push('/dashboard');
                           }}>Profil</Link>
                 <a href="/reservations" className="hover:text-gray-300">Rezervacije</a>
+                { 
+                status === "authenticated" && user.role === "COMPANY" 
+                ? (<a href="/employees" className="hover:text-gray-300">Radnici</a>)
+                :(<p></p>)
+                }
             </div>
             
             <div className="flex gap-3 ml-4 items-center text-center">
