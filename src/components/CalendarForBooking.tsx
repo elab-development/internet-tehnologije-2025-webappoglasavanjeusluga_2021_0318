@@ -5,6 +5,7 @@ import "react-day-picker/dist/style.css";
 import { useEffect, useState } from "react";
 import { srLatn } from "date-fns/locale";
 import { format } from "date-fns";
+import { useAuth } from "@/components/AuthProvider";
 
 type Mode = "company" | "freelancer";
 
@@ -19,31 +20,36 @@ export default function CalendarForBooking({
   availabilities: any[];
   serviceId: number;
 }) {
+  const { user, status } = useAuth(); // IZMENJENO
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [times, setTimes] = useState<string[]>([]);
   const [time, setTime] = useState("Po dogovoru");
   const [timeId, setTimeId] = useState<number | undefined>();
 
   const [availableEmployees, setAvailableEmployees] = useState<any[]>([]);
-  const [selectedEmployee, setSelectedEmployee] =useState("Slobodan zaposleni");
+  const [selectedEmployee, setSelectedEmployee] =
+    useState("Slobodan zaposleni");
 
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  // dostupni dani
+  if (status === "loading") {
+    return null;
+  }
+
   const availableDates = appointments
     .filter((a) => !a.isBooked)
     .map((a) => new Date(a.date));
 
   const modifiers = {
-    available: availableDates
+    available: availableDates,
   };
 
   const modifiersClassNames = {
-    available: "bg-red-300 text-white rounded-full"
+    available: "bg-red-300 text-white rounded-full",
   };
 
-  // ucitavanje termina za datum
   useEffect(() => {
     if (!selectedDate) {
       setTimes([]);
@@ -54,7 +60,7 @@ export default function CalendarForBooking({
       .filter(
         (a) =>
           new Date(a.date).toDateString() ===
-            selectedDate.toDateString()
+          selectedDate.toDateString()
       )
       .map((a) => a.time);
 
@@ -63,7 +69,6 @@ export default function CalendarForBooking({
     setTimeId(undefined);
   }, [selectedDate, appointments]);
 
-  // dostupni radnici
   useEffect(() => {
     if (!selectedDate || !time || time === "Po dogovoru") {
       setAvailableEmployees([]);
@@ -87,7 +92,6 @@ export default function CalendarForBooking({
     setAvailableEmployees(employees);
   }, [time, selectedDate, appointments, availabilities]);
 
-  // REZERVACIJA
   const handleBooking = async () => {
     if (!selectedDate || !time) {
       setErr("Molimo izaberite datum i vreme.");
@@ -131,7 +135,6 @@ export default function CalendarForBooking({
   return (
     <div className="flex flex-col md:flex-row gap-5 md:gap-10 py-5 items-center">
 
-      {/* KALENDAR */}
       <div className="flex flex-col bg-white p-5 w-85 h-95 rounded-xl border border-gray-400">
         <DayPicker
           mode="single"
@@ -148,117 +151,178 @@ export default function CalendarForBooking({
         />
       </div>
 
-      {/* DATUM + VREME + (RADNICI) */}
-      <div className="ml-5 min-h-70">
+      {user?.role === "USER" && ( // USLOVNO PRIKAZIVANJE
+        <div className="ml-5 min-h-70">
 
-        <div className="flex gap-2 my-5">
-          <p>Izabran datum:</p>
-          <input
-            className="border border-gray-500 text-center"
-            disabled
-            value={
-              selectedDate
-                ? selectedDate.toLocaleDateString("sr-RS")
-                : ""
-            }
-          />
-        </div>
+          <div className="flex gap-2 my-5">
+            <p>Izabran datum:</p>
+            <input
+              className="border border-gray-500 text-center"
+              disabled
+              value={
+                selectedDate
+                  ? selectedDate.toLocaleDateString("sr-RS")
+                  : ""
+              }
+            />
+          </div>
 
-        <div className="flex flex-wrap gap-2 pt-5">
+          <div className="flex flex-wrap gap-2 pt-5">
 
-          {selectedDate && <p>Izaberite vreme:</p>}
+            {selectedDate && <p>Izaberite vreme:</p>}
 
-          {/* PO DOGOVORU */}
-          {selectedDate && (
-            <button
-              onClick={() => {
-                setTimeId(undefined);
-                setTime("Po dogovoru");
-              }}
-              className={`border border-gray-500 rounded-xl p-1 bg-gray-50 hover:bg-red-400 ${
-                timeId === undefined ? "bg-red-400" : ""
-              }`}
-            >
-              Po dogovoru
-            </button>
+            {selectedDate && (
+              <button
+                onClick={() => {
+                  setTimeId(undefined);
+                  setTime("Po dogovoru");
+                }}
+                className={`border border-gray-500 rounded-xl p-1 bg-gray-50 hover:bg-red-400 ${
+                  timeId === undefined ? "bg-red-400" : ""
+                }`}
+              >
+                Po dogovoru
+              </button>
+            )}
+
+            {times.map((t, id) => {
+              const appointment = appointments.find(
+                (a) =>
+                  a.time === t &&
+                  new Date(a.date).toDateString() ===
+                    selectedDate?.toDateString()
+              );
+
+              return (
+                <button
+                  key={id}
+                  disabled={appointment?.isBooked}
+                  onClick={() => {
+                    setTimeId(id);
+                    setTime(t);
+                  }}
+                  className={`border border-gray-500 rounded-xl p-1
+                    ${
+                      appointment?.isBooked
+                        ? "bg-gray-300 cursor-not-allowed"
+                        : "bg-gray-50 hover:bg-red-400"
+                    }
+                    ${timeId === id ? "bg-red-400" : ""}
+                  `}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedDate && mode === "company" && (
+            <div className="flex flex-row pt-2">
+              {/* <p className="pt-7 pb-5 pr-3">Radnik:</p> */}
+
+              <select
+                value={selectedEmployee}
+                onChange={(e) =>
+                  setSelectedEmployee(e.target.value)
+                }
+                className="bg-gray-50 border border-gray-500 rounded-xl h-10 w-70 mt-5 p-2 text-center"
+              >
+                <option value="Slobodan zaposleni">
+                  Dostupni radnici
+                </option>
+
+                {availableEmployees.map((emp) => (
+                  <option key={emp.id} value={emp.id}>
+                    {emp.firstName} {emp.lastName}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
 
-          {/* TERMINI */}
-          {times.map((t, id) => {
-            const appointment = appointments.find(
-              (a) =>
-                a.time === t &&
-                new Date(a.date).toDateString() ===
-                  selectedDate?.toDateString()
-            );
-
-            return (
+          {selectedDate && (
+            <div className="mt-4">
               <button
-                key={id}
-                disabled={appointment?.isBooked}
-                onClick={() => {
-                  setTimeId(id);
-                  setTime(t);
-                }}
-                className={`border border-gray-500 rounded-xl p-1
-                  ${
-                    appointment?.isBooked
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-gray-50 hover:bg-red-400"
-                  }
-                  ${timeId === id ? "bg-red-400" : ""}
-                `}
+                onClick={handleBooking}
+                disabled={loading}
+                className="px-3 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 disabled:opacity-60"
               >
-                {t}
+                {loading ? "Obrada..." : "Rezerviši termin"}
               </button>
-            );
-          })}
+            </div>
+          )}
+
+          {err && (
+            <p className="mt-3 text-sm text-red-600">{err}</p>
+          )}
+
         </div>
+      )}
 
-        {/* RADNICI */}
-        {selectedDate && mode === "company" && (
-          <div className="flex flex-row pt-2">
-            <p className="pt-7 pb-5 pr-3">Radnik:</p>
+      { (user?.role === "COMPANY" || user?.role === "FREELANCER")  && ( // USLOVNO PRIKAZIVANJE
+        <div className="ml-5 min-h-70">
 
-            <select
-              value={selectedEmployee}
-              onChange={(e) =>
-                setSelectedEmployee(e.target.value)
-              }
-              className="bg-gray-50 border border-gray-500 rounded-xl h-10 w-70 mt-5 p-2 text-center"
-            >
-              <option value="Slobodan zaposleni">
-                Slobodan zaposleni
-              </option>
+          <div className="flex flex-wrap gap-2 pt-5">
 
-              {availableEmployees.map((emp) => (
-                <option key={emp.id} value={emp.id}>
-                  {emp.firstName} {emp.lastName}
+            {selectedDate && <p>Vreme:</p>}
+            
+            {times.map((t, id) => {
+              const appointment = appointments.find(
+                (a) =>
+                  a.time === t &&
+                  new Date(a.date).toDateString() ===
+                    selectedDate?.toDateString()
+              );
+
+              return (
+                <button
+                  key={id}
+                  disabled={appointment?.isBooked}
+                  onClick={() => {
+                    setTimeId(id);
+                    setTime(t);
+                  }}
+                  className={`border border-gray-500 rounded-xl p-1
+                    ${
+                      appointment?.isBooked
+                        ? "bg-gray-300 cursor-not-allowed"
+                        : "bg-gray-50 hover:bg-red-400"
+                    }
+                    ${timeId === id ? "bg-red-400" : ""}
+                  `}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedDate && mode === "company" && (
+            <div className="flex flex-row pt-2">
+
+              <select
+                value={selectedEmployee}
+                onChange={(e) =>
+                  setSelectedEmployee(e.target.value)
+                }
+                className="bg-gray-50 border border-gray-500 rounded-xl h-10 w-70 mt-5 p-2 text-center"
+              >
+                <option value="Slobodan zaposleni">
+                  Dostupni radnici
                 </option>
-              ))}
-            </select>
-          </div>
-        )}
 
-        {/* DUGME */}
-        {selectedDate && (
-          <div className="mt-4">
-            <button
-              onClick={handleBooking}
-              disabled={loading}
-              className="px-3 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 disabled:opacity-60"
-            >
-              {loading ? "Obrada..." : "Rezerviši termin"}
-            </button>
-          </div>
-        )}
+                {availableEmployees.map((emp) => (
+                  <option key={emp.id} value={emp.id}>
+                    {emp.firstName} {emp.lastName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          
+        </div>
+      )}
 
-        {err && (
-          <p className="mt-3 text-sm text-red-600">{err}</p>
-        )}
-
-      </div>
     </div>
   );
 }
-

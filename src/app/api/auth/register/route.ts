@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Registracija novog korisnika
+ *     summary: Kreiranje korisnickog Naloga (Korisnik/Samostalca/Preduzece) i Profila (Samostalac/Preduzece)
  *     tags:
  *       - Auth
  *     requestBody:
@@ -131,7 +131,7 @@ export async function POST(req: Request) {
     })
     .returning();
 
-  // Ako je FREELANCER ili COMPANY → kreiraj profile
+  // Ako je FREELANCER ili COMPANY - kreiraj profile
   if (role === "FREELANCER" || role === "COMPANY") {
     await db.insert(profiles).values({
       userId: newUser.id,

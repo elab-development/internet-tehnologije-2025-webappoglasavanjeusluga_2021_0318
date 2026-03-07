@@ -1,9 +1,9 @@
-import { FullCompanyDto, FullFreelancerDto, FullUserDto } from "@/shared/types";
+import { FullProfileDto } from "@/shared/types";
 import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-    profile: FullCompanyDto | FullFreelancerDto;
+    profile: FullProfileDto;
     extend?: boolean;
     serviceCount?: number;
     averageRating?: number;

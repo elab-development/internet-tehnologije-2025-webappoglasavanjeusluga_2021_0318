@@ -60,11 +60,10 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   ]);
 
   // ubaci nove korisnike
- await db.insert(users).values([ 
+ await db.insert(users).values([                         
     { 
         email: "petar.petrovic@gmail.com", 
-        //password: "petar123", 
-        password: hashed,
+        password: hashed,          //password za sve seedovane korisnike: "123456"
         firstName: "Petar", 
         lastName: "Petrovic", 
         phone: "063245319", 
@@ -72,7 +71,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         
     { 
         email: "ana.anic@gmail.com", 
-            //password: "ana123",
             password: hashed, 
             firstName: "Ana", 
             lastName: "Anic", 
@@ -81,7 +79,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
             
     { 
         email: "milan.milanovic@gmail.com", 
-        //password: "milan123", 
         password: hashed,
         firstName: "Milan", 
         lastName: "Milanovic", 
@@ -91,7 +88,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "stevan.stevanovic@gmail.com", 
-        //password: "stevan123", 
         password: hashed,
         firstName: "Stevan", 
         lastName: "Stevanovic",
@@ -101,7 +97,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "bellabeautysalon@gmail.com", 
-        //password: "marija123", 
         password: hashed,
         firstName: "Marija", 
         lastName: "Maric", 
@@ -110,7 +105,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     }, 
     { 
         email: "beogradroyal@gmail.com", 
-        //password: "jovan123", 
         password: hashed,
         firstName: "Jovan", 
         lastName: "Jovanovic", 
@@ -119,7 +113,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     }, 
     {
          email: "techsolutions@gmail.com", 
-         //password: "ana123", 
          password: hashed,
          firstName: "Ana", 
          lastName: "Marković", 
@@ -128,7 +121,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         }, 
     { 
          email: "fitlifegym@gmail.com", 
-         //password: "petar123",
          password: hashed, 
          firstName: "Petar", 
          lastName: "Simić", 
@@ -138,7 +130,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "creativeagency@gmail.com", 
-        //password: "milica123",
         password: hashed, 
         firstName: "Milica", 
         lastName: "Kovačević", 
@@ -148,7 +139,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "marija.stojanovic@gmail.com", 
-        //password: "marija123", 
         password: hashed,
         firstName: "Marija", 
         lastName: "Stojanović", 
@@ -158,7 +148,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "vladimir.pavlovic@gmail.com", 
-       // password: "vladimir123",
        password: hashed, 
         firstName: "Vladimir", 
         lastName: "Pavlović", 
@@ -168,7 +157,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
     
     { 
         email: "marko.jovanovic@gmail.com", 
-        //password: "marko123",
         password: hashed, 
         firstName: "Marko", 
         lastName: "Jovanović", 
@@ -178,7 +166,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "itoptimus@gmail.com", 
-        //password: "nikola23",
         password: hashed, 
         firstName: "Nikola", 
         lastName: "Petrović", 
@@ -188,7 +175,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "sapapansion@gmail.com", 
-        //password: "ana123",
         password: hashed,
         firstName: "Ana", 
         lastName: "Milovanović", 
@@ -197,7 +183,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         
     { 
         email: "jelena.markovic@gmail.com", 
-        //password: "jelena123",
         password: hashed, 
         firstName: "Jelena", 
         lastName: "Marković", 
@@ -206,7 +191,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "gonzalestransport@gmail.com", 
-        //password: "zoran123",
         password: hashed, 
         firstName: "Zoran", 
         lastName: "Lekić", 
@@ -216,7 +200,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
 
     { 
         email: "marko.petrovic@gmail.com", 
-        //password: "marko123",
         password: hashed, 
         firstName: "Marko", 
         lastName: "Petrović", 
@@ -225,7 +208,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         }, 
        { 
         email: "sara.petrovic@gmail.com", 
-        //password: "petar123", 
         password: hashed,
         firstName: "Sara", 
         lastName: "Petrovic", 
@@ -234,7 +216,6 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
         
          { 
         email: "olja.lukic@gmail.com", 
-        //password: "petar123", 
         password: hashed,
         firstName: "Olja", 
         lastName: "Lukic", 
@@ -250,7 +231,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Niš",
     address: "Kumanovska 8",
-    description: "Profesor i freelance instruktor za arhitektonske softvere sa više od 10 godina iskustva...",
+    description: "Profesor i freelance instruktor za arhitektonske softvere sa više od 10 godina iskustva u radu i edukaciji. Specijalizovan za Revit, AutoCAD i Archicad, sa fokusom na BIM metodologiju. Održavam individualne i grupne časove, prilagođene studentima arhitekture, inženjerima i profesionalcima koji žele da unaprede svoje znanje.",
     image: null,
     firstName: "Petar",
     lastName: "Petrović",
@@ -260,7 +241,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Beograd",
     address: "Bulevar oslobodjenja 86",
-    description: "Iskusni tehničar za računare i IT podršku, specijalizovan za popravku hardvera i softvera...",
+    description: "Iskusni tehničar za računare i IT podršku, specijalizovan za popravku hardvera i softvera. Pružam servis, održavanje i čišćenje desktop i laptop računara, instalaciju i optimizaciju softvera, kao i rešavanje tehničkih problema. Radim sa pojedincima i malim firmama koje žele pouzdanu i brzu IT podršku.",
     image: null,
     firstName: "Stevan",
     lastName: "Stevanović",
@@ -270,7 +251,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Pančevo",
     address: "Cara Lazara 44",
-    description: "Profesionalna radnica za čišćenje stanova i poslovnih prostora...",
+    description: "Profesionalna radnica za čišćenje stanova i poslovnih prostora. Koristim kvalitetna sredstva i garantujem detaljno i pouzdano čišćenje po dogovoru.",
     image: null,
     firstName: "Marija",
     lastName: "Stojanović",
@@ -280,7 +261,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Čačak",
     address: "Industrijska zona bb",
-    description: "Auto-mehaničar specijalizovan za brze intervencije i redovno održavanje vozila...",
+    description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar u Srbiji. Naš tim sastavljen je od najboljih stručnjaka za održavanje, dijagnostiku i servisiranje vozila. U našem auto servisu održavamo i servisiramo sve vrste, tipove i marke vozila.",
     image: null,
     firstName: "Vladimir",
     lastName: "Pavlović",
@@ -290,7 +271,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Novi Sad",
     address: "Bulevar Evrope 92",
-    description: "Samostalni serviser klima uređaja sa višegodišnjim iskustvom...",
+    description: "Samostalni serviser klima uređaja sa višegodišnjim iskustvom u popravci, redovnom održavanju i dubinskom čišćenju klima uređaja. Pružam usluge dezinfekcije, dopune freona i dijagnostike kvarova za kućne i poslovne objekte.",
     image: null,
     firstName: "Marko",
     lastName: "Jovanović",
@@ -300,7 +281,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Beograd",
     address: "Nemanjina 15",
-    description: "Samostalni pravnik sa iskustvom u pružanju pravnih usluga...",
+    description: "Samostalni pravnik sa iskustvom u pružanju pravnih usluga fizičkim i pravnim licima. Bavim se pravnim savetovanjem, izradom ugovora, zastupanjem pred sudovima i rešavanjem imovinsko-pravnih i radno-pravnih odnosa.",
     image: null,
     firstName: "Jelena",
     lastName: "Marković",
@@ -310,7 +291,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Novi Sad",
     address: "Bulevar Oslobođenja 22",
-    description: "Iskusni moler sa više od 10 godina rada na unutrašnjem i spoljašnjem farbanju...",
+    description: "Iskusni moler sa više od 10 godina rada na unutrašnjem i spoljašnjem farbanju, dekorativnim tehnikama i adaptacijama prostora. Nudim preciznost, kvalitetnu izradu i savete za odabir boja i materijala.",
     image: null,
     firstName: "Marko",
     lastName: "Petrović",
@@ -322,7 +303,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Novi Sad",
     address: "Ustanička 22",
-    description: "Salon lepote Bella pruža vrhunske kozmetičke i estetske usluge...",
+    description: "Salon lepote Bella pruža vrhunske kozmetičke i estetske usluge u prijatnom i luksuznom ambijentu. Naš stručni tim koristi profesionalnu kozmetiku i savremene tretmane kako bi istakao vašu prirodnu lepotu. Posvećeni smo individualnom pristupu i maksimalnom zadovoljstvu klijenata.",
     image: null,
     firstName: null,
     lastName: null,
@@ -332,7 +313,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Beograd",
     address: "Bulevar Kralja Aleksandra 153",
-    description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar...",
+    description: "Auto servis Beograd Royal je najopremljeniji i najmoderniji servisni centar u Srbiji. Naš tim sastavljen je od najboljih stručnjaka za održavanje, dijagnostiku i servisiranje vozila. U našem auto servisu održavamo i servisiramo sve vrste, tipove i marke vozila.",
     image: null,
     firstName: null,
     lastName: null,
@@ -342,7 +323,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Beograd",
     address: "Kralja Petra 45",
-    description: "Tech Solutions je IT kompanija koja pruža profesionalne usluge web i softverskog razvoja...",
+    description: "Tech Solutions je IT kompanija koja pruža profesionalne usluge web i softverskog razvoja, kao i konsultacije za digitalnu transformaciju. Fokusirani smo na kvalitet i inovativna rešenja prilagođena klijentima.",
     image: null,
     firstName: null,
     lastName: null,
@@ -352,7 +333,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Niš",
     address: "Pop Lukina 10",
-    description: "FitLife Gym je moderna teretana koja nudi personalizovane trening programe...",
+    description: "FitLife Gym je moderna teretana koja nudi personalizovane trening programe, grupne časove i nutricionističke savete. Naš cilj je da klijenti postignu svoje fitnes ciljeve na zdrav i održiv način.",
     image: null,
     firstName: null,
     lastName: null,
@@ -362,7 +343,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Subotica",
     address: "Bajska 18",
-    description: "Creative Agency pruža profesionalne usluge grafičkog dizajna, brendiranja i marketinga...",
+    description: "Creative Agency pruža profesionalne usluge grafičkog dizajna, brendiranja i digitalnog marketinga. Naš tim kreativaca pomaže kompanijama da izgrade prepoznatljiv vizuelni identitet i uspešno komuniciraju sa publikom.",
     image: null,
     firstName: null,
     lastName: null,
@@ -372,7 +353,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Novi Sad",
     address: "Futoška 102",
-    description: "IT Optimus je specijalizovana kompanija za optimizaciju i održavanje IT sistema...",
+    description: "IT Optimus je specijalizovana kompanija za optimizaciju, održavanje i unapređenje IT uređaja i sistema. Bavimo se ubrzavanjem rada računara, optimizacijom softvera, nadogradnjom hardvera i preventivnim održavanjem IT opreme za fizička lica i kompanije.",
     image: null,
     firstName: null,
     lastName: null,
@@ -382,7 +363,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Sremska Mitrovica",
     address: "Fruškogorska 12",
-    description: "Pansion za pse smešten u mirnom okruženju sa velikim dvorištem...",
+    description: "Mi smo preduzece koje nudi pansion za pse smešten u mirnom okruženju sa velikim dvorištem i stručno obučenim osobljem. Nudimo dnevni i višednevni boravak, šetnje, obroke, igru i osnovnu veterinarsku brigu kako bi se vaš ljubimac osećao sigurno i voljeno.",
     image: null,
     firstName: null,
     lastName: null,
@@ -392,7 +373,7 @@ await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
   {
     city: "Beograd",
     address: "Bulevar Kralja Aleksandra 45",
-    description: "Preduzeće specijalizovano za transportne usluge, uključujući dostavu paketa i selidbe...",
+    description: "Preduzeće specijalizovano za transportne usluge, uključujući dostavu paketa, selidbe i logistiku. Pružamo siguran i pouzdan prevoz sa modernim vozilima i iskusnim vozačima.",
     image: null,
     firstName: null,
     lastName: null,
@@ -409,16 +390,15 @@ const profileMap = Object.fromEntries(
   insertedProfiles.map((p) => [p.userId, p.id])
 );
 
-
 const servicesData: typeof services.$inferInsert[] = [
   {
     title: "Servis klime",
     description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
     image: null,
     price: 7000,
-    createdAt: new Date("2025-12-01"),
-    categoryId: 2,   // Zanatske i instalaterske usluge
-    userId: 12,      // Marko Jovanović (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 2,
+    userId: 12,
     profileId: profileMap[12],
   },
   {
@@ -426,9 +406,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Vaši uređaji ne rade kako treba? Nudimo profesionalno čišćenje i popravku kompjuterskih delova i periferija za dugotrajan i pouzdan rad.",
     image: null,
     price: 5000,
-    createdAt: new Date("2026-01-11"),
-    categoryId: 1,   // IT i digitalne usluge
-    userId: 4,       // Stevan (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 1,
+    userId: 4,
     profileId: profileMap[4],
   },
   {
@@ -436,9 +416,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Lepa i zdrava kosa najlepši je nakit na ženi, ali za to je potreban trud kao i znanje i iz tog razloga veoma je važno kome ćete poveriti brigu o Vašoj kosi. Mesto gde je zdravlje kose, kao i stručnost, na prvom mestu sada je na samo jedan klik od Vas",
     image: null,
     price: 1700,
-    createdAt: new Date("2025-12-20"),
-    categoryId: 4,   // Zdravlje i lepota
-    userId: 5,       // Bella Beauty Salon
+    createdAt: new Date("2026-03-07"),
+    categoryId: 4,
+    userId: 5,
     profileId: profileMap[5],
   },
   {
@@ -446,7 +426,7 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Profesionalni manikir za negovane ruke, zdrave nokte i uredan, dugotrajan izgled.",
     image: null,
     price: 2000,
-    createdAt: new Date("2025-12-01"),
+    createdAt: new Date("2026-03-07"),
     categoryId: 4,
     userId: 5,
     profileId: profileMap[5],
@@ -456,7 +436,7 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Vaš računar je usporen, pregreva se ili bučno radi? Nudimo profesionalne usluge optimizacije sistema i poboljšanja hlađenja za stabilan i efikasan rad.",
     image: null,
     price: 8000,
-    createdAt: new Date("2026-01-11"),
+    createdAt: new Date("2026-03-07"),
     categoryId: 1,
     userId: 4,
     profileId: profileMap[4],
@@ -466,9 +446,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Predavač je Autodesk Certifikovani Instruktor PLATINUM, iskustvo preko 30 godina rada. Časovi mogu biti onlajn ili uživo, na srpskom ili engeskom jeziku. Po završenoj obuci se dobija zvanična Autodeskova diploma ATC. Časovi se održavaju najčešće po 3 termina nedeljno sa 2 ili 3 školska časa 45 min. po terminu. Kurs obuhvata 12 termina.",
     image: null,
     price: 52000,
-    createdAt: new Date("2026-01-08"),
-    categoryId: 3,   // Obrazovanje i obuke
-    userId: 1,       // Petar (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 3,
+    userId: 1,
     profileId: profileMap[1],
   },
   {
@@ -476,9 +456,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Dobrodošli u Pansion za pse, smešten u domaćinstvu okruženim prirodom, gde će vaš ljubimac uživati dok ste vi odsutni. Za Vašeg ljubimca obezbeđujemo: čuvanje, šetnju, vežbe, obrok, veterinarsku negu. Vaš pas zaslužuje najbolju brigu. Rezervišite mesto u našem pansionu za pse već danas!",
     image: null,
     price: 8000,
-    createdAt: new Date("2025-12-10"),
-    categoryId: 5,   // Kućni ljubimci
-    userId: 14,      // Ana (COMPANY)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 5,
+    userId: 14,
     profileId: profileMap[14],
   },
   {
@@ -486,9 +466,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Detaljno čišćenje stanova i kuća, uključujući kuhinju, kupatilo, podove i staklene površine. Idealno nakon renoviranja ili pred useljenje.",
     image: null,
     price: 6000,
-    createdAt: new Date("2025-08-20"),
-    categoryId: 6,   // Usluga pranja i čišćenja
-    userId: 10,      // Marija (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 6,
+    userId: 10,
     profileId: profileMap[10],
   },
   {
@@ -496,9 +476,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Zamena ulja i filtera uz osnovnu dijagnostiku vozila. Brza i pouzdana usluga održavanja putničkih automobila.",
     image: null,
     price: 5500,
-    createdAt: new Date("2026-01-11"),
-    categoryId: 7,   // Auto usluge
-    userId: 11,      // Vladimir (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 7,
+    userId: 11,
     profileId: profileMap[11],
   },
   {
@@ -506,19 +486,19 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Profesionalna relaks masaža koja pomaže u smanjenju stresa, opuštanju mišića i poboljšanju cirkulacije. Tretman se prilagođava individualnim potrebama klijenta.",
     image: null,
     price: 4500,
-    createdAt: new Date("2025-12-12"),
+    createdAt: new Date("2026-03-07"),
     categoryId: 4,
     userId: 5,
     profileId: profileMap[5],
   },
   {
     title: "Pravno savetovanje",
-    description:  "Stručno pravno savetovanje za fizička i pravna lica. Pomoć u izradi ugovora, tumačenju zakona i rešavanju imovinsko-pravnih odnosa.",
+    description: "Stručno pravno savetovanje za fizička i pravna lica. Pomoć u izradi ugovora, tumačenju zakona i rešavanju imovinsko-pravnih odnosa.",
     image: null,
     price: 7000,
-    createdAt: new Date("2025-06-20"),
-    categoryId: 8,   // Finansijske i pravne usluge
-    userId: 15,      // Jelena (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 8,
+    userId: 15,
     profileId: profileMap[15],
   },
   {
@@ -526,9 +506,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Pouzdana usluga kombi prevoza za selidbe i transport robe na teritoriji grada i okoline. Brza organizacija i siguran prevoz.",
     image: null,
     price: 9000,
-    createdAt: new Date("2025-06-18"),
-    categoryId: 9,   // Transportne usluge
-    userId: 16,      // Zoran (COMPANY)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 9,
+    userId: 16,
     profileId: profileMap[16],
   },
   {
@@ -536,9 +516,9 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Profesionalno krečenje stanova i kuća, uključujući pripremu zidova i završnu obradu. Kvalitetan i uredan rad po dogovoru.",
     image: null,
     price: 12000,
-    createdAt: new Date("2025-06-25"),
-    categoryId: 11,  // Dom i građevinski radovi
-    userId: 17,      // Marko (FREELANCER)
+    createdAt: new Date("2026-03-07"),
+    categoryId: 11,
+    userId: 17,
     profileId: profileMap[17],
   },
   {
@@ -546,8 +526,8 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Organizacija keteringa za rođendane, svadbe i poslovne događaje. Bogat meni, profesionalna usluga i prilagođavanje potrebama klijenata.",
     image: null,
     price: 25000,
-    createdAt: new Date("2025-06-15"),
-    categoryId: 14,  // Događaji i Ketering
+    createdAt: new Date("2026-03-07"),
+    categoryId: 14,
     userId: 17,
     profileId: profileMap[17],
   },
@@ -556,12 +536,13 @@ const servicesData: typeof services.$inferInsert[] = [
     description: "Profesionalno šišanje prilagođeno vašem stilu i tipu kose. Usluga uključuje šišanje makazama i/ili mašinicom, precizne prelaze, sređivanje kontura i završno stilizovanje za uredan i moderan izgled.",
     image: null,
     price: 1700,
-    createdAt: new Date("2025-12-20"),
+    createdAt: new Date("2026-03-07"),
     categoryId: 4,
     userId: 5,
     profileId: profileMap[5],
   },
 ];
+
 
 await db.insert(services).values(servicesData);
 
@@ -660,88 +641,81 @@ const reviewsData: typeof reviews.$inferInsert[] = [
 await db.insert(reviews).values(reviewsData);
 
 
-
 const appointmentsData: typeof appointments.$inferInsert[] = [
   {
-    date: new Date(2026, 0, 20), // Jan = 0
-    time: "9:00",
+    date: "2026-01-20",
+    time: "09:00",
     isBooked: false,
-    serviceId: 2, // Čišćenje i popravka komponenti računara
+    serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 23),
+    date: "2026-01-23",
     time: "10:30",
     isBooked: true,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "12:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "14:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "16:00",
     isBooked: true,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "18:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "20:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 30),
+    date: "2026-01-30",
     time: "10:30",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 30),
+    date: "2026-01-30",
     time: "15:00",
     isBooked: false,
     serviceId: 2,
   },
   {
-    date: new Date(2026, 0, 17),
+    date: "2026-01-17",
     time: "15:00",
     isBooked: false,
-    serviceId: 3, // Žensko šišanje
+    serviceId: 3,
   },
   {
-    date: new Date(2026, 0, 19),
+    date: "2026-01-19",
     time: "17:00",
     isBooked: false,
     serviceId: 3,
   },
   {
-    date: new Date(2026, 0, 19),
+    date: "2026-01-19",
     time: "19:00",
     isBooked: false,
     serviceId: 3,
   },
   {
-    date: new Date(2026, 0, 27),
-    time: "21:00",
-    isBooked: false,
-    serviceId: 2,
-  },
-  {
-    date: new Date(2026, 0, 27),
+    date: "2026-01-27",
     time: "21:00",
     isBooked: false,
     serviceId: 2,

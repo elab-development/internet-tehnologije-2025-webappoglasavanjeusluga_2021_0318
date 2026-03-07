@@ -3,6 +3,7 @@ export interface FullServiceDto {
     title: string;
     description: string;
     price: number
+    image: string;
     createdAt: Date;
     category: {
         id: number;
@@ -171,22 +172,23 @@ export interface ServiceDetailsDto {
   description: string;
   image: string;
   price: number;
-  createdAt: Date;
+  createdAt: string; // bolje string (jer dolazi iz API-ja)
 
   category: {
     id: number;
     name: string;
   };
 
-  user: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    createdAt: Date;
+  profile: FullProfileDto & {
+    user: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      phone: string;
+      createdAt: string;
+      role: "FREELANCER" | "COMPANY" | "USER";
+    };
   };
-
-  profile: FullProfileDto;
 
   reviews: FullReviewDto[];
 

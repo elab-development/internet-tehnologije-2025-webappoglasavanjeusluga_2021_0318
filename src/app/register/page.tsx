@@ -5,11 +5,13 @@ import { useState } from "react";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 
 type UserRole = "USER" | "FREELANCER" | "COMPANY";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { refresh } = useAuth();
 
   const [role, setRole] = useState<UserRole>("USER");
   const [firstName, setFirstName] = useState("");
@@ -111,6 +113,10 @@ export default function RegisterPage() {
 
       const userData = await res.json();
 
+      router.refresh();
+      await refresh();
+
+
       if (userData.role === "FREELANCER" || userData.role === "COMPANY") {
         router.push("/dashboard");
       } else {
@@ -130,7 +136,7 @@ export default function RegisterPage() {
 
       <div className="flex flex-col md:flex-row justify-center gap-5 py-5 px-1 bg-linear-to-r from-blue-400 via-blue-200 to-yellow-100">
 
-        {/* LEVA STRANA (IDENTIČNA ORIGINALU) */}
+        {/* LEVA STRANA */}
         <div className="relative flex flex-col border border-gray-600 py-6 rounded md:h-150 md:max-w-sm md:gap-25 gap-10 bg-gray-100 text-center mx-3">
           <Image
             src="/images/image1.jpg"
@@ -155,7 +161,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* FORMA (IDENTIČNA STRUKTURA) */}
+        {/* FORMA */}
         <form
           onSubmit={handleSubmit}
           className="bg-white p-8 rounded-lg shadow-md max-w-4xl md:min-w-1/3"

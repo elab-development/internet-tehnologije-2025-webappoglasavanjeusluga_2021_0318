@@ -47,7 +47,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/appointments",
       "/api/availabilities",
     ],
-    POST: ["/api/employees", "/api/profiles"],
+    POST: ["/api/employees", "/api/profiles", "/api/services"],
     PUT: ["/api/employees", "/api/profiles"],
     DELETE: ["/api/employees", "/api/profiles"],
   },
@@ -86,6 +86,7 @@ const freelancerAllowedPages = [
   "/dashboard",
   "/reservations",
   "/service-create",
+  "/services",
 ];
 
 /* =========================
@@ -98,6 +99,7 @@ const companyAllowedPages = [
   "/reservations",
   "/service-create",
   "/employees",
+  "/services",
 ];
 
 export async function middleware(req: NextRequest) {
@@ -227,7 +229,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-     "/((?!_next/static|_next/image|favicon.ico|api-docs).*)",
+    "/((?!_next/static|_next/image|favicon.ico|icons|.*\\.(?:svg|png|jpg|jpeg|gif|webp)).*)",
   ],
 };
 

@@ -32,6 +32,7 @@ export async function GET() {
         description: services.description,
         price: services.price,
         createdAt: services.createdAt,
+        //image: service.image,
 
         category: {
           id: categories.id,
@@ -100,39 +101,170 @@ export async function GET() {
 
 
 
+/**
+ * @swagger
+ * /api/services:
+ *   post:
+ *     summary: Kreiranje nove usluge
+ *     tags:
+ *       - Usluge
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateServiceRequest'
+ *     responses:
+ *       200:
+ *         description: Usluga uspešno kreirana
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CreateServiceResponse'
+ *       400:
+ *         description: Nevalidni podaci
+ *       401:
+ *         description: Niste prijavljeni
+ *       404:
+ *         description: Profil nije pronađen
+ *       500:
+ *         description: Greška na serveru
+ */
 
-/*  POST - Kreiranje usluge */
+import { cookies } from "next/headers";
+import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
+import { appointments } from "@/db/schema";
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { title, description, price, categoryId, userId, profileId } = body;
+    const token = (await cookies()).get(AUTH_COOKIE)?.value;
 
-    if (!title || !price || !categoryId || !userId || !profileId) {
+    if (!token) {
       return NextResponse.json(
-        { error: "Nisu popunjena sva polja" },
-        { status: 400 }
+        { error: "Niste prijavljeni" },
+        { status: 401 }
       );
     }
 
-    const newService = await db.insert(services).values({
+    const user = verifyAuthToken(token);
+
+    const body = await req.json();
+
+    const {
       title,
       description,
       price,
       categoryId,
-      userId,
-      profileId,
-      createdAt: new Date(),
-    }).returning();
+      image,
+      appointments: appointmentList,
+    } = body;
 
-    return NextResponse.json(newService[0], { status: 201 });
-  } catch (err) {
-    console.error("Neuspesno kreiranje usluge:", err);
+    //  PRONALAZAK PROFILA ZA PRIJAVLJENOG KORISNIKA
+    const profile = await db.query.profiles.findFirst({
+      where: (profiles, { eq }) =>
+        eq(profiles.userId, Number(user.sub)),
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { error: "Profil nije pronađen" },
+        { status: 404 }
+      );
+    }
+
+    // KREIRANJE USLUGE SA TACNIM profileId
+    const [newService] = await db
+      .insert(services)
+      .values({
+        title,
+        description,
+        price,
+        categoryId,
+        image: image ?? null,
+        userId: Number(user.sub),
+        profileId: profile.id, 
+      })
+      .returning();
+
+    // TERMINI (ako postoje)
+    if (appointmentList?.length > 0) {
+     await db.insert(appointments).values(
+        appointmentList.map((a: any) => ({
+          date: a.date,
+          time: a.time ?? null,
+          isBooked: false,
+          serviceId: newService.id,
+        }))
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
-      { error: "Neuspesno kreiranje usluge" },
+      { error: "Greška na serveru" },
       { status: 500 }
     );
   }
 }
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *
+ *     CreateServiceRequest:
+ *       type: object
+ *       required:
+ *         - title
+ *         - description
+ *         - price
+ *         - categoryId
+ *       properties:
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ *         categoryId:
+ *           type: integer
+ *         image:
+ *           type: string
+ *           nullable: true
+ *         appointments:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/AppointmentInput'
+ *
+ *
+ *     AppointmentInput:
+ *       type: object
+ *       properties:
+ *         date:
+ *           type: string
+ *           description: Datum u formatu YYYY-MM-DD
+ *         time:
+ *           type: string
+ *           nullable: true
+ *           description: Vreme u formatu HH:mm
+ */
+ /**
+ * @swagger
+ * components:
+ *   schemas:
+ *
+ *     CreateServiceResponse:
+ *       type: object
+ *       properties:
+ *         success:
+ *           type: boolean
+ */
+
+
+
+
+
 
 /* PUT - Izmena usluge */
 export async function PUT(req: Request) {

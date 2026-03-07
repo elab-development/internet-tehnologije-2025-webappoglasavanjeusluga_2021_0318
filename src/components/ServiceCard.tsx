@@ -1,4 +1,4 @@
-import { FullServiceDto, FullCategoryDto } from "@/shared/types";
+import { FullServiceDto} from "@/shared/types";
 import Image from "next/image"
 import Link from "next/link"
 

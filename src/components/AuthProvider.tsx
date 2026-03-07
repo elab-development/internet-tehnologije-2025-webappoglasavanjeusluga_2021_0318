@@ -13,9 +13,10 @@ import React, {
 // Tip koji opisuje korisnika kog dobijamo sa back-enda
 export type User = {
   id: string;
-  name: string;
   email: string;
-  createdAt: string;
+  role: "USER" | "FREELANCER" | "COMPANY";
+  firstName: string;
+  lastName: string;
 };
 
 // Tip za stanje autentifikacije koje delimo kroz aplikaciju

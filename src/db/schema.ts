@@ -103,7 +103,7 @@ export const reviews = pgTable("reviews", {
 
   profileId: integer("profile_id")
     .references(() => profiles.id)
-    .notNull(), //✅dodato
+    .notNull(), 
 });
 
 
@@ -113,8 +113,11 @@ export const reviews = pgTable("reviews", {
 ======================= */
 export const appointments = pgTable("appointments", {
   id: serial("id").primaryKey(),
-  date: timestamp("date").notNull(),
-  time: text("time").notNull(),
+
+  date: text("date").notNull(),   // "2026-01-20"
+  time: text("time"),              // "09:00"
+  
+
   isBooked: boolean("is_booked").default(false),
 
   serviceId: integer("service_id")
