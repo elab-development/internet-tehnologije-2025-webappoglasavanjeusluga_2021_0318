@@ -53,13 +53,13 @@ export default function CreateServicePage() {
 
   // DODAVANJE TERMINA
   const addAppointment = () => {
-    // ako je popunjeno samo jedno polje - greška
+    // ako je popunjeno samo jedno polje - greska
     if ((date && !time) || (!date && time)) {
       setErr("Morate uneti i datum i vreme.");
       return;
     }
 
-    // ako je sve prazno - samo izađi
+    // ako je sve prazno - samo izadji
     if (!date && !time) return;
 
     setAppointments([
@@ -199,7 +199,8 @@ const handleSubmit = async (e: FormEvent) => {
         </div>
 
         {/* TERMINI */}
-        <div className="flex gap-2">
+        <p> Dodavanje termina: </p>
+        <div className="flex flex-wrap gap-2">
           <input
             type="date"
             className= "border p-2 rounded w-36 focus:outline-none"

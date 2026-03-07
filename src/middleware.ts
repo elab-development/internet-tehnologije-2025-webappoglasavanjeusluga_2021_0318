@@ -49,7 +49,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
     ],
     POST: ["/api/employees", "/api/profiles", "/api/services"],
     PUT: ["/api/employees", "/api/profiles"],
-    DELETE: ["/api/employees", "/api/profiles"],
+    DELETE: ["/api/employees", "/api/profiles", "/api/services"],
   },
 };
 

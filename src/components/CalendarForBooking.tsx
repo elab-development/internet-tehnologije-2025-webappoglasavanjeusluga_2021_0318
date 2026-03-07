@@ -218,7 +218,6 @@ export default function CalendarForBooking({
 
           {selectedDate && mode === "company" && (
             <div className="flex flex-row pt-2">
-              {/* <p className="pt-7 pb-5 pr-3">Radnik:</p> */}
 
               <select
                 value={selectedEmployee}
@@ -233,7 +232,7 @@ export default function CalendarForBooking({
 
                 {availableEmployees.map((emp) => (
                   <option key={emp.id} value={emp.id}>
-                    {emp.firstName} {emp.lastName}
+                    {emp.firstName} {emp.lastName} {emp.description}
                   </option>
                 ))}
               </select>

@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { services, categories, profiles } from "@/db/schema"; 
 import { eq, ilike, and, or } from "drizzle-orm";
+import { cookies } from "next/headers";
+import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
+import { appointments } from "@/db/schema";
 
 /**
  * @swagger
@@ -131,9 +134,6 @@ export async function GET() {
  *         description: Greška na serveru
  */
 
-import { cookies } from "next/headers";
-import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
-import { appointments } from "@/db/schema";
 
 export async function POST(req: Request) {
   try {

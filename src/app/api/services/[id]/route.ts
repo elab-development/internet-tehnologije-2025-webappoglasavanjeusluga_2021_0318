@@ -271,3 +271,37 @@ export async function GET(req: Request) {
  *         appointment:
  *           $ref: '#/components/schemas/Appointment'
  */
+
+export async function DELETE(req: Request) {
+  try {
+    // Izvlacenje ID-a iz URL-a
+    const url = new URL(req.url);
+    const segments = url.pathname.split("/").filter(Boolean);
+    const serviceId = Number(segments[segments.length - 1]);
+
+    if (isNaN(serviceId)) {
+      return NextResponse.json(
+        { error: "Nevalidan ID usluge" },
+        { status: 400 }
+      );
+    }
+
+    // Obrisi sve termine vezane za uslugu
+    await db
+      .delete(appointments)
+      .where(eq(appointments.serviceId, serviceId));
+
+    // Obrisi uslugu
+    await db
+      .delete(services)
+      .where(eq(services.id, serviceId));
+
+    return NextResponse.json({ message: "Usluga i termini uspešno obrisani" });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Greška na serveru" },
+      { status: 500 }
+    );
+  }
+}

@@ -12,6 +12,7 @@ import Image from "next/image";
 import { RatingStars } from "@/components/RatingStars";
 import { useAuth } from "@/components/AuthProvider"; 
 import {ServiceDetailsDto} from "@/shared/types.ts"
+import { useRouter } from "next/navigation";
 
 interface Props {
   service: ServiceDetailsDto; 
@@ -19,28 +20,58 @@ interface Props {
 
 export default function ServiceDetails({ service }: Props) {
   const { user } = useAuth();
+  const router = useRouter();
 
   const profile = service.profile;
   const mode = profile.companyName ? "company" : "freelancer";
+
+   const handleDelete = async () => {
+    const confirmed = confirm("Da li ste sigurni da želite da obrišete uslugu?");
+    if (!confirmed) return;
+
+    const res = await fetch(`/api/services/${service.id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      router.push("/dashboard"); 
+      router.refresh();
+    } else {
+      const data = await res.json();
+      alert(data.error || "Greška pri brisanju");
+    }
+  };
 
   return (
     <div className="bg-linear-to-r from-blue-400 via-blue-200 to-yellow-100">
       {/* Navbar zavisi od role */}
       {user?.role === "FREELANCER" || user?.role === "COMPANY" ? <NavbarDashboard /> : <Navbar />}
 
-      <div className="py-5 px-5 mx-auto max-w-6xl">
+      <div className="py-4 px-5 mx-auto max-w-6xl">
         <div className="flex gap-1 justify-between">
           <div>
-            <h1 className="text-xl md:text-2xl font-bold mb-4">{service.title}</h1>
-            <Image
-              src="https://picsum.photos/700/500"
-              width={700}
-              height={500}
-              alt="Slika usluge"
-            />
-            <p className="font-semibold text-base md:text-xl py-3">
-              Cena: {service.price} rsd
-            </p>
+            {user?.role === "FREELANCER" || user?.role === "COMPANY" 
+                  ? (
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      className="bg-red-400 hover:bg-red-500 text-white px-4 text-xl mb-3 rounded py-1"
+                    >
+                      Obriši uslugu
+                    </button>
+                  ) 
+                  : (<p></p>)
+            }
+              <h1 className="text-xl md:text-2xl font-bold mb-4">{service.title}</h1>
+              <Image
+                src="https://picsum.photos/700/500"
+                width={700}
+                height={500}
+                alt="Slika usluge"
+              />
+              <p className="font-semibold text-base md:text-xl py-3">
+                Cena: {service.price} rsd
+              </p>
           </div>
           <div className="sm:pt-10">
             <ProfileCard profile={profile} />
