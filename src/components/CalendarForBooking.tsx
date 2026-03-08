@@ -7,6 +7,7 @@ import { srLatn } from "date-fns/locale";
 import { format } from "date-fns";
 import { useAuth } from "@/components/AuthProvider";
 import { Employee } from "@/shared/types";
+import { useRouter } from "next/navigation";
 
 type Mode = "company" | "freelancer";
 
@@ -21,7 +22,9 @@ export default function CalendarForBooking({
   availabilities: any[];
   serviceId: number;
 }) {
-  const { user, status } = useAuth(); 
+  const { user, status, refresh } = useAuth(); 
+
+  const router = useRouter();
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [times, setTimes] = useState<string[]>([]);
@@ -29,8 +32,7 @@ export default function CalendarForBooking({
   const [timeId, setTimeId] = useState<number | undefined>();
 
   const [availableEmployees, setAvailableEmployees] = useState<any[]>([]);
-  const [selectedEmployee, setSelectedEmployee] =
-    useState<Employee | string>("Slobodan zaposleni");
+  const [selectedEmployee, setSelectedEmployee] = useState<string>("Slobodan zaposleni");
 
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -94,44 +96,59 @@ export default function CalendarForBooking({
   }, [time, selectedDate, appointments, availabilities]);
 
   const handleBooking = async () => {
-    if (!selectedDate || !time) {
-      setErr("Molimo izaberite datum i vreme.");
+  if (!selectedDate) {
+    setErr("Molimo izaberite datum.");
+    return;
+  }
+
+  setErr("");
+  setLoading(true);
+
+  const reservatedDate = format(selectedDate, "yyyy-MM-dd");
+
+  const body =
+    mode === "freelancer"
+      ? {
+          reservatedDate,
+          time: time === "Po dogovoru" ? null : time,
+          serviceId,
+        }
+      : {
+          reservatedDate,
+          time: time === "Po dogovoru" ? null : time,
+          selectedEmployee,
+          serviceId,
+        };
+
+  try {
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      alert("Greška. Rezervacija nije sačuvana.");
+      setErr("Greška pri rezervaciji.");
       return;
     }
 
-    setErr("");
-    setLoading(true);
+      router.refresh();
+      await refresh();
 
-    const reservatedDate = format(selectedDate, "yyyy-MM-dd");
+     confirm("Uspešno sačuvana rezervacija.");
 
-    const body =
-      mode === "freelancer"
-        ? { reservatedDate, time, serviceId }
-        : { reservatedDate, time, selectedEmployee, serviceId };
+    setSelectedDate(undefined);
+    setTime("Po dogovoru");
+    setTimeId(undefined);
+    setSelectedEmployee("Slobodan zaposleni");
 
-    try {
-      const res = await fetch("/api/booking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) {
-        setErr("Greška pri rezervaciji termina.");
-        return;
-      }
-
-      setSelectedDate(undefined);
-      setTimes([]);
-      setTime("Po dogovoru");
-      setTimeId(undefined);
-      setSelectedEmployee("Slobodan zaposleni");
-    } catch {
-      setErr("Greška pri povezivanju sa serverom.");
-    } finally {
-      setLoading(false);
-    }
-  };
+ } catch {
+    alert("Greška. Rezervacija nije sačuvana.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex flex-col md:flex-row gap-5 md:gap-10 py-5 items-center">

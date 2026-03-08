@@ -64,7 +64,7 @@ export default function EmployeesPageContent() {
 
   return (
     <div className="bg-linear-to-r from-blue-400 via-blue-200 to-yellow-100 pb-50 pt-10 ">
-        <p className="text-3xl text-semibold mb-5 text-center">Radnici</p>
+        <p className="text-4xl mb-3 mt-3 text-center">Radnici</p>
         <div className="flex flex-col md:flex-row gap-5 max-w-[800px] mx-auto p-4 ">
           {/* Forma za dodavanje zaposlenog */}
           <form onSubmit={handleAddEmployee} className="mx-auto flex flex-col gap-3 mb-6 bg-white p-5 max-w-70 h-60 rounded-xl">

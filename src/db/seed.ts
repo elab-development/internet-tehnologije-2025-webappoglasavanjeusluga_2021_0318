@@ -5,8 +5,8 @@ import { profiles } from "./schema";
 import { services } from "./schema";
 import { reviews } from "./schema";
 import { appointments } from "./schema";
-import { employees, availabilities } from "./schema"
-import { sql } from "drizzle-orm"; // na vrhu fajla 
+import { employees, availabilities, bookings } from "./schema"
+import { sql } from "drizzle-orm"; 
 import bcrypt from "bcryptjs";
 
 
@@ -16,30 +16,20 @@ async function seed() {
   const password = "123456";
 const hashed = await bcrypt.hash(password, 10);
 
-await db.delete(availabilities);
-await db.execute(sql`ALTER SEQUENCE availabilities_id_seq RESTART WITH 1`);
 
-await db.delete(employees);
-await db.execute(sql`ALTER SEQUENCE employees_id_seq RESTART WITH 1`);
-
-await db.delete(appointments);
-await db.execute(sql`ALTER SEQUENCE appointments_id_seq RESTART WITH 1`);
-
-await db.delete(reviews);
-await db.execute(sql`ALTER SEQUENCE reviews_id_seq RESTART WITH 1`);
-
-await db.delete(services);
-await db.execute(sql`ALTER SEQUENCE services_id_seq RESTART WITH 1`);
-
-await db.delete(profiles);
-await db.execute(sql`ALTER SEQUENCE profiles_id_seq RESTART WITH 1`);
-
-await db.delete(users);
-await db.execute(sql`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
-
-await db.delete(categories);
-await db.execute(sql`ALTER SEQUENCE categories_id_seq RESTART WITH 1`);
-
+await db.execute(sql`
+TRUNCATE TABLE 
+  bookings,
+  availabilities,
+  employees,
+  appointments,
+  reviews,
+  services,
+  profiles,
+  users,
+  categories
+RESTART IDENTITY CASCADE
+`);
 
   // ubaci nove kategorije
   await db.insert(categories).values([
@@ -720,6 +710,33 @@ const appointmentsData: typeof appointments.$inferInsert[] = [
     isBooked: false,
     serviceId: 2,
   },
+
+
+   {
+    date: "2026-02-05",
+    time: "10:00",
+    isBooked: false,
+    serviceId: 3,
+  },
+  {
+    date: "2026-02-05",
+    time: "12:00",
+    isBooked: false,
+    serviceId: 3,
+  },
+  {
+    date: "2026-02-06",
+    time: "14:00",
+    isBooked: false,
+    serviceId: 4,
+  },
+  {
+    date: "2026-02-06",
+    time: "16:00",
+    isBooked: false,
+    serviceId: 4,
+  },
+
 ];
 
 await db.insert(appointments).values(appointmentsData);
@@ -775,6 +792,28 @@ const availabilitiesData: typeof availabilities.$inferInsert[] = [
 
 await db.insert(availabilities).values(availabilitiesData);
 
+
+await db.insert(bookings).values([
+  {
+    reservedDate: "2026-02-05",
+    time: "10:00",
+    userId: 2, // Ana
+    serviceId: 3, // Žensko šišanje
+    appointmentId: 14,
+    employeeId: employeeMap["Marko"],
+    finished: true,
+  },
+  {
+    reservedDate: "2026-02-06",
+    time: "14:00",
+    userId: 3, // Milan
+    serviceId: 4, // Manikir
+    appointmentId: 16,
+    employeeId: employeeMap["Jelena"],
+    finished: true,
+  },
+]);
+
 console.log("Seed finished");
 process.exit(0);
 }
@@ -783,3 +822,5 @@ seed().catch((e) => {
   console.error(e);
   process.exit(1);
 });
+
+

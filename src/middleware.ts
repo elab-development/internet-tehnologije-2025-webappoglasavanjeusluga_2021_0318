@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
+import { PATCH } from "./app/api/employees/route";
 
 const AUTH_COOKIE = "auth";
 
@@ -19,7 +20,7 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/employees",
       "/api/availabilities",
     ],
-    POST: ["/api/appointments", "/api/reviews"],
+    POST: ["/api/appointments", "/api/reviews", "/api/bookings"],
     PUT: [],
     DELETE: [],
   },
@@ -32,10 +33,12 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/profiles",
       "/api/availabilities",
       "/api/employees",
+      "/api/bookings/me",
     ],
     POST: ["/api/services", "/api/availabilities"],
     PUT: ["/api/services", "/api/availabilities"],
     DELETE: ["/api/services", "/api/availabilities"],
+    PATCH: ["/api/bookings"],
   },
   COMPANY: {
     GET: [
@@ -46,10 +49,12 @@ const roleAccess: Record<string, Record<string, string[]>> = {
       "/api/reviews",
       "/api/appointments",
       "/api/availabilities",
+      "/api/bookings/me",
     ],
     POST: ["/api/employees", "/api/profiles", "/api/services"],
     PUT: ["/api/employees", "/api/profiles"],
     DELETE: ["/api/employees", "/api/profiles", "/api/services"],
+    PATCH: ["/api/bookings"],
   },
 };
 

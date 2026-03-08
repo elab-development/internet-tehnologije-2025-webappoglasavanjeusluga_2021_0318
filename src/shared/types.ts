@@ -200,7 +200,7 @@ export interface ServiceDetailsDto {
 }
 
 
-
+/********************************************* */
 
 export interface Category {
   id: number;
@@ -208,9 +208,36 @@ export interface Category {
   icon: string;
 }
 
-export interface Employee { 
+
+
+export interface Employee {
   id: number;
   firstName: string;
   lastName: string;
-  description: string;
+  description?: string;
+}
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface Service {
+  id: number;
+  title: string;
+}
+
+export interface Booking {
+  id: number;
+  reservedDate: string;
+  createdAt: string;
+  time: string | null;
+  finished: boolean;
+
+  user?: User;
+  service?: Service;
+  employee?: Employee | null;
 }

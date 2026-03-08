@@ -66,7 +66,7 @@ export const profiles = pgTable("profiles", {
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  image: text("image"), //DODATO*************************************************
+  image: text("image"), 
   description: text("description"),
   price: integer("price").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
@@ -154,3 +154,49 @@ export const availabilities = pgTable("availabilities", {
     .references(() => appointments.id)
     .notNull(),
 });
+
+
+//****************************************************** */
+/****************************************************** */
+
+
+/* =======================
+   BOOKINGS
+======================= */
+
+
+
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+
+  // datum za koji je rezervacija
+  reservedDate: text("reserved_date").notNull(),
+
+  // vreme (null ako je "Po dogovoru")
+  time: text("time"),
+
+  // datum kreiranja rezervacije
+  createdAt: timestamp("created_at").defaultNow(),
+
+  // status
+  finished: boolean("finished").default(false),
+
+  // korisnik koji je rezervisao
+  userId: integer("user_id")
+    .references(() => users.id)
+    .notNull(),
+
+  // usluga
+  serviceId: integer("service_id")
+    .references(() => services.id)
+    .notNull(),
+
+  // termin (opciono)
+  appointmentId: integer("appointment_id")
+    .references(() => appointments.id),
+
+  // radnik (opciono)
+  employeeId: integer("employee_id")
+    .references(() => employees.id),
+});
+
