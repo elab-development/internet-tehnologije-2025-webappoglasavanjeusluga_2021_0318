@@ -28,7 +28,7 @@ export default async function Dashboard() {
       <NavbarDashboard />
       <div className="text-center mt-3 mb-2 flex flex-col gap-2">
           <p className="text-4xl">Dashboard</p>
-          <p className="text-3xl">- Vas profil -</p>
+          <p className="text-3xl">- Vaš profil -</p>
       </div>
       
 

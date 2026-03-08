@@ -2,19 +2,34 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider"; 
+import { Category, Employee } from "@/shared/types";
 
-interface Category {
-  id: number;
-  name: string;
-}
+// interface Category {
+//   id: number;
+//   name: string;
+// }
+
+// interface Employee { 
+//   id: number;
+//   firstName: string;
+//   lastName: string;
+//   description: string;
+// }
 
 interface AppointmentInput {
   date: string;
   time: string | null;
 }
 
+interface AvailabilityInput { 
+  appointmentIndex: number;
+  employeeId: number;
+}
+
 export default function CreateServicePage() {
   const router = useRouter();
+  const { user } = useAuth(); 
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,6 +41,11 @@ export default function CreateServicePage() {
   const [appointments, setAppointments] = useState<AppointmentInput[]>([]);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  const [employees, setEmployees] = useState<Employee[]>([]); 
+  const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null); 
+  const [selectedEmployee, setSelectedEmployee] = useState<number | null>(null); 
+  const [availabilities, setAvailabilities] = useState<AvailabilityInput[]>([]); 
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -39,107 +59,119 @@ export default function CreateServicePage() {
       .then(setCategories);
   }, []);
 
-   //BRISANJE POSLEDNJEG TERMINA
-  const removeLastAppointment = () => {
-    setAppointments((prev) => prev.slice(0, -1));
-  };
+  useEffect(() => { 
+    if (user?.role !== "COMPANY") return;
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
-  };
+    fetch("/api/employees")
+      .then((res) => res.json())
+      .then(setEmployees);
+  }, [user]);
 
-  // DODAVANJE TERMINA
   const addAppointment = () => {
-    // ako je popunjeno samo jedno polje - greska
     if ((date && !time) || (!date && time)) {
       setErr("Morate uneti i datum i vreme.");
       return;
     }
 
-    // ako je sve prazno - samo izadji
     if (!date && !time) return;
 
-    setAppointments([
-      ...appointments,
-      { date, time },
-    ]);
+    setAppointments([...appointments, { date, time }]);
 
     setDate("");
     setTime("");
     setErr("");
   };
 
-const handleSubmit = async (e: FormEvent) => {
-  e.preventDefault();
-  setErr("");
-  setLoading(true);
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
 
-  try {
-    let imageUrl: string | null = null;
+  const removeLastAppointment = () => {
+    setAppointments((prev) => prev.slice(0, -1));
+  };
 
-    // SLika je opciona
-    if (imageFile) {
-      const formData = new FormData();
-      formData.append("file", imageFile);
-      formData.append("upload_preset", "profile_upload");
+  const addAvailability = () => { 
+    if (selectedAppointment === null || selectedEmployee === null) return;
 
-      const cloudRes = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: "POST", body: formData }
-      );
+    setAvailabilities([
+      ...availabilities,
+      {
+        appointmentIndex: selectedAppointment,
+        employeeId: selectedEmployee,
+      },
+    ]);
+  };
 
-      const cloudData = await cloudRes.json();
-      if (!cloudRes.ok) {
+  const removeLastAvailability = () => { 
+    setAvailabilities((prev) => prev.slice(0, -1));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setErr("");
+    setLoading(true);
+
+    try {
+      let imageUrl: string | null = null;
+
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("file", imageFile);
+        formData.append("upload_preset", "profile_upload");
+
+        const cloudRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          { method: "POST", body: formData }
+        );
+
+        const cloudData = await cloudRes.json();
+
+        if (!cloudRes.ok) {
           throw new Error("Upload slike nije uspeo");
+        }
+
+        imageUrl = cloudData.secure_url;
       }
-      
-      imageUrl = cloudData.secure_url;
+
+      const body = { 
+        title,
+        description,
+        price: Number(price),
+        categoryId,
+        image: imageUrl,
+        appointments,
+        availabilities, 
+      };
+
+      const res = await fetch("/api/services", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setErr(data.error || "Greška");
+        return;
+      }
+
+      router.push("/dashboard");
+    } catch {
+      setErr("Greška na serveru");
+    } finally {
+      setLoading(false);
     }
-
-    const body = {
-      title,
-      description,
-      price: Number(price),
-      categoryId,
-      image: imageUrl,
-      appointments,
-    };
-
-    const res = await fetch("/api/services", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-      const data = await res.json();
-      setErr(data.error || "Greška");
-      return;
-    }
-
-    router.push("/dashboard");
-  } catch {
-    setErr("Greška na serveru");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="bg-linear-to-r from-blue-400 via-blue-200 to-yellow-100">
     <div className="max-w-3xl mx-auto py-6">
-      <h1 className="text-2xl font-bold text-center mb-4">
-        Kreiraj uslugu
-      </h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-gray-100 p-5">
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 bg-gray-50 p-6 rounded-xl  shadow"
-      >
         <input
           className="border p-2 rounded focus:outline-none"
           placeholder="Naslov"
@@ -242,6 +274,76 @@ const handleSubmit = async (e: FormEvent) => {
             .join("\n")}
         />
 
+        
+
+        {/* COMPANY DODATAK */}
+        {user?.role === "COMPANY" && appointments.length > 0 && (
+          <>
+            <p>Dodela radnika terminima:</p>
+
+            <div className="flex flex-wrap gap-2">
+              <select
+                onChange={(e) =>
+                  setSelectedAppointment(Number(e.target.value))
+                }
+                className="border p-2 rounded focus:outline-none w-60"
+              >
+                <option value="">Izaberi termin</option>
+                {appointments.map((a, i) => (
+                  <option key={i} value={i}>
+                    {a.date} u {a.time}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                onChange={(e) =>
+                  setSelectedEmployee(Number(e.target.value))
+                }
+                className="border p-2 rounded focus:outline-none w-60"
+              >
+                <option value="">Izaberi radnika</option>
+                {employees.map((emp) => (
+                  <option key={emp.id} value={emp.id}>
+                    {emp.firstName} {emp.lastName} {emp.description}
+                  </option>
+                ))}
+              </select>
+
+              <button 
+              type="button" 
+              onClick={addAvailability}
+              className="bg-blue-500 text-white px-4 rounded"
+              >
+                Dodaj
+              </button>
+
+              <button 
+              type="button" 
+              onClick={removeLastAvailability}
+              className="bg-red-500 text-white px-4 rounded"
+              >
+                Obriši
+              </button>
+            </div>
+
+            <textarea
+              readOnly
+              className="border p-2 rounded h-50 w-120 w-full focus:outline-none pointer-events-none"
+              value={availabilities
+                .map((a) => {
+                  const ap = appointments[a.appointmentIndex];
+                  const emp = employees.find(
+                    (e) => e.id === a.employeeId
+                  );
+                  return `${emp?.firstName} ${emp?.lastName} → ${ap?.date} ${ap?.time}`;
+                })
+                .join("\n")}
+            />
+          </>
+        )}
+
+
         {err && <p className="text-red-600">{err}</p>}
 
         <button
@@ -251,6 +353,7 @@ const handleSubmit = async (e: FormEvent) => {
         >
           {loading ? "Čuvanje..." : "Kreiraj"}
         </button>
+
       </form>
     </div>
     </div>

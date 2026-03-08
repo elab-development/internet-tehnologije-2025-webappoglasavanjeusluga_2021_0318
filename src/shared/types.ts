@@ -172,7 +172,7 @@ export interface ServiceDetailsDto {
   description: string;
   image: string;
   price: number;
-  createdAt: string; // bolje string (jer dolazi iz API-ja)
+  createdAt: string; 
 
   category: {
     id: number;
@@ -197,4 +197,20 @@ export interface ServiceDetailsDto {
   availabilities: FullAvailabilityDto[];
 
   employees: FullEmployeeDto[];
+}
+
+
+
+
+export interface Category {
+  id: number;
+  name: string;
+  icon: string;
+}
+
+export interface Employee { 
+  id: number;
+  firstName: string;
+  lastName: string;
+  description: string;
 }

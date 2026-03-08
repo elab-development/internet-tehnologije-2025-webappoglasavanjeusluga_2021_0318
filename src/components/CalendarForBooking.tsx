@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { srLatn } from "date-fns/locale";
 import { format } from "date-fns";
 import { useAuth } from "@/components/AuthProvider";
+import { Employee } from "@/shared/types";
 
 type Mode = "company" | "freelancer";
 
@@ -20,7 +21,7 @@ export default function CalendarForBooking({
   availabilities: any[];
   serviceId: number;
 }) {
-  const { user, status } = useAuth(); // IZMENJENO
+  const { user, status } = useAuth(); 
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [times, setTimes] = useState<string[]>([]);
@@ -29,7 +30,7 @@ export default function CalendarForBooking({
 
   const [availableEmployees, setAvailableEmployees] = useState<any[]>([]);
   const [selectedEmployee, setSelectedEmployee] =
-    useState("Slobodan zaposleni");
+    useState<Employee | string>("Slobodan zaposleni");
 
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -312,7 +313,7 @@ export default function CalendarForBooking({
 
                 {availableEmployees.map((emp) => (
                   <option key={emp.id} value={emp.id}>
-                    {emp.firstName} {emp.lastName}
+                    {emp.firstName} {emp.lastName} {emp.description}
                   </option>
                 ))}
               </select>

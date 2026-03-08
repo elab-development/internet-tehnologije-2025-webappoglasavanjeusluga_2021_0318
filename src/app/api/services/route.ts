@@ -5,6 +5,7 @@ import { eq, ilike, and, or } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
 import { appointments } from "@/db/schema";
+import {  availabilities as availabilitiesTable } from "@/db/schema";
 
 /**
  * @swagger
@@ -104,36 +105,6 @@ export async function GET() {
 
 
 
-/**
- * @swagger
- * /api/services:
- *   post:
- *     summary: Kreiranje nove usluge
- *     tags:
- *       - Usluge
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateServiceRequest'
- *     responses:
- *       200:
- *         description: Usluga uspešno kreirana
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/CreateServiceResponse'
- *       400:
- *         description: Nevalidni podaci
- *       401:
- *         description: Niste prijavljeni
- *       404:
- *         description: Profil nije pronađen
- *       500:
- *         description: Greška na serveru
- */
-
 
 export async function POST(req: Request) {
   try {
@@ -157,9 +128,9 @@ export async function POST(req: Request) {
       categoryId,
       image,
       appointments: appointmentList,
+      availabilities, 
     } = body;
 
-    //  PRONALAZAK PROFILA ZA PRIJAVLJENOG KORISNIKA
     const profile = await db.query.profiles.findFirst({
       where: (profiles, { eq }) =>
         eq(profiles.userId, Number(user.sub)),
@@ -172,7 +143,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // KREIRANJE USLUGE SA TACNIM profileId
     const [newService] = await db
       .insert(services)
       .values({
@@ -182,25 +152,41 @@ export async function POST(req: Request) {
         categoryId,
         image: image ?? null,
         userId: Number(user.sub),
-        profileId: profile.id, 
+        profileId: profile.id,
       })
       .returning();
 
-    // TERMINI (ako postoje)
+    let insertedAppointments: any[] = [];
+
     if (appointmentList?.length > 0) {
-     await db.insert(appointments).values(
-        appointmentList.map((a: any) => ({
-          date: a.date,
-          time: a.time ?? null,
-          isBooked: false,
-          serviceId: newService.id,
+      insertedAppointments = await db
+        .insert(appointments)
+        .values(
+          appointmentList.map((a: any) => ({
+            date: a.date,
+            time: a.time ?? null,
+            isBooked: false,
+            serviceId: newService.id,
+          }))
+        )
+        .returning();
+    }
+
+    if (availabilities?.length > 0) { 
+      await db.insert(availabilitiesTable).values(
+        availabilities.map((a: any) => ({
+          employeeId: a.employeeId,
+          appointmentId:
+            insertedAppointments[a.appointmentIndex].id,
         }))
       );
     }
 
     return NextResponse.json({ success: true });
+
   } catch (error) {
     console.error(error);
+
     return NextResponse.json(
       { error: "Greška na serveru" },
       { status: 500 }
@@ -208,58 +194,6 @@ export async function POST(req: Request) {
   }
 }
 
-/**
- * @swagger
- * components:
- *   schemas:
- *
- *     CreateServiceRequest:
- *       type: object
- *       required:
- *         - title
- *         - description
- *         - price
- *         - categoryId
- *       properties:
- *         title:
- *           type: string
- *         description:
- *           type: string
- *         price:
- *           type: number
- *         categoryId:
- *           type: integer
- *         image:
- *           type: string
- *           nullable: true
- *         appointments:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/AppointmentInput'
- *
- *
- *     AppointmentInput:
- *       type: object
- *       properties:
- *         date:
- *           type: string
- *           description: Datum u formatu YYYY-MM-DD
- *         time:
- *           type: string
- *           nullable: true
- *           description: Vreme u formatu HH:mm
- */
- /**
- * @swagger
- * components:
- *   schemas:
- *
- *     CreateServiceResponse:
- *       type: object
- *       properties:
- *         success:
- *           type: boolean
- */
 
 
 
