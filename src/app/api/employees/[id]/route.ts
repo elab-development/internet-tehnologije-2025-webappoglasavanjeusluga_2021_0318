@@ -44,12 +44,12 @@ export async function DELETE(
       );
     }
 
-    // 1. PRVO obriši availabilities
+    // 1. PRVO obrisi availabilities
     await db
       .delete(availabilities)
       .where(eq(availabilities.employeeId, employeeId));
 
-    //  2. Onda obriši employee (samo ako pripada tom profilu)
+    //  2. Onda obrisi employee (samo ako pripada tom profilu)
     const deleted = await db
       .delete(employees)
       .where(

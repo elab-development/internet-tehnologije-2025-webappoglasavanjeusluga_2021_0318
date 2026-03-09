@@ -3,6 +3,52 @@ import { db } from "@/db";
 import { bookings } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+/**
+ * @swagger
+ * /api/bookings/{id}:
+ *   patch:
+ *     summary: Ažurira status rezervacije (finished)
+ *     tags:
+ *       - Rezervacije
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID rezervacije
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - finished
+ *             properties:
+ *               finished:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Status rezervacije uspešno ažuriran
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *       500:
+ *         description: Greška na serveru
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
 export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -29,3 +75,4 @@ export async function PATCH(
     );
   }
 }
+

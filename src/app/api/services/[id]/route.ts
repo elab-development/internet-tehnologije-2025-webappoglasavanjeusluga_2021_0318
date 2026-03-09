@@ -273,7 +273,52 @@ export async function GET(req: Request) {
  */
 
 
-
+/**
+ * @swagger
+ * /api/services/{id}:
+ *   delete:
+ *     summary: Briše uslugu i sve njene termine, recenzije, rezervacije
+ *     tags:
+ *       - Usluge
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID usluge koja se brise
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usluga i termini uspešno obrisani
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Usluga i termini uspešno obrisani"
+ *       400:
+ *         description: Nevalidan ID usluge
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Nevalidan ID usluge"
+ *       500:
+ *         description: Greška na serveru
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Greška na serveru"
+ */
 
 
 export async function DELETE(req: Request) {

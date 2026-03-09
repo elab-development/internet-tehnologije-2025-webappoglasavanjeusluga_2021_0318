@@ -248,11 +248,14 @@ export default function CalendarForBooking({
                   Dostupni radnici
                 </option>
 
-                {availableEmployees.map((emp) => (
-                  <option key={emp.id} value={emp.id}>
-                    {emp.firstName} {emp.lastName} {emp.description}
-                  </option>
-                ))}
+                {availableEmployees.map(
+                  (emp) =>
+                    emp && ( //provera zbog brisanja radnika
+                      <option key={emp.id} value={emp.id}>
+                        {emp.firstName} {emp.lastName} {emp.description || ""}
+                      </option>
+                    )
+                )}
               </select>
             </div>
           )}
@@ -328,11 +331,14 @@ export default function CalendarForBooking({
                   Dostupni radnici
                 </option>
 
-                {availableEmployees.map((emp) => (
-                  <option key={emp.id} value={emp.id}>
-                    {emp.firstName} {emp.lastName} {emp.description}
-                  </option>
-                ))}
+                {availableEmployees.map(
+                  (emp) =>
+                    emp && ( //provera zbog brisanja radnika
+                      <option key={emp.id} value={emp.id}>
+                        {emp.firstName} {emp.lastName} {emp.description || ""}
+                      </option>
+                    )
+                )}
               </select>
             </div>
           )}

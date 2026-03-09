@@ -111,6 +111,7 @@ export async function GET() {
             description: services.description,
             price: services.price,
             createdAt: services.createdAt,
+            image: services.image,
     
             category: {
               id: categories.id,

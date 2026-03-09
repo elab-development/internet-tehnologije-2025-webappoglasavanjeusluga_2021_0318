@@ -92,7 +92,9 @@ export default function ServiceDetails({ service }: Props) {
             )}
             <h1 className="text-xl md:text-2xl font-bold mb-4">{service.title}</h1>
             <Image
-              src="https://picsum.photos/700/500"
+              src={service.image && service.image.length > 0
+                        ? `${service.image}`
+                        : `https://picsum.photos/seed/${service.id}/700/500`}
               width={700}
               height={500}
               alt="Slika usluge"

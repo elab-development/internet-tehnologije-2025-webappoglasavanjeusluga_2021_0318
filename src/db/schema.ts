@@ -147,8 +147,7 @@ export const availabilities = pgTable("availabilities", {
   note: text("note"),
 
   employeeId: integer("employee_id")
-    .references(() => employees.id)
-    .notNull(),
+  .references(() => employees.id, { onDelete: "set null" }),
 
   appointmentId: integer("appointment_id")
     .references(() => appointments.id, { onDelete: "cascade" })
@@ -197,6 +196,6 @@ export const bookings = pgTable("bookings", {
 
   // radnik (opciono)
   employeeId: integer("employee_id")
-    .references(() => employees.id),
+    .references(() => employees.id, { onDelete: "set null" }),
 });
 

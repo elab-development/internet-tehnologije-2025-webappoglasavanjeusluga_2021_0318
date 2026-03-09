@@ -12,9 +12,10 @@ export default function DeleteEmployeeButton({
   onDeleted,
 }: Props) {
   const handleDelete = async () => {
-    const confirmDelete = confirm("Da li želite da obrišete zaposlenog?");
-    if (!confirmDelete) return;
+  const confirmDelete = confirm("Da li želite da obrišete zaposlenog?");
+  if (!confirmDelete) return;
 
+  try {
     const res = await fetch(`/api/employees/${employeeId}`, {
       method: "DELETE",
     });
@@ -22,9 +23,15 @@ export default function DeleteEmployeeButton({
     if (res.ok) {
       onDeleted(); // refresh liste
     } else {
-      alert("Greška pri brisanju");
+      const data = await res.json();
+      // Prikazi poruku iz API-ja, ili default ako nema
+      alert(data?.error || "Greška pri brisanju");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Greška pri brisanju: server nedostupan");
+  }
+};
 
   return (
     <button
