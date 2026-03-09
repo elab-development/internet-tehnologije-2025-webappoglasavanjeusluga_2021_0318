@@ -5,31 +5,8 @@ import { eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {users, profiles, services, reviews, categories,} from "@/db/schema";
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
-/**
- * @swagger
- * /api/profiles/me:
- *   get:
- *     summary: Dohvatanje profila trenutno prijavljenog korisnika
- *     tags:
- *       - Profili
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: Uspešno vraćeni podaci profila
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ProfileMeResponse'
- *       401:
- *         description: Niste prijavljeni ili token nije validan
- *       404:
- *         description: Profil ne postoji
- *       500:
- *         description: Greška na serveru
- */
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export async function GET() {
   try {
@@ -160,7 +137,6 @@ export async function GET() {
          reviews: reviewsData,
        });
   } catch (error) {
-    console.error("PROFILE ME ERROR:", error);
 
     return NextResponse.json(
       { error: "Greska na serveru" },
@@ -169,28 +145,170 @@ export async function GET() {
   }
 }
 
+
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     cookieAuth:
- *       type: apiKey
- *       in: cookie
- *       name: auth
+ * /api/profiles/me:
+ *   get:
+ *     summary: Dohvatanje profila trenutno prijavljenog korisnika
+ *     tags:
+ *       - Profili
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćeni podaci profila
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 profile:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 3
+ *                     city:
+ *                       type: string
+ *                       example: "Beograd"
+ *                     address:
+ *                       type: string
+ *                       example: "Knez Mihailova 10"
+ *                     description:
+ *                       type: string
+ *                       example: "Profesionalni frizerski salon"
+ *                     image:
+ *                       type: string
+ *                       example: "https://example.com/profile.jpg"
+ *                     companyName:
+ *                       type: string
+ *                       example: "Salon Lepote"
+ *                     firstName:
+ *                       type: string
+ *                       example: "Ana"
+ *                     lastName:
+ *                       type: string
+ *                       example: "Jovanović"
+ *                     userId:
+ *                       type: integer
+ *                       example: 5
+ *                     user:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           example: 5
+ *                         firstName:
+ *                           type: string
+ *                           example: "Petar"
+ *                         lastName:
+ *                           type: string
+ *                           example: "Petrović"
+ *                         phone:
+ *                           type: string
+ *                           example: "+381641234567"
+ *                         createdAt:
+ *                           type: string
+ *                           format: date-time
+ *                           example: "2026-01-15T10:30:00Z"
+ *                     serviceCount:
+ *                       type: number
+ *                       example: 4
+ *                     averageRating:
+ *                       type: number
+ *                       example: 4.75
  *
- *   schemas:
+ *                 services:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 10
+ *                       title:
+ *                         type: string
+ *                         example: "Muško šišanje"
+ *                       description:
+ *                         type: string
+ *                         example: "Šišanje mašinicom i makazama"
+ *                       price:
+ *                         type: integer
+ *                         example: 1200
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2026-02-01T09:00:00Z"
+ *                       image:
+ *                         type: string
+ *                         example: "https://example.com/service.jpg"
+ *                       category:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 2
+ *                           name:
+ *                             type: string
+ *                             example: "Frizerske usluge"
+ *                       profile:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 3
+ *                           city:
+ *                             type: string
+ *                             example: "Beograd"
  *
- *     ProfileMeResponse:
- *       type: object
- *       properties:
- *         profile:
- *           $ref: '#/components/schemas/ProfileDetails'
- *         services:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/Service'
- *         reviews:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/Review'
+ *                 reviews:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 15
+ *                       rating:
+ *                         type: integer
+ *                         example: 5
+ *                       comment:
+ *                         type: string
+ *                         example: "Odlična usluga!"
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2026-02-10T14:20:00Z"
+ *                       profileId:
+ *                         type: integer
+ *                         example: 3
+ *                       user:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 8
+ *                           firstName:
+ *                             type: string
+ *                             example: "Ivana"
+ *                           lastName:
+ *                             type: string
+ *                             example: "Petrović"
+ *                       service:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 10
+ *                           title:
+ *                             type: string
+ *                             example: "Muško šišanje"
+ *
+ *       401:
+ *         description: Niste prijavljeni ili token nije validan
+ *       404:
+ *         description: Profil ne postoji
+ *       500:
+ *         description: Greška na serveru
  */

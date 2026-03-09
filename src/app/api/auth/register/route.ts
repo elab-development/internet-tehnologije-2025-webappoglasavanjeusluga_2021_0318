@@ -5,43 +5,6 @@ import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-/**
- * @swagger
- * /api/auth/register:
- *   post:
- *     summary: Kreiranje korisnickog Naloga (Korisnik/Samostalca/Preduzece) i Profila (Samostalac/Preduzece)
- *     tags:
- *       - Auth
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/RegisterRequest'
- *     responses:
- *       200:
- *         description: Uspešna registracija
- *         headers:
- *           Set-Cookie:
- *             description: JWT token koji se čuva u HTTP-only cookie
- *             schema:
- *               type: string
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/RegisterResponse'
- *       400:
- *         description: Nedostaju obavezna polja
- *       401:
- *         description: Nedostaju podaci za freelancer profil
- *       402:
- *         description: Nedostaju podaci za company profil
- *       403:
- *         description: Korisnik sa istim emailom već postoji
- *       500:
- *         description: Greška na serveru
- */
-
 type Body = {
   role: "USER" | "FREELANCER" | "COMPANY";
   firstName: string;
@@ -59,6 +22,7 @@ type Body = {
 };
 
 export async function POST(req: Request) {
+  try {
   const body = (await req.json()) as Body;
 
   const {
@@ -165,63 +129,112 @@ export async function POST(req: Request) {
   res.cookies.set(AUTH_COOKIE, token, cookieOpts());
 
   return res;
+
+} catch (err) {
+        console.error(err);
+        return NextResponse.json(
+        { error: "Greška na serveru" },
+        { status: 500 }
+        );
+    }
 }
 
 /**
  * @swagger
- * components:
- *   schemas:
- *
- *     RegisterRequest:
- *       type: object
- *       required:
- *         - role
- *         - firstName
- *         - lastName
- *         - phone
- *         - email
- *         - password
- *       properties:
- *         role:
- *           type: string
- *           enum:
- *             - USER
- *             - FREELANCER
- *             - COMPANY
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
- *         phone:
- *           type: string
- *         email:
- *           type: string
- *         password:
- *           type: string
- *         city:
- *           type: string
- *         address:
- *           type: string
- *         description:
- *           type: string
- *         companyName:
- *           type: string
- *         image:
- *           type: string
- *           nullable: true
- *
- *
- *     RegisterResponse:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         email:
- *           type: string
- *         role:
- *           type: string
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
+ * /api/auth/register:
+ *   post:
+ *     summary: Kreiranje korisničkog naloga i profila (Freelancer / Company)
+ *     description: Kreira novog korisnika i, ako je uloga FREELANCER ili COMPANY, kreira profil.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *               - firstName
+ *               - lastName
+ *               - phone
+ *               - email
+ *               - password
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: ["USER", "FREELANCER", "COMPANY"]
+ *                 example: "USER"
+ *               firstName:
+ *                 type: string
+ *                 example: Marko
+ *               lastName:
+ *                 type: string
+ *                 example: Marković
+ *               phone:
+ *                 type: string
+ *                 example: "060123456"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: marko.markovic@mail.com
+ *               password:
+ *                 type: string
+ *                 example: "Lozinka123!"
+ *               city:
+ *                 type: string
+ *                 example: "Beograd"
+ *               address:
+ *                 type: string
+ *                 example: "Bulevar Kralja Aleksandra 10"
+ *               description:
+ *                 type: string
+ *                 example: "Iskusni web developer"
+ *               companyName:
+ *                 type: string
+ *                 example: "Marko d.o.o."
+ *               image:
+ *                 type: string
+ *                 nullable: true
+ *                 example: "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+ *     responses:
+ *       200:
+ *         description: Uspešna registracija korisnika
+ *         headers:
+ *           Set-Cookie:
+ *             description: JWT token koji se čuva u HTTP-only cookie
+ *             schema:
+ *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                   example: marko.markovic@mail.com
+ *                 role:
+ *                   type: string
+ *                   enum: ["USER", "FREELANCER", "COMPANY"]
+ *                   example: "USER"
+ *                 firstName:
+ *                   type: string
+ *                   example: Marko
+ *                 lastName:
+ *                   type: string
+ *                   example: Marković
+ *       400:
+ *         description: Nedostaju obavezna polja
+ *       401:
+ *         description: Nedostaju podaci za freelancer profil
+ *       402:
+ *         description: Nedostaju podaci za company profil
+ *       403:
+ *         description: Korisnik sa istim emailom već postoji
+ *       500:
+ *         description: Greška na serveru
  */

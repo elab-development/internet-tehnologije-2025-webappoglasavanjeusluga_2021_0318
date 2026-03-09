@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { employees, profiles, availabilities } from "@/db/schema";
 import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
 
+
 export async function DELETE(
   req: Request,
   context: { params: Promise<{ id: string }> }
@@ -25,7 +26,7 @@ export async function DELETE(
 
     if (!token) {
       return NextResponse.json(
-        { error: "Niste prijavljeni" },
+        { error: "Korisnik nije prijavljen" },
         { status: 401 }
       );
     }
@@ -77,3 +78,41 @@ export async function DELETE(
     );
   }
 }
+
+
+
+/**
+ * @swagger
+ * /api/employees/{id}:
+ *   delete:
+ *     summary: Briše zaposlenog
+ *     description: Omogućava vlasniku profila da obriše zaposlenog po ID-ju. Takođe briše sve dostupnosti zaposlenog.
+ *     tags:
+ *       - Zaposleni
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID zaposlenog koji se briše
+ *     responses:
+ *       200:
+ *         description: Zaposleni uspešno obrisan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Nevalidan ID
+ *       401:
+ *         description: Korisnik nije prijavljen
+ *       404:
+ *         description: Profil nije pronađen ili zaposleni nije pronađen
+ *       500:
+ *         description: Server greška
+ */

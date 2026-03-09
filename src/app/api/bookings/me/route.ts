@@ -5,6 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { db } from "@/db";
 import { bookings, services, users, employees, profiles } from "@/db/schema";
 
+
 export const runtime = "nodejs";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
@@ -17,7 +18,7 @@ export async function GET() {
 
     if (!token) {
       return NextResponse.json(
-        { error: "Niste prijavljeni" },
+        { error: "Korisnik nije prijavljen" },
         { status: 401 }
       );
     }
@@ -41,7 +42,7 @@ export async function GET() {
 
     if (!profile) {
       return NextResponse.json(
-        { error: "Profil ne postoji" },
+        { error: "Profil korisnika ne postoji" },
         { status: 404 }
       );
     }
@@ -86,8 +87,92 @@ export async function GET() {
   } catch (error) {
 
     return NextResponse.json(
-      { error: "Server error" },
+      { error: "Greška na serveru" },
       { status: 500 }
     );
   }
 }
+
+
+/**
+ * @swagger
+ * /api/bookings/me:
+ *   get:
+ *     summary: Vraca listu rezervacija za ulogovanog pružaoca usluge
+ *     description: Vraća sve rezervacije za usluge koje pripadaju profilu trenutno prijavljenog korisnika. Autentifikacija se vrši putem JWT tokena iz cookie-ja.
+ *     tags:
+ *       - Rezervacije
+ *     responses:
+ *       200:
+ *         description: Lista rezervacija uspešno vraćena
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 5
+ *                   reservedDate:
+ *                     type: string
+ *                     example: "2026-03-20"
+ *                   time:
+ *                     type: string
+ *                     nullable: true
+ *                     example: "09:00"
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2026-03-01T10:15:30.000Z"
+ *                   finished:
+ *                     type: boolean
+ *                     example: false
+ *                   service:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 2
+ *                       title:
+ *                         type: string
+ *                         example: Šišanje
+ *                   employee:
+ *                     type: object
+ *                     nullable: true
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 3
+ *                       firstName:
+ *                         type: string
+ *                         example: Marko
+ *                       lastName:
+ *                         type: string
+ *                         example: Petrović
+ *                   user:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 7
+ *                       firstName:
+ *                         type: string
+ *                         example: Ivana
+ *                       lastName:
+ *                         type: string
+ *                         example: Jovanović
+ *                       email:
+ *                         type: string
+ *                         example: ivana@gmail.com
+ *                       phone:
+ *                         type: string
+ *                         example: "+381601234567"
+ *       401:
+ *         description: Korisnik nije prijavljen ili token nije validan
+ *       404:
+ *         description: Profil korisnika ne postoji
+ *       500:
+ *         description: Greška na serveru
+ */

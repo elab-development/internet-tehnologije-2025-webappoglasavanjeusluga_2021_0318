@@ -2,6 +2,20 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { categories } from "@/db/schema";
 
+
+export async function GET() {
+  try {
+    const data = await db.select().from(categories);
+    return NextResponse.json(data);
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Greška na serveru" },
+      { status: 500 }
+    );
+  }
+}
+
+
 /**
  * @swagger
  * /api/categories:
@@ -18,37 +32,19 @@ import { categories } from "@/db/schema";
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Category'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: Frizerski salon
+ *                   icon:
+ *                     type: string
+ *                     example: "x-icon.png"
  *       500:
- *         description: Greška na serveru. Neuspešno pronalaženje kategorija.
+ *         description: Greška na serveru
  */
 
 
-export async function GET() {
-  try {
-    const data = await db.select().from(categories);
-    return NextResponse.json(data);
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Greška na serveru. Neuspesno pronalazenje kategorija." },
-      { status: 500 }
-    );
-  }
-}
-
-
-/**
- * @swagger
- * components:
- *   schemas:
- *
- *     Category:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         name:
- *           type: string
- *         icon:
- *           type: string
- */

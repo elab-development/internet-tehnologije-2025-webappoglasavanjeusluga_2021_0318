@@ -801,7 +801,7 @@ await db.insert(bookings).values([
     serviceId: 3, // Žensko šišanje
     appointmentId: 14,
     employeeId: employeeMap["Marko"],
-    finished: true,
+    finished: false,
   },
   {
     reservedDate: "2026-02-06",

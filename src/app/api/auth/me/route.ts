@@ -8,23 +8,6 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
 
-/**
- * @swagger
- * /api/auth/me:
- *   get:
- *     summary: Vraća podatke o trenutno ulogovanom korisniku
- *     tags:
- *       - Auth
- *     responses:
- *       200:
- *         description: Uspešno vraćen korisnik ili null
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/MeResponse'
- *       401:
- *         description: Nevalidan token
- */
 
 export async function GET() {
 
@@ -71,14 +54,59 @@ export async function GET() {
   }
 }
 
+
+
 /**
  * @swagger
- * components:
- *   schemas:
- *
- *     MeResponse:
- *       type: object
- *       properties:
- *         user:
- *           $ref: '#/components/schemas/User'
+ * /api/auth/me:
+ *   get:
+ *     summary: Vraća podatke o trenutno ulogovanom korisniku
+ *     description: Vraća podatke o korisniku na osnovu auth tokena iz cookie-ja.
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćen korisnik ili null ako korisnik nije ulogovan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   oneOf:
+ *                     - type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           example: 1
+ *                         email:
+ *                           type: string
+ *                           format: email
+ *                           example: marko.markovic@mail.com
+ *                         role:
+ *                           type: string
+ *                           example: user
+ *                         firstName:
+ *                           type: string
+ *                           example: Marko
+ *                         lastName:
+ *                           type: string
+ *                           example: Marković
+ *                         phone:
+ *                           type: string
+ *                           example: "060123456"
+ *                         createdAt:
+ *                           type: string
+ *                           format: date-time
+ *                           example: 2026-03-09T12:00:00.000Z
+ *                     - type: "null"
+ *       401:
+ *         description: Token nije validan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: "null"
  */

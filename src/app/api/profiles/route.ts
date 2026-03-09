@@ -2,25 +2,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { profiles, users, services, reviews } from "@/db/schema";
 import { eq, sql} from "drizzle-orm";
-/**
- * @swagger
- * /api/profiles:
- *   get:
- *     summary: Vraća listu svih profila
- *     tags:
- *       - Profili
- *     responses:
- *       200:
- *         description: Uspešno vraćena lista profila
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/ProfilePreview'
- *       500:
- *         description: Neuspešno pronalaženje profila
- */
+
+
 
 // GET - svi profili
 export async function GET() {
@@ -59,46 +42,80 @@ export async function GET() {
   }
 }
 
+
 /**
  * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
- *         phone:
- *           type: string
- *
- *     ProfilePreview:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         city:
- *           type: string
- *         description:
- *           type: string
- *         image:
- *           type: string
- *           nullable: true
- *         companyName:
- *           type: string
- *           nullable: true
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
- *         userId:
- *           type: integer
- *         user:
- *           $ref: '#/components/schemas/User'
+ * /api/profiles:
+ *   get:
+ *     summary: Vraća listu svih profila
+ *     tags:
+ *       - Profili
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćena lista profila
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: ID profila
+ *                     example: 3
+ *                   city:
+ *                     type: string
+ *                     description: Grad u kojem se profil nalazi
+ *                     example: "Beograd"
+ *                   description:
+ *                     type: string
+ *                     description: Opis profila
+ *                     example: "Profesionalni frizerski salon"
+ *                   image:
+ *                     type: string
+ *                     nullable: true
+ *                     description: URL slike profila
+ *                     example: "https://example.com/profile.jpg"
+ *                   companyName:
+ *                     type: string
+ *                     nullable: true
+ *                     description: Naziv kompanije ako je profil kompanijski
+ *                     example: "Salon Lepote"
+ *                   firstName:
+ *                     type: string
+ *                     description: Ime freelancera
+ *                     example: "Ana"
+ *                   lastName:
+ *                     type: string
+ *                     description: Prezime freelancera
+ *                     example: "Jovanović"
+ *                   userId:
+ *                     type: integer
+ *                     description: ID korisnika koji poseduje profil
+ *                     example: 5
+ *                   user:
+ *                     type: object
+ *                     description: Osnovni podaci o korisniku
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: ID korisnika
+ *                         example: 5
+ *                       firstName:
+ *                         type: string
+ *                         description: Ime korisnika
+ *                         example: "Petar"
+ *                       lastName:
+ *                         type: string
+ *                         description: Prezime korisnika
+ *                         example: "Petrović"
+ *                       phone:
+ *                         type: string
+ *                         description: Telefon korisnika
+ *                         example: "+381641234567"
+ *       500:
+ *         description: Neuspešno pronalaženje profila
  */
-
 
 

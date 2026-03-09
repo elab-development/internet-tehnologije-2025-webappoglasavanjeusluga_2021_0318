@@ -7,26 +7,8 @@ import { AUTH_COOKIE, verifyAuthToken } from "@/lib/auth";
 import { appointments } from "@/db/schema";
 import {  availabilities as availabilitiesTable } from "@/db/schema";
 
-/**
- * @swagger
- * /api/services:
- *   get:
- *     summary: Vraća listu svih usluga
- *     description: Preuzima sve usluge zajedno sa kategorijom kojoj pripada i gradom pruzaoca (podatak sa profila)
- *     tags:
- *       - Usluge
- *     responses:
- *       200:
- *         description: Uspešno vraćena lista usluga
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Service'
- *       500:
- *         description: Neuspešno pronalaženje usluga
- */
+
+
 export async function GET() {
   try {
     const data = await db
@@ -63,48 +45,6 @@ export async function GET() {
 }
 
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     CategoryName:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         name:
- *           type: string
- *
- *     ProfileCity:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         city:
- *           type: string
- *
- *     Service:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         title:
- *           type: string
- *         description:
- *           type: string
- *         price:
- *           type: number
- *         createdAt:
- *           type: string
- *           format: date-time
- *         category:
- *           $ref: '#/components/schemas/CategoryName'
- *         profile:
- *           $ref: '#/components/schemas/ProfileCity'
- */
-
-
-
 
 export async function POST(req: Request) {
   try {
@@ -112,7 +52,7 @@ export async function POST(req: Request) {
 
     if (!token) {
       return NextResponse.json(
-        { error: "Niste prijavljeni" },
+        { error: "Korisnik nije prijavljen" },
         { status: 401 }
       );
     }
@@ -196,3 +136,143 @@ export async function POST(req: Request) {
 
 
 
+
+/**
+ * @swagger
+ * /api/services:
+ *   get:
+ *     summary: Vraća listu svih usluga
+ *     description: Preuzima sve usluge zajedno sa kategorijom kojoj pripada i gradom pruzaoca (podatak sa profila)
+ *     tags:
+ *       - Usluge
+ *     responses:
+ *       200:
+ *         description: Uspešno vraćena lista usluga
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 10
+ *                   title:
+ *                     type: string
+ *                     example: "Muško šišanje"
+ *                   description:
+ *                     type: string
+ *                     example: "Šišanje mašinicom i makazama"
+ *                   price:
+ *                     type: number
+ *                     example: 1200
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2026-02-01T09:00:00Z"
+ *                   image:
+ *                     type: string
+ *                     example: "https://example.com/service.jpg"
+ *                   category:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 2
+ *                       name:
+ *                         type: string
+ *                         example: "Frizerske usluge"
+ *                   profile:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 3
+ *                       city:
+ *                         type: string
+ *                         example: "Beograd"
+ *       500:
+ *         description: Neuspešno pronalaženje usluga
+ */
+
+
+
+
+/**
+ * @swagger
+ * /api/services:
+ *   post:
+ *     summary: Kreira novu uslugu
+ *     tags:
+ *       - Usluge
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *               - price
+ *               - categoryId
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Muško šišanje"
+ *               description:
+ *                 type: string
+ *                 example: "Šišanje mašinicom i makazama"
+ *               price:
+ *                 type: number
+ *                 example: 1200
+ *               categoryId:
+ *                 type: integer
+ *                 example: 2
+ *               image:
+ *                 type: string
+ *                 nullable: true
+ *                 example: "https://example.com/service.jpg"
+ *               appointments:
+ *                 type: array
+ *                 nullable: true
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     date:
+ *                       type: string
+ *                       example: "2026-03-15"
+ *                     time:
+ *                       type: string
+ *                       example: "09:00"
+ *               availabilities:
+ *                 type: array
+ *                 nullable: true
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     employeeId:
+ *                       type: integer
+ *                       example: 1
+ *                     appointmentIndex:
+ *                       type: integer
+ *                       example: 0
+ *     responses:
+ *       200:
+ *         description: Uspesno kreirana usluga
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       401:
+ *         description: Korisnik nije prijavljen
+ *       404:
+ *         description: Profil nije pronađen
+ *       500:
+ *         description: Greška na serveru
+ */
