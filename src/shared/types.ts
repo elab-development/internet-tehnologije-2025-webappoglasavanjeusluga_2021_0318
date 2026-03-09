@@ -40,26 +40,26 @@ export interface FullUserDto{
     createdAt:Date;
 }
 
-export interface FullProfileDto {
-  id: number;
-  city: string;
-  address: string;
-  description: string;
-  image: string;
-  companyName: null,
-  firstName: string,
-  lastName: string,
-  user:{
-        id: number;
-        firstName: string,
-        lastName: string,
-        phone: string,
-        createdAt:Date,
+// export interface FullProfileDto {
+//   id: number;
+//   city: string;
+//   address: string;
+//   description: string;
+//   image: string;
+//   companyName: null,
+//   firstName: string,
+//   lastName: string,
+//   user:{
+//         id: number;
+//         firstName: string,
+//         lastName: string,
+//         phone: string,
+//         createdAt:Date,
 
-  };
-  servicesCount: number;
-  averageRating: number;
-}
+//   };
+//   servicesCount: number;
+//   averageRating: number;
+// }
 
 
 // export interface FullProfileDto {
@@ -240,4 +240,87 @@ export interface Booking {
   user?: User;
   service?: Service;
   employee?: Employee | null;
+}
+
+
+
+/**************************************** */
+
+// @/shared/types.ts
+
+/**
+ * Osnovni tip za korisnika (User tabela)
+ */
+export interface UserDto {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string | null;
+  role: "USER" | "FREELANCER" | "COMPANY";
+  createdAt: string;
+}
+
+/**
+ * Profil koji može biti ili Freelancer ili Kompanija
+ */
+export interface FullProfileDto {
+  id: number;
+  city: string;
+  address: string;
+  description?: string | null;
+  image?: string | null;
+  companyName?: string | null; // Popunjeno ako je COMPANY
+  firstName?: string | null;   // Popunjeno ako je FREELANCER
+  lastName?: string | null;    // Popunjeno ako je FREELANCER
+  userId: number;
+  user: UserDto; // Ugnežđeni podaci o korisniku (vlasniku profila)
+}
+
+/**
+ * Tip za pojedinačnu recenziju
+ */
+export interface ReviewDto {
+  id: number;
+  rating: number;
+  comment?: string | null;
+  createdAt: string;
+  userId: number;
+  serviceId: number;
+  profileId: number;
+  user?: {
+    firstName: string;
+    lastName: string;
+  };
+  service?: {
+    title: string;
+  };
+}
+
+/**
+ * Glavni DTO za detalje usluge (ServiceDetails)
+ */
+export interface ServiceDetailsDto {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  createdAt: string;
+  categoryId: number;
+  userId: number;
+  profileId: number;
+
+  // Relacije (Joins)
+  category: {
+    id: number;
+    name: string;
+  };
+  
+  // profile: FullProfileDto; // Sadrži sve podatke o pružaocu usluge
+  
+  // reviews: ReviewDto[]; // Lista svih recenzija za ovu uslugu
+  
+  // appointments: any[]; // Možeš definisati detaljnije ako zatreba
+  // availabilities: any[]; // Možeš definisati detaljnije ako zatreba
 }

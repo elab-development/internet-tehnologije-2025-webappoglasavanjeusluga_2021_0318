@@ -98,8 +98,8 @@ export const reviews = pgTable("reviews", {
     .notNull(),
 
   serviceId: integer("service_id")
-    .references(() => services.id)
-    .notNull(),
+  .references(() => services.id, { onDelete: "cascade" })
+  .notNull(),
 
   profileId: integer("profile_id")
     .references(() => profiles.id)
@@ -121,8 +121,8 @@ export const appointments = pgTable("appointments", {
   isBooked: boolean("is_booked").default(false),
 
   serviceId: integer("service_id")
-    .references(() => services.id)
-    .notNull(),
+  .references(() => services.id, { onDelete: "cascade" })
+  .notNull(),
 });
 
 /* =======================
@@ -151,7 +151,7 @@ export const availabilities = pgTable("availabilities", {
     .notNull(),
 
   appointmentId: integer("appointment_id")
-    .references(() => appointments.id)
+    .references(() => appointments.id, { onDelete: "cascade" })
     .notNull(),
 });
 
@@ -188,8 +188,8 @@ export const bookings = pgTable("bookings", {
 
   // usluga
   serviceId: integer("service_id")
-    .references(() => services.id)
-    .notNull(),
+  .references(() => services.id, { onDelete: "cascade" })
+  .notNull(),
 
   // termin (opciono)
   appointmentId: integer("appointment_id")

@@ -101,79 +101,85 @@ export async function GET() {
  */
 
 
-// POST - kreiranje novog profila
-export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    const newProfile = await db.insert(profiles).values(body).returning();
-    return NextResponse.json(newProfile[0], { status: 201 });
-  } catch (err) {
-    console.error("Neuspesno kreiranje profila:", err);
-    return NextResponse.json(
-      { error: "Neuspesno kreiranje profila" },
-      { status: 500 }
-    );
-  }
-}
 
-// PUT - zamena celog profila
-export async function PUT(req: Request) {
-  try {
-    const body = await req.json();
-    const profileId = Number(body.id);
 
-    const updated = await db
-      .update(profiles)
-      .set(body)
-      .where(eq(profiles.id, profileId))
-      .returning();
 
-    return NextResponse.json(updated[0]);
-  } catch (err) {
-    console.error("Neuspesno azuriranje profila:", err);
-    return NextResponse.json(
-      { error: "Neuspesno azuriranje profila" },
-      { status: 500 }
-    );
-  }
-}
 
-// PATCH - delimična izmena profila
-export async function PATCH(req: Request) {
-  try {
-    const body = await req.json();
-    const profileId = Number(body.id);
 
-    const updated = await db
-      .update(profiles)
-      .set(body)
-      .where(eq(profiles.id, profileId))
-      .returning();
 
-    return NextResponse.json(updated[0]);
-  } catch (err) {
-    console.error("Neuspesna izmena profila:", err);
-    return NextResponse.json(
-      { error: "Neuspesna izmena profila" },
-      { status: 500 }
-    );
-  }
-}
+// // POST - kreiranje novog profila
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const newProfile = await db.insert(profiles).values(body).returning();
+//     return NextResponse.json(newProfile[0], { status: 201 });
+//   } catch (err) {
+//     console.error("Neuspesno kreiranje profila:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesno kreiranje profila" },
+//       { status: 500 }
+//     );
+//   }
+// }
 
-// DELETE - brisanje profila
-export async function DELETE(req: Request) {
-  try {
-    const body = await req.json();
-    const profileId = Number(body.id);
+// // PUT - zamena celog profila
+// export async function PUT(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const profileId = Number(body.id);
 
-    await db.delete(profiles).where(eq(profiles.id, profileId));
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("Neuspesno brisanje profila:", err);
-    return NextResponse.json(
-      { error: "Neuspesno brisanje profila" },
-      { status: 500 }
-    );
-  }
-}
+//     const updated = await db
+//       .update(profiles)
+//       .set(body)
+//       .where(eq(profiles.id, profileId))
+//       .returning();
+
+//     return NextResponse.json(updated[0]);
+//   } catch (err) {
+//     console.error("Neuspesno azuriranje profila:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesno azuriranje profila" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+// // PATCH - delimična izmena profila
+// export async function PATCH(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const profileId = Number(body.id);
+
+//     const updated = await db
+//       .update(profiles)
+//       .set(body)
+//       .where(eq(profiles.id, profileId))
+//       .returning();
+
+//     return NextResponse.json(updated[0]);
+//   } catch (err) {
+//     console.error("Neuspesna izmena profila:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesna izmena profila" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+// // DELETE - brisanje profila
+// export async function DELETE(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const profileId = Number(body.id);
+
+//     await db.delete(profiles).where(eq(profiles.id, profileId));
+//     return NextResponse.json({ success: true });
+//   } catch (err) {
+//     console.error("Neuspesno brisanje profila:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesno brisanje profila" },
+//       { status: 500 }
+//     );
+//   }
+// }
 

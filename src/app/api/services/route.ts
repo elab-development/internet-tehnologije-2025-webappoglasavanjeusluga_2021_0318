@@ -200,63 +200,63 @@ export async function POST(req: Request) {
 
 
 
-/* PUT - Izmena usluge */
-export async function PUT(req: Request) {
-  try {
-    const body = await req.json();
-    const { id, title, description, price } = body;
+// /* PUT - Izmena usluge */
+// export async function PUT(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { id, title, description, price } = body;
 
-    if (!id) {
-      return NextResponse.json(
-        { error: "Nedostaje id usluge" },
-        { status: 400 }
-      );
-    }
+//     if (!id) {
+//       return NextResponse.json(
+//         { error: "Nedostaje id usluge" },
+//         { status: 400 }
+//       );
+//     }
 
-    const updatedService = await db
-      .update(services)
-      .set({
-        title,
-        description,
-        price,
-      })
-      .where(eq(services.id, id))
-      .returning();
+//     const updatedService = await db
+//       .update(services)
+//       .set({
+//         title,
+//         description,
+//         price,
+//       })
+//       .where(eq(services.id, id))
+//       .returning();
 
-    return NextResponse.json(updatedService[0], { status: 200 });
-  } catch (err) {
-    console.error("Neuspesno azuriranje usluge:", err);
-    return NextResponse.json(
-      { error: "Neuspesno azuriranje usluge" },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json(updatedService[0], { status: 200 });
+//   } catch (err) {
+//     console.error("Neuspesno azuriranje usluge:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesno azuriranje usluge" },
+//       { status: 500 }
+//     );
+//   }
+// }
 
-/* DELETE - Brisanje usluge */
-export async function DELETE(req: Request) {
-  try {
-    const body = await req.json();
-    const { id } = body;
+// /* DELETE - Brisanje usluge */
+// export async function DELETE(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { id } = body;
 
-    if (!id) {
-      return NextResponse.json(
-        { error: "Nedostaje id usluge" },
-        { status: 400 }
-      );
-    }
+//     if (!id) {
+//       return NextResponse.json(
+//         { error: "Nedostaje id usluge" },
+//         { status: 400 }
+//       );
+//     }
 
-    const deletedService = await db
-      .delete(services)
-      .where(eq(services.id, id))
-      .returning();
+//     const deletedService = await db
+//       .delete(services)
+//       .where(eq(services.id, id))
+//       .returning();
 
-    return NextResponse.json(deletedService[0], { status: 200 });
-  } catch (err) {
-    console.error("Neuspesno brisanje usluge:", err);
-    return NextResponse.json(
-      { error: "Neuspesno brisanje usluge" },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json(deletedService[0], { status: 200 });
+//   } catch (err) {
+//     console.error("Neuspesno brisanje usluge:", err);
+//     return NextResponse.json(
+//       { error: "Neuspesno brisanje usluge" },
+//       { status: 500 }
+//     );
+//   }
+// }

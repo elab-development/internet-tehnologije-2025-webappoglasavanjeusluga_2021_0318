@@ -103,57 +103,57 @@ export async function POST(req: Request) {
 
 
 
-// PATCH /api/employees - izmena zaposlenog
-export async function PATCH(req: Request) {
-  try {
-    const body = await req.json();
-    const { id, firstName, lastName, description } = body;
+// // PATCH /api/employees - izmena zaposlenog
+// export async function PATCH(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { id, firstName, lastName, description } = body;
 
-    if (!id) {
-      return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
-    }
+//     if (!id) {
+//       return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
+//     }
 
-    const updatedEmployee = await db.update(employees)
-      .set({
-        firstName,
-        lastName,
-        description,
-      })
-      .where(eq(employees.id, id))
-      .returning();
+//     const updatedEmployee = await db.update(employees)
+//       .set({
+//         firstName,
+//         lastName,
+//         description,
+//       })
+//       .where(eq(employees.id, id))
+//       .returning();
 
-    if (!updatedEmployee[0]) {
-      return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
-    }
+//     if (!updatedEmployee[0]) {
+//       return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
+//     }
 
-    return NextResponse.json(updatedEmployee[0], { status: 200 });
-  } catch (err) {
-    console.error("Azuriranje zaposlenog neuspesno:", err);
-    return NextResponse.json({ error: "Azuriranje zaposlenog neuspesno" }, { status: 500 });
-  }
-}
-// DELETE /api/employees - brisanje zaposlenog
-export async function DELETE(req: Request) {
-  try {
-    const body = await req.json();
-    const { id } = body;
+//     return NextResponse.json(updatedEmployee[0], { status: 200 });
+//   } catch (err) {
+//     console.error("Azuriranje zaposlenog neuspesno:", err);
+//     return NextResponse.json({ error: "Azuriranje zaposlenog neuspesno" }, { status: 500 });
+//   }
+// }
+// // DELETE /api/employees - brisanje zaposlenog
+// export async function DELETE(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { id } = body;
 
-    if (!id) {
-      return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
-    }
+//     if (!id) {
+//       return NextResponse.json({ error: "Nedostaje id zaposlenog" }, { status: 400 });
+//     }
 
-    const deletedEmployee = await db.delete(employees)
-      .where(eq(employees.id, id))
-      .returning();
+//     const deletedEmployee = await db.delete(employees)
+//       .where(eq(employees.id, id))
+//       .returning();
 
-    if (!deletedEmployee[0]) {
-      return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
-    }
+//     if (!deletedEmployee[0]) {
+//       return NextResponse.json({ error: "Zaposleni nije pronadjen" }, { status: 404 });
+//     }
 
-    return NextResponse.json(deletedEmployee[0], { status: 200 });
-  } catch (err) {
-    console.error("Brisanje zaposlenog neuspesno:", err);
-    return NextResponse.json({ error: "Brisanje zaposlenog neuspesno" }, { status: 500 });
-  }
-}
+//     return NextResponse.json(deletedEmployee[0], { status: 200 });
+//   } catch (err) {
+//     console.error("Brisanje zaposlenog neuspesno:", err);
+//     return NextResponse.json({ error: "Brisanje zaposlenog neuspesno" }, { status: 500 });
+//   }
+// }
 

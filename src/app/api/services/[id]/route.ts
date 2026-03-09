@@ -272,6 +272,10 @@ export async function GET(req: Request) {
  *           $ref: '#/components/schemas/Appointment'
  */
 
+
+
+
+
 export async function DELETE(req: Request) {
   try {
     // Izvlacenje ID-a iz URL-a
@@ -285,11 +289,6 @@ export async function DELETE(req: Request) {
         { status: 400 }
       );
     }
-
-    // Obrisi sve termine vezane za uslugu
-    await db
-      .delete(appointments)
-      .where(eq(appointments.serviceId, serviceId));
 
     // Obrisi uslugu
     await db

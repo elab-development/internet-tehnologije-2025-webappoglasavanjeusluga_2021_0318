@@ -31,7 +31,7 @@ export default function ProfileCard({profile, extend, serviceCount, averageRatin
 
                  
                
-                    { profile.companyName!=null && serviceCount!=null && serviceCount > 2 && averageRating!=null && averageRating >= 4.5 ? (
+                    { profile.companyName!=null && serviceCount!=null && serviceCount > 4 && averageRating!=null && averageRating >= 4.5 ? (
                     <Image src="/images/bedz-verifikovan.png" alt="Bedž" width={50} height={50}></Image>
                     ) : (
                     <p></p>
